@@ -48,3 +48,18 @@ official_qids = [qid for v in FIPI['topics'].values() for qid in v['questionIds'
 assert len(official_qids) == 180, f'Expected 180 direct FIPI examples from verified navigator sets, found {len(official_qids)}'
 assert len(set(official_qids)) == len(official_qids), 'Duplicate official FIPI QID in configured set'
 print(f"PASS: {len(official_qids)} direct official FIPI examples mapped across {len(FIPI['topics'])} navigator task groups.")
+
+# v1.4: rich answer formats and original local visual assets.
+extended = [task for task in DATA if task.get("subjectId") == "math_basic_extra"]
+assert len(extended) == 1 and extended[0].get("answerSchema", {}).get("type") == "long-text"
+assert extended[0].get("correctAnswer") is None, "Long-form response must not be auto-scored with a fake answer key"
+graph_tasks = [task for task in basic if task.get("visual", {}).get("type") == "function-graph"]
+assert graph_tasks and graph_tasks[0]["visual"].get("functions"), "Interactive graph task missing function data"
+assert any(task.get("answerSchema", {}).get("type") == "fields" for task in basic), "Structured multi-field task missing"
+assert any(task.get("answerSchema", {}).get("type") == "multi-choice" for task in basic), "Multi-choice task missing"
+assert any(task.get("answerSchema", {}).get("type") == "expression" for task in basic), "Expression answer task missing"
+for task in basic:
+    for media in task.get("media", []):
+        if media.get("type") == "image":
+            assert (ROOT / media["src"].removeprefix("./")).is_file(), f"Missing illustration: {media.get('src')}"
+print("PASS: v1.4 rich-answer schemas, manual long-answer task, graph data, and local task illustrations.")

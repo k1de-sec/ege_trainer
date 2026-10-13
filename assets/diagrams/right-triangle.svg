@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+<title id="title">Прямоугольный треугольник с катетами 6 и 8</title><desc id="desc">Прямоугольный треугольник: вертикальный катет 6 см, горизонтальный катет 8 см.</desc>
+<rect width="640" height="420" rx="24" fill="#fbfaff"/>
+<path d="M128 312 L496 312 L128 84 Z" fill="#e6f8f1" stroke="#159c76" stroke-width="4" stroke-linejoin="round"/>
+<path d="M128 282 H158 V312" stroke="#159c76" stroke-width="3" fill="none"/>
+<g fill="#354156" font-family="Arial,sans-serif" font-size="24" font-weight="700"><text x="312" y="350" text-anchor="middle">8 см</text><text x="93" y="204" text-anchor="middle" transform="rotate(-90 93 204)">6 см</text></g>
+<g fill="#159c76" font-family="Arial,sans-serif" font-size="20"><text x="500" y="302">A</text><text x="104" y="78">B</text><text x="104" y="336">C</text></g>
+<text x="320" y="390" fill="#777f91" font-family="Arial,sans-serif" font-size="16" text-anchor="middle">Схема авторского задания · не в масштабе</text>
+</svg>

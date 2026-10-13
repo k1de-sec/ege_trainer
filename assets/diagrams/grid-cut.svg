@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+<title id="title">Фигура на квадратной решётке</title><desc id="desc">Прямоугольник 7 на 5 клеток, из верхнего левого угла вырезан квадрат 2 на 2 клетки.</desc>
+<rect width="640" height="420" rx="24" fill="#fbfaff"/>
+<path d="M216 80 H456 V320 H120 V176 H216 Z" fill="#dcd7ff" stroke="#6757e7" stroke-width="4" stroke-linejoin="round"/>
+<defs><clipPath id="shape"><path d="M216 80 H456 V320 H120 V176 H216 Z"/></clipPath></defs>
+<g clip-path="url(#shape)" stroke="#aaa2ef" stroke-width="1.5" opacity=".9">
+ <path d="M120 80 V320 M168 80 V320 M216 80 V320 M264 80 V320 M312 80 V320 M360 80 V320 M408 80 V320 M456 80 V320 M120 80 H456 M120 128 H456 M120 176 H456 M120 224 H456 M120 272 H456 M120 320 H456" fill="none"/>
+</g>
+<rect x="120" y="80" width="96" height="96" fill="#fff0e6" stroke="#e58a42" stroke-width="3" stroke-dasharray="7 6"/>
+<path d="M120 58 V43 H456 V58 M96 80 H81 V320 H96" stroke="#7e8596" stroke-width="2" fill="none"/>
+<g fill="#3b4354" font-family="Arial,sans-serif" font-size="18" font-weight="700"><text x="288" y="30" text-anchor="middle">7 клеток</text><text x="62" y="204" text-anchor="middle" transform="rotate(-90 62 204)">5 клеток</text><text x="168" y="134" text-anchor="middle" font-size="15">2 × 2</text></g>
+<text x="320" y="380" fill="#777f91" font-family="Arial,sans-serif" font-size="16" text-anchor="middle">Схема авторского задания · все клетки одинаковы</text>
+</svg>

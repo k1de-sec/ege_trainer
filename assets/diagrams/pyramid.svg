@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="440" viewBox="0 0 640 440" role="img" aria-labelledby="title desc">
+<title id="title">Правильная четырёхугольная пирамида</title><desc id="desc">Пирамида с квадратным основанием со стороной 10 сантиметров и боковым ребром 13 сантиметров.</desc>
+<rect width="640" height="440" rx="24" fill="#fbfaff"/>
+<path d="M320 72 L118 286 L330 358 L522 274 Z" fill="#eeeaff" fill-opacity=".55" stroke="#b7b0ef" stroke-width="2.5"/>
+<path d="M320 72 L118 286 L330 358 L522 274 Z" fill="none" stroke="#6757e7" stroke-width="3" stroke-linejoin="round"/>
+<path d="M320 72 L330 358 M320 72 L118 286 M320 72 L522 274" fill="none" stroke="#6757e7" stroke-width="3"/>
+<path d="M118 286 L330 358" stroke="#6757e7" stroke-width="3" stroke-dasharray="8 6"/>
+<g fill="#384255" font-family="Arial,sans-serif" font-size="22" font-weight="700"><text x="348" y="202" transform="rotate(57 348 202)">13 см</text><text x="208" y="339" transform="rotate(19 208 339)">10 см</text></g>
+<g fill="#6757e7" font-family="Arial,sans-serif" font-size="22" font-weight="700"><text x="306" y="55">S</text><text x="92" y="306">A</text><text x="330" y="388">B</text><text x="535" y="290">C</text></g>
+<text x="320" y="410" fill="#777f91" font-family="Arial,sans-serif" font-size="15" text-anchor="middle">Схема авторского задания · основание — квадрат</text>
+</svg>

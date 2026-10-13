@@ -102,5 +102,9 @@
 <div aria-live="polite" class="toast" id="toast" role="status"></div>
 <dialog class="confirm-dialog" id="reset-dialog"><form method="dialog"><div class="dialog-icon">↺</div><h2>Сбросить прогресс?</h2><p>Все сохранённые отметки о решённых заданиях будут удалены из этого браузера.</p><div class="dialog-actions"><button class="secondary-button" value="cancel">Оставить</button><button class="danger-button" id="confirm-reset" value="confirm">Сбросить</button></div></form></dialog>
 <dialog aria-labelledby="exam-result-heading" class="confirm-dialog exam-result-dialog" id="exam-result-dialog"><div id="exam-result-content"></div></dialog>
+<dialog class="image-lightbox" id="image-lightbox" aria-label="Увеличенное изображение задания">
+  <div class="lightbox-toolbar"><span class="lightbox-title">Изображение задания</span><div class="lightbox-controls"><button type="button" data-lightbox-zoom="out" aria-label="Уменьшить изображение">−</button><strong id="lightbox-zoom-value">100%</strong><button type="button" data-lightbox-zoom="in" aria-label="Увеличить изображение">+</button><button type="button" data-lightbox-zoom="reset">По размеру</button><button type="button" data-lightbox-close aria-label="Закрыть изображение">×</button></div></div>
+  <div class="lightbox-stage" id="lightbox-stage"><img id="lightbox-image" alt=""/></div><p class="lightbox-caption" id="lightbox-caption"></p>
+</dialog>
 </body>
 </html>

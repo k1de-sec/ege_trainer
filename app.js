@@ -12,6 +12,8 @@
     startTopicPracticeButton: $('#start-topic-practice-button'), listCount: $('#list-count'), statTotal: $('#stat-total'),
     statDone: $('#stat-done'), statPercent: $('#stat-percent'), progressFraction: $('#progress-fraction'),
     progressBar: $('#progress-bar'), resetProgress: $('#reset-progress'), resetDialog: $('#reset-dialog'),
+    imageLightbox: $('#image-lightbox'), lightboxImage: $('#lightbox-image'), lightboxCaption: $('#lightbox-caption'),
+    lightboxZoomValue: $('#lightbox-zoom-value'), lightboxStage: $('#lightbox-stage'),
     confirmReset: $('#confirm-reset'), continueButton: $('#continue-button'), toast: $('#toast'),
     statDoneLabel: $('#stat-done-label'), statTotalLabel: $('#stat-total-label'),
     allTasksButton: $('#all-tasks-button'), randomSetButton: $('#random-set-button'), startWarmupButton: $('#start-warmup-button'),
@@ -24,7 +26,7 @@
   };
   const state = {
     bankTasks: [], tasks: [], visible: [], currentId: null,
-    solved: new Set(), attempts: {}, values: {}, solutionOpen: false,
+    solved: new Set(), selfChecked: new Set(), attempts: {}, values: {}, solutionOpen: false, graphViews: {}, lightboxScale: 1,
     toastTimer: null, mode: 'catalog', examEndAt: null,
     examAnswers: {}, timerHandle: null, restoreSession: null, fipiLinks: null
   };
@@ -33,6 +35,7 @@
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || localStorage.getItem('ege-trainer-progress-v1') || '{}');
       state.solved = new Set(Array.isArray(saved.solved) ? saved.solved : []);
+      state.selfChecked = new Set(Array.isArray(saved.selfChecked) ? saved.selfChecked : []);
       state.attempts = saved.attempts && typeof saved.attempts === 'object' ? saved.attempts : {};
       state.values = saved.values && typeof saved.values === 'object' ? saved.values : {};
       state.currentId = typeof saved.currentId === 'string' ? saved.currentId : null;
@@ -48,7 +51,7 @@
   function saveProgress() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        solved: [...state.solved], attempts: state.attempts, values: state.values,
+        solved: [...state.solved], selfChecked: [...state.selfChecked], attempts: state.attempts, values: state.values,
         currentId: state.currentId, mode: state.mode,
         activeTaskIds: state.mode === 'catalog' ? [] : state.tasks.map((task) => task.externalId),
         examEndAt: state.mode === 'exam' ? state.examEndAt : null,
@@ -163,6 +166,285 @@
     return Number.isFinite(numberA) && Number.isFinite(numberB) && Math.abs(numberA - numberB) < 1e-9;
   }
 
+  // A restricted mathematical-expression parser. User input is tokenized and parsed;
+  // it is never passed to eval()/Function(), so expressions cannot execute JavaScript.
+  function compileMathExpression(source) {
+    const raw = String(source ?? '').trim()
+      .replace(/^(?:f\s*\(\s*x\s*\)|y)\s*=/i, '')
+      .replace(/[−–—]/g, '-')
+      .replace(/,/g, '.');
+    const tokens = raw.match(/(?:\d+(?:\.\d*)?|\.\d+)|(?:[a-zA-Z]+)|[()+\-*/^,]/g) || [];
+    if (!tokens.length || tokens.join('') !== raw.replace(/\s+/g, '')) throw new Error('Недопустимое выражение');
+    let pos = 0;
+    const peek = () => tokens[pos];
+    const take = () => tokens[pos++];
+    const parsePrimary = () => {
+      const token = take();
+      if (token === undefined) throw new Error('Неожиданный конец выражения');
+      if (token === '(') {
+        const fn = parseAdd();
+        if (take() !== ')') throw new Error('Не закрыта скобка');
+        return fn;
+      }
+      if (/^(?:\d+(?:\.\d*)?|\.\d+)$/.test(token)) {
+        const n = Number(token);
+        return () => n;
+      }
+      if (/^[a-zA-Z]+$/.test(token)) {
+        const name = token.toLowerCase();
+        if (name === 'x') return (x) => x;
+        if (name === 'pi') return () => Math.PI;
+        if (name === 'e') return () => Math.E;
+        const funcs = {
+          sin: Math.sin, cos: Math.cos, tan: Math.tan, sqrt: Math.sqrt,
+          abs: Math.abs, ln: Math.log, log: (v) => Math.log10(v), exp: Math.exp
+        };
+        if (!Object.prototype.hasOwnProperty.call(funcs, name) || take() !== '(') throw new Error('Неизвестная функция');
+        const args = [parseAdd()];
+        while (peek() === ',') { take(); args.push(parseAdd()); }
+        if (take() !== ')') throw new Error('Не закрыта скобка функции');
+        return (x) => funcs[name](...args.map((fn) => fn(x)));
+      }
+      throw new Error('Неожиданный символ');
+    };
+    const parsePower = () => {
+      const left = parsePrimary();
+      if (peek() === '^') { take(); const right = parseUnary(); return (x) => Math.pow(left(x), right(x)); }
+      return left;
+    };
+    const parseUnary = () => {
+      if (peek() === '+') { take(); return parseUnary(); }
+      if (peek() === '-') { take(); const inner = parseUnary(); return (x) => -inner(x); }
+      return parsePower();
+    };
+    const parseMul = () => {
+      let fn = parseUnary();
+      while (peek() === '*' || peek() === '/') {
+        const op = take(), right = parseUnary(), left = fn;
+        fn = op === '*' ? (x) => left(x) * right(x) : (x) => left(x) / right(x);
+      }
+      return fn;
+    };
+    const parseAdd = () => {
+      let fn = parseMul();
+      while (peek() === '+' || peek() === '-') {
+        const op = take(), right = parseMul(), left = fn;
+        fn = op === '+' ? (x) => left(x) + right(x) : (x) => left(x) - right(x);
+      }
+      return fn;
+    };
+    const compiled = parseAdd();
+    if (pos !== tokens.length) throw new Error('Лишние символы в выражении');
+    return compiled;
+  }
+
+  function expressionsEquivalent(userAnswer, correctAnswer) {
+    try {
+      const user = compileMathExpression(userAnswer);
+      const correct = compileMathExpression(correctAnswer);
+      const hasX = /\bx\b/i.test(String(userAnswer)) || /\bx\b/i.test(String(correctAnswer));
+      const points = hasX ? [-3.17, -1.31, -0.29, 0.43, 1.79, 3.61] : [0];
+      let compared = 0;
+      for (const x of points) {
+        const a = user(x), b = correct(x);
+        if (!Number.isFinite(a) || !Number.isFinite(b)) continue;
+        compared++;
+        if (Math.abs(a - b) > 1e-7 * Math.max(1, Math.abs(a), Math.abs(b))) return false;
+      }
+      return compared >= (hasX ? 4 : 1);
+    } catch (_) { return false; }
+  }
+
+  function isLongTextTask(task) { return task?.answerSchema?.type === 'long-text'; }
+  function isAutoGradableTask(task) {
+    if (!task || isLongTextTask(task)) return false;
+    if (task.answerSchema?.type === 'fields') return Array.isArray(task.answerSchema.fields) && task.answerSchema.fields.length > 0 && task.answerSchema.fields.every((field) => String(field.correctAnswer ?? '').trim() !== '');
+    if (task.answerSchema?.type === 'multi-choice') return Array.isArray(task.answerSchema.correctAnswers) && task.answerSchema.correctAnswers.length > 0;
+    return task.correctAnswer !== null && task.correctAnswer !== undefined && String(task.correctAnswer).trim() !== '';
+  }
+
+  function answerHasContent(answer) {
+    if (Array.isArray(answer)) return answer.length > 0;
+    if (answer && typeof answer === 'object') return Object.values(answer).some((value) => String(value ?? '').trim() !== '');
+    return String(answer ?? '').trim() !== '';
+  }
+
+  function answersMatchTask(task, userAnswer) {
+    if (!isAutoGradableTask(task)) return null;
+    const schema = task.answerSchema || {};
+    if (schema.type === 'fields') {
+      if (!userAnswer || typeof userAnswer !== 'object' || Array.isArray(userAnswer)) return false;
+      return schema.fields.every((field) => {
+        const value = userAnswer[field.key];
+        if (!String(value ?? '').trim()) return false;
+        return answersMatch(value, field.correctAnswer) || (field.aliases || []).some((alias) => answersMatch(value, alias));
+      });
+    }
+    if (schema.type === 'multi-choice') {
+      if (!Array.isArray(userAnswer)) return false;
+      const given = [...new Set(userAnswer.map((v) => String(v)))].sort();
+      const expected = [...new Set(schema.correctAnswers.map((v) => String(v)))].sort();
+      return given.length === expected.length && given.every((value, index) => value === expected[index]);
+    }
+    if (schema.type === 'choice') return String(userAnswer ?? '') === String(task.correctAnswer);
+    if (schema.type === 'expression') return expressionsEquivalent(userAnswer, task.correctAnswer);
+    return answersMatch(userAnswer, task.correctAnswer);
+  }
+
+  function getTaskAnswer(task, isExam) {
+    return isExam ? (state.examAnswers[task.externalId] ?? (task.answerSchema?.type === 'fields' ? {} : task.answerSchema?.type === 'multi-choice' ? [] : ''))
+      : (state.values[task.externalId] ?? (task.answerSchema?.type === 'fields' ? {} : task.answerSchema?.type === 'multi-choice' ? [] : ''));
+  }
+
+  function renderAnswerControls(task, answer, isExam, answerButtonText) {
+    const schema = task.answerSchema || {};
+    const disabled = isAutoGradableTask(task) || isLongTextTask(task) ? '' : 'disabled';
+    if (schema.type === 'fields') {
+      const values = answer && typeof answer === 'object' && !Array.isArray(answer) ? answer : {};
+      return `<div class="structured-answer-fields">${schema.fields.map((field) => `<label class="structured-answer-field"><span>${escapeHtml(field.label || field.key)}</span><input class="answer-input" type="text" inputmode="decimal" data-answer-key="${escapeHtml(field.key)}" autocomplete="off" placeholder="${escapeHtml(field.placeholder || 'Ответ')}" value="${escapeHtml(values[field.key] ?? '')}" ${disabled} /></label>`).join('')}</div><button class="check-button" type="submit" ${disabled}>${answerButtonText} <span aria-hidden="true">→</span></button>`;
+    }
+    if (schema.type === 'choice' || schema.type === 'multi-choice') {
+      const values = schema.type === 'multi-choice' ? (Array.isArray(answer) ? answer.map(String) : []) : [String(answer ?? '')];
+      const inputType = schema.type === 'multi-choice' ? 'checkbox' : 'radio';
+      return `<fieldset class="answer-choice-fieldset" ${disabled}><legend>${escapeHtml(schema.prompt || 'Выбери ответ')}</legend><div class="answer-choice-grid">${(schema.options || []).map((option) => `<label class="answer-choice-option"><input type="${inputType}" name="task-choice" data-choice-value="${escapeHtml(option.value)}" value="${escapeHtml(option.value)}" ${values.includes(String(option.value)) ? 'checked' : ''} ${disabled}/><span class="choice-marker">${inputType === 'radio' ? '○' : '✓'}</span><span>${escapeHtml(option.label)}</span></label>`).join('')}</div></fieldset><button class="check-button" type="submit" ${disabled}>${answerButtonText} <span aria-hidden="true">→</span></button>`;
+    }
+    if (schema.type === 'long-text') {
+      return `<textarea id="answer-input" class="answer-input answer-long-text" rows="${Math.max(4, Math.min(10, Number(schema.rows) || 5))}" placeholder="${escapeHtml(schema.placeholder || 'Запиши ход решения…')}" maxlength="10000">${escapeHtml(answer ?? '')}</textarea><button class="check-button" type="submit">${answerButtonText} <span aria-hidden="true">→</span></button>`;
+    }
+    const expression = schema.type === 'expression';
+    return `<input id="answer-input" class="answer-input" type="text" autocomplete="off" inputmode="${expression ? 'text' : 'decimal'}" placeholder="${escapeHtml(expression ? 'Например: 2^3 / 4' : 'Напиши ответ здесь…')}" value="${escapeHtml(answer ?? '')}" ${disabled} aria-describedby="answer-feedback"><button class="check-button" type="submit" ${disabled}>${answerButtonText} <span aria-hidden="true">→</span></button>`;
+  }
+
+  function captureAnswerFromControls(task) {
+    const schema = task.answerSchema || {};
+    if (schema.type === 'fields') {
+      return Object.fromEntries(schema.fields.map((field) => [field.key, $(`[data-answer-key="${CSS.escape(field.key)}"]`)?.value || '']));
+    }
+    if (schema.type === 'multi-choice') return [...document.querySelectorAll('[data-choice-value]:checked')].map((input) => input.value);
+    if (schema.type === 'choice') return document.querySelector('[data-choice-value]:checked')?.value || '';
+    return $('#answer-input')?.value ?? '';
+  }
+
+  function formatExpectedAnswer(task) {
+    const schema = task.answerSchema || {};
+    if (schema.type === 'fields') return schema.fields.map((field) => `${field.label || field.key}: ${field.correctAnswer}`).join(' · ') + (task.correctAnswer ? ` (${task.correctAnswer})` : '');
+    if (schema.type === 'multi-choice') {
+      const labels = schema.options.filter((option) => schema.correctAnswers.map(String).includes(String(option.value))).map((option) => option.label);
+      return `${task.correctAnswer || ''}${labels.length ? ` — ${labels.join('; ')}` : ''}`;
+    }
+    if (schema.type === 'choice') return schema.options.find((option) => String(option.value) === String(task.correctAnswer))?.label || String(task.correctAnswer ?? '');
+    if (isLongTextTask(task)) return 'Сверь ход решения с критериями ниже';
+    return String(task.correctAnswer ?? '');
+  }
+
+  function renderTaskVisuals(task) {
+    const parts = [];
+    const visual = task.visual;
+    if (visual?.type === 'function-graph') {
+      const id = task.externalId.replace(/[^a-zA-Z0-9_-]/g, '-');
+      parts.push(`<section class="task-visual graph-visual" data-graph-id="${escapeHtml(task.externalId)}" aria-label="Интерактивный график"><div class="task-visual-heading"><strong>${escapeHtml(visual.title || 'Интерактивный график')}</strong><span>Масштаб и перемещение</span></div><div class="graph-toolbar" aria-label="Управление графиком"><button type="button" data-graph-action="zoom-out" aria-label="Уменьшить масштаб">−</button><button type="button" data-graph-action="zoom-in" aria-label="Увеличить масштаб">+</button><span class="graph-toolbar-hint">Колесо мыши — масштаб</span><span class="graph-toolbar-spacer"></span><button type="button" data-graph-action="left" aria-label="Сдвинуть влево">←</button><button type="button" data-graph-action="up" aria-label="Сдвинуть вверх">↑</button><button type="button" data-graph-action="down" aria-label="Сдвинуть вниз">↓</button><button type="button" data-graph-action="right" aria-label="Сдвинуть вправо">→</button><button type="button" data-graph-action="reset" aria-label="Сбросить масштаб">Сброс</button></div><div class="graph-svg-host" id="graph-svg-${id}">${renderGraphSvg(task)}</div><div class="graph-legend">${(visual.functions || []).map((fn, index) => `<span><i style="background:${graphColor(fn.color, index)}"></i>${escapeHtml(fn.label || fn.expression)}</span>`).join('')}</div><p class="visual-caption">${escapeHtml(visual.caption || 'График построен для авторского задания. Используй масштабирование, чтобы рассмотреть детали.')}</p></section>`);
+    }
+    for (const media of (Array.isArray(task.media) ? task.media : [])) {
+      if (media.type !== 'image' || !media.src) continue;
+      parts.push(`<figure class="task-visual task-media"><button class="zoomable-image-button" type="button" data-zoom-image="${escapeHtml(media.src)}" data-image-alt="${escapeHtml(media.alt || task.title)}" data-image-caption="${escapeHtml(media.caption || '')}" aria-label="Увеличить изображение: ${escapeHtml(media.alt || task.title)}"><img src="${escapeHtml(media.src)}" alt="${escapeHtml(media.alt || task.title)}" loading="lazy"/><span class="image-zoom-indicator">⌕ Нажми, чтобы увеличить</span></button>${media.caption ? `<figcaption>${escapeHtml(media.caption)}</figcaption>` : ''}</figure>`);
+    }
+    return parts.join('');
+  }
+
+  function graphColor(color, index = 0) {
+    const colors = { purple: '#6857e8', orange: '#e58a42', green: '#18a37a', blue: '#397ed1', red: '#df5d53' };
+    return colors[color] || ['#6857e8', '#e58a42', '#18a37a'][index % 3];
+  }
+
+  function niceGraphStep(span) {
+    const raw = Math.max(span / 8, 0.0001);
+    const power = Math.pow(10, Math.floor(Math.log10(raw)));
+    const normalized = raw / power;
+    const nice = normalized <= 1 ? 1 : normalized <= 2 ? 2 : normalized <= 5 ? 5 : 10;
+    return nice * power;
+  }
+
+  function renderGraphSvg(task) {
+    const visual = task.visual || {};
+    const base = { xMin: Number(visual.xMin ?? -5), xMax: Number(visual.xMax ?? 5), yMin: Number(visual.yMin ?? -5), yMax: Number(visual.yMax ?? 5) };
+    const view = state.graphViews[task.externalId] || { ...base };
+    const xMin = view.xMin, xMax = view.xMax, yMin = view.yMin, yMax = view.yMax;
+    const W = 720, H = 410, L = 48, R = 18, T = 18, B = 38, PW = W - L - R, PH = H - T - B;
+    const sx = (x) => L + (x - xMin) / (xMax - xMin) * PW;
+    const sy = (y) => T + (yMax - y) / (yMax - yMin) * PH;
+    const fx = niceGraphStep(xMax - xMin), fy = niceGraphStep(yMax - yMin);
+    const clipId = `clip-${task.externalId.replace(/[^a-zA-Z0-9_-]/g, '-')}`;
+    let grid = '';
+    const xStart = Math.ceil(xMin / fx) * fx;
+    for (let x = xStart, count = 0; x <= xMax + fx * 0.001 && count < 120; x += fx, count++) {
+      const px = sx(x);
+      grid += `<line class="graph-grid-line" x1="${px}" y1="${T}" x2="${px}" y2="${T + PH}"/><text class="graph-tick-label" x="${px}" y="${H - 14}" text-anchor="middle">${Number(x.toPrecision(4))}</text>`;
+    }
+    const yStart = Math.ceil(yMin / fy) * fy;
+    for (let y = yStart, count = 0; y <= yMax + fy * 0.001 && count < 120; y += fy, count++) {
+      const py = sy(y);
+      grid += `<line class="graph-grid-line" x1="${L}" y1="${py}" x2="${L + PW}" y2="${py}"/><text class="graph-tick-label" x="${L - 8}" y="${py + 4}" text-anchor="end">${Number(y.toPrecision(4))}</text>`;
+    }
+    if (xMin <= 0 && xMax >= 0) grid += `<line class="graph-axis-line" x1="${sx(0)}" y1="${T}" x2="${sx(0)}" y2="${T + PH}"/>`;
+    if (yMin <= 0 && yMax >= 0) grid += `<line class="graph-axis-line" x1="${L}" y1="${sy(0)}" x2="${L + PW}" y2="${sy(0)}"/>`;
+    let curves = '';
+    for (const [index, fn] of (visual.functions || []).entries()) {
+      try {
+        const evaluator = compileMathExpression(fn.expression);
+        let d = '', drawing = false;
+        const samples = 420;
+        for (let i = 0; i <= samples; i++) {
+          const x = xMin + (xMax - xMin) * i / samples;
+          const y = evaluator(x);
+          if (!Number.isFinite(y) || y < yMin - (yMax - yMin) * 3 || y > yMax + (yMax - yMin) * 3) { drawing = false; continue; }
+          const command = drawing ? 'L' : 'M';
+          d += `${command}${sx(x).toFixed(2)},${sy(y).toFixed(2)} `;
+          drawing = true;
+        }
+        curves += `<path class="graph-curve" d="${d}" stroke="${graphColor(fn.color, index)}"/>`;
+      } catch (_) { /* Ignore an invalid optional function instead of breaking the task page. */ }
+    }
+    return `<svg class="interactive-function-graph" viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHtml(visual.title || 'График функции')}" xmlns="http://www.w3.org/2000/svg"><defs><clipPath id="${clipId}"><rect x="${L}" y="${T}" width="${PW}" height="${PH}"/></clipPath></defs><rect class="graph-plot-background" x="${L}" y="${T}" width="${PW}" height="${PH}" rx="8"/>${grid}<g clip-path="url(#${clipId})">${curves}</g><text class="graph-axis-label" x="${W - 14}" y="${(yMin <= 0 && yMax >= 0) ? sy(0) - 9 : H - B + 17}" text-anchor="end">x</text><text class="graph-axis-label" x="${(xMin <= 0 && xMax >= 0) ? sx(0) + 9 : L + 10}" y="${T + 12}">y</text></svg>`;
+  }
+
+  function zoomGraph(task, action) {
+    const visual = task.visual || {};
+    const defaults = { xMin: Number(visual.xMin ?? -5), xMax: Number(visual.xMax ?? 5), yMin: Number(visual.yMin ?? -5), yMax: Number(visual.yMax ?? 5) };
+    const view = state.graphViews[task.externalId] || { ...defaults };
+    if (action === 'reset') state.graphViews[task.externalId] = { ...defaults };
+    else {
+      const centerX = (view.xMin + view.xMax) / 2, centerY = (view.yMin + view.yMax) / 2;
+      const spanX = view.xMax - view.xMin, spanY = view.yMax - view.yMin;
+      if (action === 'zoom-in' || action === 'zoom-out') {
+        const factor = action === 'zoom-in' ? 0.78 : 1.28;
+        const nextX = Math.min(1e6, Math.max(0.02, spanX * factor));
+        const nextY = Math.min(1e6, Math.max(0.02, spanY * factor));
+        state.graphViews[task.externalId] = { xMin: centerX - nextX / 2, xMax: centerX + nextX / 2, yMin: centerY - nextY / 2, yMax: centerY + nextY / 2 };
+      } else {
+        const dx = spanX * 0.15 * (action === 'left' ? -1 : action === 'right' ? 1 : 0);
+        const dy = spanY * 0.15 * (action === 'up' ? 1 : action === 'down' ? -1 : 0);
+        state.graphViews[task.externalId] = { xMin: view.xMin + dx, xMax: view.xMax + dx, yMin: view.yMin + dy, yMax: view.yMax + dy };
+      }
+    }
+    const host = $(`[data-graph-id="${CSS.escape(task.externalId)}"] .graph-svg-host`);
+    if (host) host.innerHTML = renderGraphSvg(task);
+  }
+
+  function openImageLightbox(src, alt, caption) {
+    if (!el.imageLightbox || !el.lightboxImage || !src) return;
+    el.lightboxImage.src = src; el.lightboxImage.alt = alt || 'Увеличенное изображение';
+    if (el.lightboxCaption) el.lightboxCaption.textContent = caption || alt || '';
+    state.lightboxScale = 1; updateLightboxZoom();
+    if (!el.imageLightbox.open) el.imageLightbox.showModal();
+  }
+
+  function updateLightboxZoom() {
+    if (!el.lightboxImage) return;
+    state.lightboxScale = Math.max(0.5, Math.min(4, state.lightboxScale));
+    el.lightboxImage.style.transform = `scale(${state.lightboxScale})`;
+    if (el.lightboxZoomValue) el.lightboxZoomValue.textContent = `${Math.round(state.lightboxScale * 100)}%`;
+  }
+
   function currentTask() { return state.tasks.find((task) => task.externalId === state.currentId) || state.tasks[0]; }
   function sortTasks(tasks) {
     return [...tasks].sort((a, b) => Number(a.taskNumber) - Number(b.taskNumber) || Number(a.variantIndex || 1) - Number(b.variantIndex || 1));
@@ -201,7 +483,7 @@
     const total = state.tasks.length;
     const isExam = state.mode === 'exam';
     const done = isExam
-      ? state.tasks.filter((task) => String(state.examAnswers[task.externalId] ?? '').trim()).length
+      ? state.tasks.filter((task) => answerHasContent(state.examAnswers[task.externalId])).length
       : state.tasks.filter((task) => state.solved.has(task.externalId)).length;
     const percent = total ? Math.round(done / total * 100) : 0;
     if (el.statTotal) el.statTotal.textContent = String(total);
@@ -247,7 +529,7 @@
     }
     el.taskList.innerHTML = state.visible.map((task) => {
       const done = state.mode !== 'exam' && state.solved.has(task.externalId);
-      const answered = state.mode === 'exam' && String(state.examAnswers[task.externalId] ?? '').trim().length > 0;
+      const answered = state.mode === 'exam' && answerHasContent(state.examAnswers[task.externalId]);
       const selected = task.externalId === state.currentId;
       const numberLabel = answered ? '•' : done ? '✓' : task.taskNumber;
       return `<button type="button" class="task-item${selected ? ' selected' : ''}${done ? ' done' : ''}${answered ? ' answered' : ''}" data-task-id="${escapeHtml(task.externalId)}" aria-current="${selected ? 'true' : 'false'}"><span class="task-number">${numberLabel}</span><span class="task-main"><span class="task-name">${escapeHtml(task.title)}</span><span class="task-meta">${escapeHtml(task.taskType || 'Тренировка')}</span></span>${done ? '<span class="task-done-mark" aria-label="Решено верно">✓</span>' : answered ? '<span class="task-done-mark" aria-label="Ответ сохранён">•</span>' : ''}</button>`;
@@ -309,64 +591,87 @@
     const index = state.tasks.findIndex((item) => item.externalId === task.externalId);
     const isExam = state.mode === 'exam';
     const solved = state.solved.has(task.externalId);
-    const answer = isExam ? (state.examAnswers[task.externalId] ?? '') : (state.values[task.externalId] ?? '');
-    const hasAnswer = task.correctAnswer !== null && task.correctAnswer !== undefined && String(task.correctAnswer).trim() !== '';
+    const answer = getTaskAnswer(task, isExam);
+    const hasAnswer = isAutoGradableTask(task) || isLongTextTask(task);
     const mistakes = Array.isArray(task.commonMistakes) ? task.commonMistakes : [];
     const explanation = task.explanation || 'Для этого задания пока не добавлен разбор.';
     const statementType = task.sourceType === 'official_fipi' ? 'Оригинальное задание ФИПИ' : 'Авторское упражнение · не ФИПИ';
     const fipiTopicInfo = state.fipiLinks?.topics?.[String(task.taskNumber)];
     const fipiTaskButtonText = fipiTopicInfo?.questionIds?.length ? 'Открыть оригинальные примеры ФИПИ ↗' : 'Открыть банк ФИПИ ↗';
-    const answerButtonText = isExam ? 'Сохранить ответ' : 'Проверить ответ';
+    const answerButtonText = isExam ? 'Сохранить ответ' : isLongTextTask(task) ? 'Сохранить решение' : 'Проверить ответ';
     const taskActions = isExam
       ? `<div class="task-actions"><span class="exam-answer-note">Вариант проверится после завершения. Ответы сохраняются автоматически.</span><div class="nav-buttons"><button class="secondary-button" id="prev-task" type="button" ${index <= 0 ? 'disabled' : ''}>← Назад</button><button class="next-button" id="next-task" type="button">${index >= state.tasks.length - 1 ? 'Завершить вариант' : 'Следующее'} →</button></div></div>`
       : `<div class="task-actions task-actions-with-source"><div class="task-action-links"><button class="link-button" id="toggle-solution" type="button"><span aria-hidden="true">${state.solutionOpen ? '⌃' : '⊕'}</span>${state.solutionOpen ? 'Скрыть разбор' : 'Посмотреть разбор'}</button><button class="link-button fipi-task-link" id="open-fipi-task" type="button">${fipiTaskButtonText}</button></div><div class="nav-buttons"><button class="secondary-button" id="prev-task" type="button" ${index <= 0 ? 'disabled' : ''}>← Назад</button><button class="next-button" id="next-task" type="button">${index >= state.tasks.length - 1 ? 'К началу' : 'Следующее'} →</button></div></div>`;
-    const solutionPanel = isExam ? '' : `<section class="solution-panel${state.solutionOpen ? ' open' : ''}" id="solution-panel" aria-label="Разбор решения"><div class="solution-header"><span class="solution-badge">ƒx</span><h3>Разбор решения</h3></div><div class="solution-body">${renderMarkdown(explanation)}</div><div class="answer-reveal"><span>Правильный ответ</span><strong>${escapeHtml(task.correctAnswer)}</strong></div>${mistakes.length ? `<div class="mistakes"><div class="mistakes-title">На что обратить внимание</div><ul>${mistakes.map((mistake) => `<li>${escapeHtml(mistake)}</li>`).join('')}</ul></div>` : ''}</section>`;
+    const selfCheckButton = isLongTextTask(task) ? `<button type="button" id="mark-self-checked" class="self-check-button">✓ Я сверил ответ с критериями</button>` : '';
+    const solutionValue = isLongTextTask(task)
+      ? '<strong>Автоматическая оценка здесь не применяется.</strong> Сверь свой ход решения с критериями и разбором, затем отметь самопроверку.'
+      : escapeHtml(formatExpectedAnswer(task));
+    const solutionPanel = isExam ? '' : `<section class="solution-panel${state.solutionOpen ? ' open' : ''}" id="solution-panel" aria-label="Разбор решения"><div class="solution-header"><span class="solution-badge">ƒx</span><h3>Разбор решения</h3></div><div class="solution-body">${renderMarkdown(explanation)}</div>${isLongTextTask(task) && task.answerSchema?.rubric?.length ? `<div class="answer-rubric"><strong>Критерии самопроверки</strong><ul>${task.answerSchema.rubric.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></div>` : ''}<div class="answer-reveal"><span>${isLongTextTask(task) ? 'Как оценивать себя' : 'Правильный ответ'}</span><strong>${solutionValue}</strong></div>${selfCheckButton}${mistakes.length ? `<div class="mistakes"><div class="mistakes-title">На что обратить внимание</div><ul>${mistakes.map((mistake) => `<li>${escapeHtml(mistake)}</li>`).join('')}</ul></div>` : ''}</section>`;
+    const formatNote = task.answerSchema?.type === 'fields' ? 'Заполни все поля' : task.answerSchema?.type === 'multi-choice' ? 'Можно выбрать несколько вариантов' : task.answerSchema?.type === 'expression' ? 'Можно вводить вычисляемое выражение; например 2^3/4' : isLongTextTask(task) ? 'Ответ проверяется самостоятельно по критериям' : 'Введи число или краткий ответ';
     el.taskContent.innerHTML = `
-      <div class="task-top"><div class="task-breadcrumb">Математика (база) <span>›</span> <b>Задание ${escapeHtml(task.taskNumber)}</b></div><span class="task-status${solved && !isExam ? ' done' : ''}">${isExam ? `Авторский вариант · ${index + 1} из ${state.tasks.length}` : state.mode === 'topic' ? `Отработка типа · ${index + 1} из ${state.tasks.length}` : state.mode === 'collection' ? `Смешанная подборка · ${index + 1} из ${state.tasks.length}` : state.mode === 'warmup' ? `Разминка · ${index + 1} из ${state.tasks.length}` : state.mode === 'review' ? `Разбор после пробника · ${index + 1} из ${state.tasks.length}` : solved ? '✓ Решено верно' : `Авторское упражнение · ${index + 1} из ${state.tasks.length}`}</span></div>
+      <div class="task-top"><div class="task-breadcrumb">Математика (база) <span>›</span> <b>Задание ${escapeHtml(task.taskNumber)}</b></div><span class="task-status${solved && !isExam ? ' done' : ''}">${isExam ? `Авторский вариант · ${index + 1} из ${state.tasks.length}` : state.mode === 'topic' ? `Отработка типа · ${index + 1} из ${state.tasks.length}` : state.mode === 'collection' ? `Смешанная подборка · ${index + 1} из ${state.tasks.length}` : state.mode === 'warmup' ? `Разминка · ${index + 1} из ${state.tasks.length}` : state.mode === 'review' ? `Разбор после пробника · ${index + 1} из ${state.tasks.length}` : solved ? '✓ Решено / проверено' : `Авторское упражнение · ${index + 1} из ${state.tasks.length}`}</span></div>
       <h2 class="task-title">${escapeHtml(task.title)}</h2>
       <div class="task-topic"><span class="topic-dot"></span>${escapeHtml(task.taskType || 'Тренировочное задание')} <span class="source-chip">${escapeHtml(statementType)}</span></div>
       <div class="task-statement">${renderMarkdown(task.statement)}</div>
-      <div class="answer-box"><div class="answer-title-row"><label class="answer-title" for="answer-input">Твой ответ</label><span class="answer-hint">Введи число или краткий ответ</span></div>
-        <form id="answer-form"><div class="answer-controls"><input id="answer-input" class="answer-input" type="text" autocomplete="off" inputmode="decimal" placeholder="Напиши ответ здесь…" value="${escapeHtml(answer)}" ${hasAnswer ? '' : 'disabled'} aria-describedby="answer-feedback"><button class="check-button" type="submit" ${hasAnswer ? '' : 'disabled'}>${answerButtonText} <span aria-hidden="true">→</span></button></div></form>
+      ${renderTaskVisuals(task)}
+      <div class="answer-box"><div class="answer-title-row"><span class="answer-title">Твой ответ</span><span class="answer-hint">${escapeHtml(formatNote)}</span></div>
+        <form id="answer-form"><div class="answer-controls ${task.answerSchema?.type === 'fields' ? 'answer-controls-fields' : ''} ${task.answerSchema?.type === 'choice' || task.answerSchema?.type === 'multi-choice' ? 'answer-controls-choice' : ''}">${renderAnswerControls(task, answer, isExam, answerButtonText)}</div></form>
         <div class="feedback" id="answer-feedback" role="status" aria-live="polite"></div>
       </div>${taskActions}${solutionPanel}`;
+
     $('#answer-form')?.addEventListener('submit', checkAnswer);
-    $('#open-fipi-task')?.addEventListener('click', () => openFipiForTask(Number(task.taskNumber)));
-    $('#answer-input')?.addEventListener('input', (event) => {
-      if (state.mode === 'exam') state.examAnswers[task.externalId] = event.target.value;
-      else state.values[task.externalId] = event.target.value;
-      saveProgress();
-      if (state.mode === 'exam') renderTaskList();
+    $('#answer-form')?.querySelectorAll('input,textarea,select').forEach((control) => {
+      const saveInput = () => {
+        const value = captureAnswerFromControls(task);
+        if (isExam) state.examAnswers[task.externalId] = value;
+        else state.values[task.externalId] = value;
+        saveProgress();
+        if (isExam) renderTaskList();
+      };
+      control.addEventListener('input', saveInput);
+      control.addEventListener('change', saveInput);
     });
+    $('#open-fipi-task')?.addEventListener('click', () => openFipiForTask(Number(task.taskNumber)));
     $('#toggle-solution')?.addEventListener('click', () => {
       state.solutionOpen = !state.solutionOpen;
       renderCurrentTask();
       if (state.solutionOpen) $('#solution-panel')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
+    $('#mark-self-checked')?.addEventListener('click', () => {
+      const currentAnswer = getTaskAnswer(task, false);
+      if (!answerHasContent(currentAnswer)) {
+        toast('Сначала запиши ход решения, затем сравни его с разбором.');
+        $('#answer-input')?.focus();
+        return;
+      }
+      state.selfChecked.add(task.externalId); state.solved.add(task.externalId); saveProgress();
+      renderTaskList(); renderCurrentTask();
+      toast('Самопроверка сохранена. Отметка основана на твоей оценке по критериям.');
+    });
     $('#prev-task')?.addEventListener('click', () => {
       if (index > 0) selectTask(state.tasks[index - 1].externalId, { scroll: true });
     });
     $('#next-task')?.addEventListener('click', () => {
-      if (state.mode === 'exam' && index >= state.tasks.length - 1) {
-        requestFinishExam(false);
-        return;
-      }
+      if (state.mode === 'exam' && index >= state.tasks.length - 1) { requestFinishExam(false); return; }
       const nextIndex = index >= state.tasks.length - 1 ? 0 : index + 1;
       selectTask(state.tasks[nextIndex].externalId, { scroll: true });
     });
+    const graphHost = $('#task-content .graph-svg-host');
+    graphHost?.addEventListener('wheel', (event) => {
+      event.preventDefault(); zoomGraph(task, event.deltaY < 0 ? 'zoom-in' : 'zoom-out');
+    }, { passive: false });
   }
 
   function checkAnswer(event) {
     event.preventDefault();
     const task = currentTask();
-    const input = $('#answer-input');
     const feedback = $('#answer-feedback');
-    if (!task || !input || !feedback) return;
-    const userAnswer = input.value.trim();
-    if (!userAnswer) {
+    if (!task || !feedback) return;
+    const userAnswer = captureAnswerFromControls(task);
+    if (!answerHasContent(userAnswer)) {
       feedback.className = 'feedback visible warning';
       feedback.textContent = 'Сначала введи ответ — даже попытка приблизит к решению.';
-      input.focus();
+      $('#answer-input')?.focus();
       return;
     }
     if (state.mode === 'exam') {
@@ -378,22 +683,27 @@
     }
     state.values[task.externalId] = userAnswer;
     state.attempts[task.externalId] = (state.attempts[task.externalId] || 0) + 1;
-    if (task.correctAnswer === null || task.correctAnswer === undefined || String(task.correctAnswer).trim() === '') {
+    if (isLongTextTask(task)) {
       feedback.className = 'feedback visible warning';
-      feedback.textContent = 'Для этого демонстрационного шаблона правильный ответ пока не задан. Открой разбор, чтобы изучить алгоритм.';
+      feedback.textContent = 'Решение сохранено, но оно не оценивается автоматически. Открой разбор, сверь критерии и отметь самопроверку.';
       saveProgress();
       return;
     }
-    if (answersMatch(userAnswer, task.correctAnswer)) {
+    const matches = answersMatchTask(task, userAnswer);
+    if (matches === true) {
       state.solved.add(task.externalId);
       feedback.className = 'feedback visible correct';
       feedback.textContent = 'Верно! Отличная работа — задание отмечено как решённое.';
-      input.setAttribute('aria-invalid', 'false');
+      $('#answer-input')?.setAttribute('aria-invalid', 'false');
       saveProgress(); renderTaskList();
-    } else {
+    } else if (matches === false) {
       feedback.className = 'feedback visible incorrect';
       feedback.textContent = 'Пока не совпало. Проверь вычисления или открой разбор — он поможет найти шаг, где возникла ошибка.';
-      input.setAttribute('aria-invalid', 'true');
+      $('#answer-input')?.setAttribute('aria-invalid', 'true');
+      saveProgress();
+    } else {
+      feedback.className = 'feedback visible warning';
+      feedback.textContent = 'Для этого типа ответа нет безопасной автоматической проверки. Сверь результат с разбором.';
       saveProgress();
     }
   }
@@ -477,7 +787,7 @@
     }
     const chosen = [];
     for (let n = 1; n <= 21; n++) {
-      const group = groups.get(n) || [];
+      const group = (groups.get(n) || []).filter(isAutoGradableTask);
       if (!group.length) {
         toast(`В базе не найдено задание №${n}. Вариант пока не собран.`);
         return [];
@@ -611,11 +921,17 @@
 
   function requestFinishExam(timedOut) {
     if (state.mode !== 'exam') return;
-    const unanswered = state.tasks.filter((task) => !String(state.examAnswers[task.externalId] ?? '').trim()).length;
+    const unanswered = state.tasks.filter((task) => !answerHasContent(state.examAnswers[task.externalId])).length;
     const prompt = timedOut
       ? 'Время вышло. Ответы будут проверены.'
       : `Завершить вариант сейчас? Без ответа осталось: ${unanswered}. После завершения правильные ответы будут показаны.`;
     if (timedOut || window.confirm(prompt)) finishExam(timedOut);
+  }
+
+  function formatUserAnswer(value) {
+    if (Array.isArray(value)) return value.join(', ');
+    if (value && typeof value === 'object') return Object.entries(value).map(([key, item]) => `${key}: ${item || '—'}`).join('; ');
+    return String(value ?? '').trim() || 'нет ответа';
   }
 
   function finishExam(timedOut) {
@@ -623,26 +939,54 @@
     stopTimer();
     const examTasks = [...state.tasks];
     const report = examTasks.map((task) => {
-      const userAnswer = String(state.examAnswers[task.externalId] ?? '').trim();
-      const correct = userAnswer !== '' && answersMatch(userAnswer, task.correctAnswer);
+      const userAnswer = state.examAnswers[task.externalId] ?? '';
+      const correct = answerHasContent(userAnswer) && answersMatchTask(task, userAnswer) === true;
       if (correct) state.solved.add(task.externalId);
-      return { task, userAnswer, correct };
+      return { task, userAnswer, correct, answered: answerHasContent(userAnswer) };
     });
     const correctCount = report.filter((item) => item.correct).length;
-    const answeredCount = report.filter((item) => item.userAnswer).length;
+    const answeredCount = report.filter((item) => item.answered).length;
+    const examTotal = examTasks.length;
     const wrong = report.filter((item) => !item.correct);
     state.mode = 'catalog'; state.tasks = state.bankTasks; state.examEndAt = null; state.examAnswers = {};
     state.currentId = wrong.length ? wrong[0].task.externalId : state.bankTasks[0].externalId;
     state.solutionOpen = false;
     updateModeUI(); renderTaskList(); renderCurrentTask(); saveProgress();
     const title = timedOut ? 'Время вышло' : 'Авторский тренировочный вариант ЕГЭ+ завершён';
-    const mistakesHtml = wrong.length ? `<div class="exam-result-list"><h3>Задания для разбора</h3>${wrong.map(({task,userAnswer}) => `<button type="button" class="result-review-row" data-review-task-id="${escapeHtml(task.externalId)}"><span class="result-review-number">№${escapeHtml(task.taskNumber)}</span><span class="result-review-main"><strong>${escapeHtml(task.title)}</strong><small>Твой ответ: ${escapeHtml(userAnswer || 'нет ответа')} · Верный ответ: ${escapeHtml(task.correctAnswer)}</small></span><span class="result-review-action">Разобрать →</span></button>`).join('')}</div>` : '<div class="exam-perfect-note">Отличный результат! Все 21 ответа верны.</div>';
-    el.examResultContent.innerHTML = `<div class="dialog-icon">${correctCount >= 15 ? '✓' : '∑'}</div><h2 id="exam-result-heading">${title}</h2><p class="exam-result-lead">Результат: <strong>${correctCount} из 21</strong>. Ответов заполнено: ${answeredCount}; без ответа: ${21-answeredCount}.</p><div class="exam-result-bar"><span style="width:${Math.round(correctCount/21*100)}%"></span></div><div class="exam-result-percent">${Math.round(correctCount/21*100)}% правильных ответов</div>${mistakesHtml}<div class="dialog-actions"><button class="secondary-button" id="exam-result-close" type="button">Вернуться к базе</button><button class="primary-button" id="exam-result-new" type="button">Новый вариант ↗</button></div>`;
+    const mistakesHtml = wrong.length ? `<div class="exam-result-list"><h3>Задания для разбора</h3>${wrong.map(({task,userAnswer}) => `<button type="button" class="result-review-row" data-review-task-id="${escapeHtml(task.externalId)}"><span class="result-review-number">№${escapeHtml(task.taskNumber)}</span><span class="result-review-main"><strong>${escapeHtml(task.title)}</strong><small>Твой ответ: ${escapeHtml(formatUserAnswer(userAnswer))} · Верный ответ: ${escapeHtml(formatExpectedAnswer(task))}</small></span><span class="result-review-action">Разобрать →</span></button>`).join('')}</div>` : '<div class="exam-perfect-note">Отличный результат! Все ответы верны.</div>';
+    el.examResultContent.innerHTML = `<div class="dialog-icon">${correctCount >= 15 ? '✓' : '∑'}</div><h2 id="exam-result-heading">${title}</h2><p class="exam-result-lead">Результат: <strong>${correctCount} из ${examTotal}</strong>. Ответов заполнено: ${answeredCount}; без ответа: ${examTotal-answeredCount}.</p><div class="exam-result-bar"><span style="width:${Math.round(correctCount/examTotal*100)}%"></span></div><div class="exam-result-percent">${Math.round(correctCount/examTotal*100)}% правильных ответов</div>${mistakesHtml}<div class="dialog-actions"><button class="secondary-button" id="exam-result-close" type="button">Вернуться к базе</button><button class="primary-button" id="exam-result-new" type="button">Новый вариант ↗</button></div>`;
     if (!el.examResultDialog.open) el.examResultDialog.showModal();
-    toast(`Авторский пробный вариант: ${correctCount} из 21 верно.`);
+    toast(`Авторский пробный вариант: ${correctCount} из ${examTotal} верно.`);
   }
 
   function installEvents() {
+    document.addEventListener('click', (event) => {
+      const graphButton = event.target.closest('[data-graph-action]');
+      if (graphButton) {
+        const graph = graphButton.closest('[data-graph-id]');
+        const task = state.bankTasks.find((item) => item.externalId === graph?.dataset.graphId);
+        if (task) zoomGraph(task, graphButton.dataset.graphAction);
+        return;
+      }
+      const imageButton = event.target.closest('[data-zoom-image]');
+      if (imageButton) {
+        openImageLightbox(imageButton.dataset.zoomImage, imageButton.dataset.imageAlt, imageButton.dataset.imageCaption);
+        return;
+      }
+      if (event.target.closest('[data-lightbox-close]')) { el.imageLightbox?.close(); return; }
+      const zoomButton = event.target.closest('[data-lightbox-zoom]');
+      if (zoomButton) {
+        const action = zoomButton.dataset.lightboxZoom;
+        state.lightboxScale = action === 'reset' ? 1 : state.lightboxScale + (action === 'in' ? 0.25 : -0.25);
+        updateLightboxZoom();
+      }
+    });
+    el.lightboxStage?.addEventListener('wheel', (event) => {
+      event.preventDefault(); state.lightboxScale += event.deltaY < 0 ? 0.15 : -0.15; updateLightboxZoom();
+    }, { passive: false });
+    el.imageLightbox?.addEventListener('click', (event) => {
+      if (event.target === el.imageLightbox) el.imageLightbox.close();
+    });
     el.search?.addEventListener('input', renderTaskList);
     el.typeFilter?.addEventListener('change', renderTaskList);
     el.taskList?.addEventListener('click', (event) => {
@@ -691,7 +1035,7 @@
     el.resetProgress?.addEventListener('click', () => el.resetDialog?.showModal());
     el.resetDialog?.addEventListener('close', () => {
       if (el.resetDialog.returnValue !== 'confirm') return;
-      state.solved.clear(); state.attempts = {}; state.values = {};
+      state.solved.clear(); state.selfChecked.clear(); state.attempts = {}; state.values = {};
       saveProgress(); renderTaskList(); renderCurrentTask(); toast('Прогресс сброшен. Можно начать заново.');
     });
   }
@@ -706,7 +1050,7 @@
         const fipiResponse = await fetch(FIPI_LINKS_URL, { cache: 'no-cache' });
         if (fipiResponse.ok) state.fipiLinks = await fipiResponse.json();
       } catch (_) { state.fipiLinks = null; }
-      state.bankTasks = sortTasks(data.filter((task) => task.subjectId === 'math_basic'));
+      state.bankTasks = sortTasks(data.filter((task) => ['math_basic', 'math_basic_extra'].includes(task.subjectId))); 
       if (!state.bankTasks.length) throw new Error('В локальной базе не найдены задания базовой математики.');
       const bankIds = new Set(state.bankTasks.map((task) => task.externalId));
       state.solved = new Set([...state.solved].filter((id) => bankIds.has(id)));
