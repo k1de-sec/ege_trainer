@@ -24,8 +24,9 @@ el_block = JS[JS.index("const el = {"):JS.index("\n  };", JS.index("const el = {
 bindings = re.findall(r"\$\('#([a-zA-Z0-9_-]+)'\)", el_block)
 missing = sorted(set(bindings) - set(parser.ids))
 assert not missing, f"Missing DOM bindings: {missing}"
-for required in ("why-ege", "study-modes", "topic-mode-select", "start-topic-practice-button", "random-set-button", "start-exam-button", "random-fipi-task-button"):
+for required in ("why-ege", "self-study", "topic-mode-select", "start-topic-practice-button", "random-set-button", "start-exam-button", "random-fipi-task-button"):
     assert required in parser.ids, f"Missing user-facing control: {required}"
-for phrase in ("Отработка по типу", "Смешанная подборка", "Это авторский вариант, не официальный КИМ ФИПИ"):
+for phrase in ("ТЕМЫ И ВАРИАНТЫ", "Смешанная подборка", "Это авторский вариант, не официальный КИМ ФИПИ"):
     assert phrase in HTML, f"Missing clarity label: {phrase}"
+assert "Отработка по типу" in JS, "Topic drill mode label missing from app logic"
 print(f"PASS: {len(parser.ids)} unique HTML IDs; {len(bindings)} fixed DOM bindings; explicit practice-mode labels present.")

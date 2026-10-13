@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#111827">
-  <meta name="description" content="Тренажёр ЕГЭ по базовой математике: отработка по типу, авторские смешанные и пробные варианты, разборы и ссылки на ФИПИ.">
+  <meta name="description" content="Тренажёр ЕГЭ по базовой математике: темы и варианты, самостоятельная подготовка, теория, разборы и официальные материалы ФИПИ.">
   <title>Тренажёр ЕГЭ — базовая математика</title>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="./manifest.webmanifest">
@@ -19,9 +19,10 @@
         <span class="brand-copy"><strong>егэ<span>+</span></strong><small>тренажёр</small></span>
       </a>
       <nav class="topnav" aria-label="Основная навигация">
-        <a class="nav-link active" href="#practice">Тренировка</a>
-        <a class="nav-link" href="#why-ege">Почему ЕГЭ+</a>
-        <a class="nav-link" href="#topics">Темы</a>
+        <a class="nav-link active" href="#practice">Главная</a>
+        <a class="nav-link" href="#topics-variants">Темы и варианты</a>
+        <a class="nav-link" href="#self-study">Самоподготовка</a>
+        <a class="nav-link" href="#theory">Теория</a>
         <a class="nav-link" href="#sources">ФИПИ</a>
       </nav>
       <div class="topbar-right">
@@ -64,48 +65,28 @@
         <article class="stat-card progress-stat"><div class="stat-icon icon-orange">↗</div><div class="progress-copy"><div class="progress-title"><span>Твой прогресс</span><strong id="progress-fraction">0 / 21</strong></div><div class="progress-track"><span id="progress-bar"></span></div><div class="progress-subtitle">Каждое задание приближает к цели</div></div></article>
       </section>
 
-      <section class="practice-controls" id="study-modes" aria-labelledby="modes-heading">
-        <div class="practice-control-copy">
-          <span class="section-kicker">ВЫБЕРИ ФОРМАТ</span>
-          <h2 id="modes-heading">Что будем тренировать?</h2>
-          <p id="mode-description" class="mode-active-description">Выбери формат: отработка одного типа, смешанная подборка или авторский пробный вариант.</p>
+      
+      <section class="topic-browser-section" id="topics-variants" aria-labelledby="topics-variants-heading">
+        <div class="section-heading">
+          <div><span class="section-kicker">ТЕМЫ И ВАРИАНТЫ</span><h2 id="topics-variants-heading">Выбирай, что разобрать</h2></div>
+          <p>Темы собраны по смысловым группам. Открой группу, выбери номер задания и переходи к тренировочным вариантам именно этого типа.</p>
         </div>
-        <div class="mode-card-grid">
-          <article class="mode-card topic-mode-card">
-            <div class="mode-card-top"><span class="mode-icon mode-icon-purple">◎</span><span class="mode-pill">Для закрепления</span></div>
-            <h3>Отработка по типу</h3>
-            <p>Выбери один из 21 типов базовой математики. Будешь решать задания только этого типа — без таймера.</p>
-            <label class="topic-mode-label" for="topic-mode-select">Какой тип отработать?</label>
+        <div class="topic-group-grid" id="topic-group-grid" aria-label="Группы тем">
+          <div class="loading-placeholder">Загружаем темы…</div>
+        </div>
+        <div class="topic-picker-panel">
+          <div class="topic-picker-copy"><strong>Знаешь номер задания?</strong><span>Выбери тип напрямую и открой все доступные варианты.</span></div>
+          <div class="topic-picker-controls">
+            <label class="visually-hidden" for="topic-mode-select">Тип задания</label>
             <select id="topic-mode-select" class="topic-mode-select"><option value="">Выбери тип задания</option></select>
-            <div class="mode-card-foot"><span>До 21 авторского варианта одного типа</span><button class="primary-button" id="start-topic-practice-button" type="button">Начать отработку →</button></div>
-          </article>
-          <article class="mode-card mixed-mode-card">
-            <div class="mode-card-top"><span class="mode-icon mode-icon-orange">↻</span><span class="mode-pill">Без таймера</span></div>
-            <h3>Смешанная подборка</h3>
-            <p>Получишь 21 задание — по одному на каждый номер. Удобно для короткой самостоятельной практики.</p>
-            <div class="mode-card-note"><strong>Авторская подборка ЕГЭ+</strong><span>Составляется случайно из нашей тренировочной базы.</span></div>
-            <div class="mode-card-foot"><span>21 задание из разных типов</span><button class="secondary-button" id="random-set-button" type="button">Собрать подборку ↗</button></div>
-          </article>
-          <article class="mode-card exam-mode-card">
-            <div class="mode-card-top"><span class="mode-icon mode-icon-green">◷</span><span class="mode-pill">180 минут</span></div>
-            <h3>Пробный вариант</h3>
-            <p>Пройди полный набор из 21 задания в экзаменационном режиме. Ответы и разборы откроются после завершения.</p>
-            <div class="mode-card-note mode-card-note-warn"><strong>Это авторский вариант, не официальный КИМ ФИПИ</strong><span>Для официальных материалов используй отдельный раздел ниже.</span></div>
-            <div class="mode-card-foot"><span>Таймер и итоговый результат</span><button class="primary-button" id="start-exam-button" type="button">Начать пробник →</button></div>
-          </article>
-        </div>
-        <div class="mode-footer-actions">
-          <button class="secondary-button" id="all-tasks-button" type="button">Открыть весь банк заданий</button>
-          <button class="secondary-button fipi-button" id="random-fipi-task-button" type="button">Открыть пример ФИПИ ↗</button>
-        </div>
-        <div class="exam-status" id="exam-status" hidden aria-live="polite">
-          <div class="exam-status-heading"><span class="exam-live-dot"></span><strong>Авторский пробный вариант идёт</strong><span class="exam-progress" id="exam-progress">0 / 21 ответов</span></div>
-          <div class="exam-status-bottom"><div class="exam-timer-wrap"><span class="exam-timer-label">ОСТАЛОСЬ ВРЕМЕНИ</span><strong class="exam-timer" id="exam-timer">03:00:00</strong></div><div class="exam-timer-track"><span id="exam-timer-track"></span></div><button class="danger-button" id="finish-exam-button" type="button">Завершить вариант</button></div>
-          <p>Ответы сохраняются автоматически. Проверка и разбор будут доступны после завершения.</p>
+            <button class="primary-button" id="start-topic-practice-button" type="button">Открыть варианты →</button>
+            <button class="secondary-button" id="all-tasks-button" type="button">Весь банк</button>
+          </div>
         </div>
       </section>
 
-      <section class="workspace" id="topics">
+      <section class="workspace" id="topic-workspace" aria-labelledby="topic-workspace-heading">
+        <div class="workspace-section-heading"><div><span class="section-kicker">БАНК ВАРИАНТОВ</span><h2 id="topic-workspace-heading">Решай и разбирай</h2></div><p>Выбери задачу слева, введи краткий ответ и открой разбор после попытки.</p></div>
         <aside class="task-sidebar">
           <div class="sidebar-heading"><div><span class="section-kicker">ТВОЙ МАРШРУТ</span><h2>Задания</h2></div><span class="task-count" id="list-count">21</span></div>
           <div class="subject-tabs" role="group" aria-label="Выбор уровня">
@@ -125,13 +106,93 @@
         </section>
       </section>
 
+      <section class="practice-controls" id="self-study" aria-labelledby="modes-heading">
+        <div class="practice-control-copy">
+          <span class="section-kicker">ВЫБЕРИ ФОРМАТ</span>
+          <h2 id="modes-heading">Самоподготовка в своём темпе</h2>
+          <p id="mode-description" class="mode-active-description">Короткая разминка, полный набор разных типов или экзаменационная попытка на 180 минут — выбирай по времени и цели.</p>
+        </div>
+        <div class="mode-card-grid">
+          <article class="mode-card warmup-mode-card">
+            <div class="mode-card-top"><span class="mode-icon mode-icon-purple">⚡</span><span class="mode-pill">Короткая сессия</span></div>
+            <h3>Быстрая разминка</h3>
+            <p>Пять случайных заданий из разных типов. Подходит, чтобы заниматься понемногу каждый день без длинного экзамена.</p>
+            <div class="mode-card-note"><strong>5 заданий из банка ЕГЭ+</strong><span>Авторские тренировочные варианты с ответами и разборами.</span></div>
+            <div class="mode-card-foot"><span>Без таймера · около 10–15 минут</span><button class="primary-button" id="start-warmup-button" type="button">Начать разминку →</button></div>
+          </article>
+          <article class="mode-card mixed-mode-card">
+            <div class="mode-card-top"><span class="mode-icon mode-icon-orange">↻</span><span class="mode-pill">Без таймера</span></div>
+            <h3>Смешанная подборка</h3>
+            <p>Получишь 21 задание — по одному на каждый номер. Удобно для короткой самостоятельной практики.</p>
+            <div class="mode-card-note"><strong>Авторская подборка ЕГЭ+</strong><span>Составляется случайно из нашей тренировочной базы.</span></div>
+            <div class="mode-card-foot"><span>21 задание из разных типов</span><button class="secondary-button" id="random-set-button" type="button">Собрать подборку ↗</button></div>
+          </article>
+          <article class="mode-card exam-mode-card">
+            <div class="mode-card-top"><span class="mode-icon mode-icon-green">◷</span><span class="mode-pill">180 минут</span></div>
+            <h3>Пробный вариант</h3>
+            <p>Пройди полный набор из 21 задания в экзаменационном режиме. Ответы и разборы откроются после завершения.</p>
+            <div class="mode-card-note mode-card-note-warn"><strong>Это авторский вариант, не официальный КИМ ФИПИ</strong><span>Для официальных материалов используй отдельный раздел ниже.</span></div>
+            <div class="mode-card-foot"><span>Таймер и итоговый результат</span><button class="primary-button" id="start-exam-button" type="button">Начать пробник →</button></div>
+          </article>
+        </div>
+        <div class="mode-footer-actions">
+          <a class="secondary-button mode-link-button" href="#topics-variants">Перейти к темам и вариантам ↓</a>
+          <span class="mode-footer-note">Результаты сохраняются в этом браузере</span>
+        </div>
+        <div class="exam-status" id="exam-status" hidden aria-live="polite">
+          <div class="exam-status-heading"><span class="exam-live-dot"></span><strong>Авторский пробный вариант идёт</strong><span class="exam-progress" id="exam-progress">0 / 21 ответов</span></div>
+          <div class="exam-status-bottom"><div class="exam-timer-wrap"><span class="exam-timer-label">ОСТАЛОСЬ ВРЕМЕНИ</span><strong class="exam-timer" id="exam-timer">03:00:00</strong></div><div class="exam-timer-track"><span id="exam-timer-track"></span></div><button class="danger-button" id="finish-exam-button" type="button">Завершить вариант</button></div>
+          <p>Ответы сохраняются автоматически. Проверка и разбор будут доступны после завершения.</p>
+        </div>
+      </section>
+
+
+
+      <section class="theory-section" id="theory" aria-labelledby="theory-heading">
+        <div class="section-heading">
+          <div><span class="section-kicker">ТЕОРИЯ И ШПАРГАЛКИ</span><h2 id="theory-heading">Сначала понять — потом решать</h2></div>
+          <p>Короткие правила, формулы и алгоритмы по основным группам базовой математики. Из каждого блока можно сразу перейти к задачам по теме.</p>
+        </div>
+        <div class="theory-grid">
+          <article class="theory-card">
+            <div class="theory-card-heading"><span class="theory-icon theory-purple">∑</span><div><span class="theory-range">ЗАДАНИЯ №14–19</span><h3>Числа, вычисления и алгебра</h3></div></div>
+            <div class="theory-item"><strong>Порядок действий</strong><p>Сначала скобки, затем степени и корни, потом умножение и деление, после — сложение и вычитание.</p></div>
+            <div class="theory-item"><strong>Проценты и пропорции</strong><p><code>p% от a = a · p / 100</code>. Если величина разделена в отношении <code>m:n</code>, всего получается <code>m+n</code> равных частей.</p></div>
+            <div class="theory-item"><strong>Уравнения и числа</strong><p>Выполняй одинаковые преобразования с обеими частями уравнения. При работе с корнями проверяй область допустимых значений.</p></div>
+            <div class="theory-topic-links"><button type="button" data-topic-number="14">№14 · Вычисления</button><button type="button" data-topic-number="15">№15 · Проценты</button><button type="button" data-topic-number="17">№17 · Уравнения</button><button type="button" data-topic-number="18">№18 · Неравенства</button><button type="button" data-topic-number="19">№19 · Свойства чисел</button></div>
+          </article>
+          <article class="theory-card">
+            <div class="theory-card-heading"><span class="theory-icon theory-orange">↗</span><div><span class="theory-range">ЗАДАНИЯ №1, 2, 4, 6, 20</span><h3>Практические и текстовые задачи</h3></div></div>
+            <div class="theory-item"><strong>Величины и единицы</strong><p>Перед вычислениями приведи все величины к одинаковым единицам измерения: например, часы к часам, метры к метрам.</p></div>
+            <div class="theory-item"><strong>Равномерное движение</strong><p><code>S = v · t</code>, <code>v = S / t</code>, <code>t = S / v</code>. Выбирай формулу под искомую величину.</p></div>
+            <div class="theory-item"><strong>Отношение и выгодная покупка</strong><p>Для сравнения цены за единицу раздели полную стоимость на количество. В задачах «не менее» округляй количество упаковок вверх.</p></div>
+            <div class="theory-topic-links"><button type="button" data-topic-number="1">№1 · Текстовые задачи</button><button type="button" data-topic-number="2">№2 · Единицы</button><button type="button" data-topic-number="4">№4 · Формулы</button><button type="button" data-topic-number="6">№6 · Выбор</button><button type="button" data-topic-number="20">№20 · Движение</button></div>
+          </article>
+          <article class="theory-card">
+            <div class="theory-card-heading"><span class="theory-icon theory-green">▤</span><div><span class="theory-range">ЗАДАНИЯ №3, 5, 7, 8</span><h3>Данные, графики и вероятность</h3></div></div>
+            <div class="theory-item"><strong>Таблицы и диаграммы</strong><p>Сначала прочитай названия строк, столбцов, осей и единицы измерения. Затем найди нужные данные и проверь, что сравниваешь одно и то же.</p></div>
+            <div class="theory-item"><strong>Вероятность события</strong><p>Если все исходы равновозможны, <code>P(A) = число подходящих исходов / число всех исходов</code>.</p></div>
+            <div class="theory-item"><strong>Графики и утверждения</strong><p>На графике внимательно читай шкалу и координаты. В логических задачах проверяй каждое утверждение отдельно на приведённых условиях.</p></div>
+            <div class="theory-topic-links"><button type="button" data-topic-number="3">№3 · Таблицы</button><button type="button" data-topic-number="5">№5 · Вероятность</button><button type="button" data-topic-number="7">№7 · Графики</button><button type="button" data-topic-number="8">№8 · Логика</button></div>
+          </article>
+          <article class="theory-card">
+            <div class="theory-card-heading"><span class="theory-icon theory-blue">△</span><div><span class="theory-range">ЗАДАНИЯ №9–13, 21</span><h3>Геометрия и пространственное мышление</h3></div></div>
+            <div class="theory-item"><strong>Площади и периметры</strong><p>Прямоугольник: <code>S = a · b</code>. Треугольник: <code>S = a · h / 2</code>. Периметр — сумма длин всех сторон.</p></div>
+            <div class="theory-item"><strong>Теорема Пифагора</strong><p>В прямоугольном треугольнике квадрат гипотенузы равен сумме квадратов катетов: <code>c² = a² + b²</code>.</p></div>
+            <div class="theory-item"><strong>Чертёж — часть решения</strong><p>Подпиши известные длины, проверь, что именно изображено, и не смешивай площадь с длиной или объёмом. На клетчатой сетке используй площадь одной клетки.</p></div>
+            <div class="theory-topic-links"><button type="button" data-topic-number="9">№9 · Сетка</button><button type="button" data-topic-number="10">№10 · Геометрия</button><button type="button" data-topic-number="11">№11 · Объёмы</button><button type="button" data-topic-number="12">№12 · Планиметрия</button><button type="button" data-topic-number="13">№13 · Стереометрия</button><button type="button" data-topic-number="21">№21 · Рассуждения</button></div>
+          </article>
+        </div>
+        <p class="theory-note">Это краткие авторские конспекты для повторения, а не замена полному учебнику. Формулировки и требования к экзамену сверяй с актуальными материалами ФИПИ.</p>
+      </section>
+
       <section class="bottom-section" id="about">
         <div class="bottom-copy"><span class="section-kicker">УЧИСЬ В СВОЁМ РИТМЕ</span><h2>Не просто ответ.<br><span>Понимание.</span></h2><p>Сначала попробуй решить сам. Если застрял — открой разбор, посмотри на ход решения и возвращайся к похожим задачам.</p></div>
         <div class="feature-list"><article class="feature-row"><span class="feature-number">01</span><div><h3>Решай самостоятельно</h3><p>Вводи короткий ответ и сразу проверяй себя.</p></div><span class="feature-symbol">⌁</span></article><article class="feature-row"><span class="feature-number">02</span><div><h3>Понимай ход решения</h3><p>Разбор и типичные ошибки доступны по кнопке.</p></div><span class="feature-symbol">∑</span></article><article class="feature-row"><span class="feature-number">03</span><div><h3>Видь свой прогресс</h3><p>Отмеченные задания остаются в браузере.</p></div><span class="feature-symbol">↗</span></article></div>
       </section>
 
       <section class="resources-section" id="sources" aria-labelledby="sources-heading">
-        <div class="resources-heading"><div><span class="section-kicker">ОФИЦИАЛЬНЫЕ МАТЕРИАЛЫ</span><h2 id="sources-heading">Сверяйся с источниками ФИПИ</h2></div><p>Можно открыть случайный пример задания из рекомендованного навигатора ФИПИ 2026 года. Официальный текст открывается на сайте ФИПИ.</p></div>
+        <div class="resources-heading"><div><span class="section-kicker">ОФИЦИАЛЬНЫЕ МАТЕРИАЛЫ</span><h2 id="sources-heading">Сверяйся с источниками ФИПИ</h2><p>Официальные примеры и документы хранятся отдельно от авторской базы ЕГЭ+.</p></div><div class="resources-heading-actions"><p>Открой случайный пример по соответствующей теме или перейди в официальный открытый банк.</p><button class="secondary-button fipi-button" id="random-fipi-task-button" type="button">Случайный пример ФИПИ ↗</button></div></div>
         <div class="resource-grid">
           <a class="resource-card" href="https://ege.fipi.ru/bank/" target="_blank" rel="noopener noreferrer"><span class="resource-icon">↗</span><span class="resource-card-title">Открытый банк заданий ЕГЭ</span><span class="resource-card-copy">Официальный банк заданий ФИПИ</span><span class="resource-link">Открыть банк →</span></a>
           <a class="resource-card" href="https://doc.fipi.ru/navigator-podgotovki/navigator-ege/2026/Mat_baz_2_praktik.pdf" target="_blank" rel="noopener noreferrer"><span class="resource-icon">⌁</span><span class="resource-card-title">Навигатор ФИПИ · база</span><span class="resource-card-copy">Рекомендованные задачи по практической математике на 2026 год</span><span class="resource-link">Открыть PDF →</span></a>

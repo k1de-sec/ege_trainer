@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ege-trainer-web-v5';
+const CACHE_NAME = 'ege-trainer-web-v7';
 const APP_SHELL = ['./', './index.html', './styles.css', './app.js', './tasks_data.json', './fipi_links.json', './manifest.webmanifest', './favicon.svg'];
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));

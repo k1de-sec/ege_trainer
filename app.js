@@ -7,13 +7,13 @@
   const $ = (selector) => document.querySelector(selector);
   const el = {
     taskList: $('#task-list'), taskContent: $('#task-content'), search: $('#task-search'),
-    typeFilter: $('#type-filter'), topicModeSelect: $('#topic-mode-select'),
+    typeFilter: $('#type-filter'), topicModeSelect: $('#topic-mode-select'), topicGroupGrid: $('#topic-group-grid'),
     startTopicPracticeButton: $('#start-topic-practice-button'), listCount: $('#list-count'), statTotal: $('#stat-total'),
     statDone: $('#stat-done'), statPercent: $('#stat-percent'), progressFraction: $('#progress-fraction'),
     progressBar: $('#progress-bar'), resetProgress: $('#reset-progress'), resetDialog: $('#reset-dialog'),
     confirmReset: $('#confirm-reset'), continueButton: $('#continue-button'), toast: $('#toast'),
     statDoneLabel: $('#stat-done-label'), statTotalLabel: $('#stat-total-label'),
-    allTasksButton: $('#all-tasks-button'), randomSetButton: $('#random-set-button'),
+    allTasksButton: $('#all-tasks-button'), randomSetButton: $('#random-set-button'), startWarmupButton: $('#start-warmup-button'),
     randomFipiTaskButton: $('#random-fipi-task-button'),
     startExamButton: $('#start-exam-button'), examStatus: $('#exam-status'),
     examTimer: $('#exam-timer'), examTimerTrack: $('#exam-timer-track'),
@@ -68,18 +68,50 @@
     })[char]);
   }
 
+  function renderMathExpression(source) {
+    // Our task bank uses a small, well-defined subset of LaTeX. Render it locally so
+    // formulas do not leak commands such as \cdot or \frac into the explanation.
+    let math = escapeHtml(source);
+    const symbols = {
+      '\\cdot': ' · ', '\\times': ' × ', '\\div': '÷', '\\pm': '±',
+      '\\leq': '≤', '\\le': '≤', '\\geq': '≥', '\\ge': '≥',
+      '\\neq': '≠', '\\approx': '≈', '\\infty': '∞', '\\pi': 'π',
+      '\\to': '→', '\\Rightarrow': '⇒', '\\%': '%', '\\,': ' ', '\\;': ' '
+    };
+    for (const [command, glyph] of Object.entries(symbols)) math = math.replaceAll(command, glyph);
+    math = math.replace(/\\left\b|\\right\b/g, '');
+    math = math.replace(/\\operatorname\s*\{([^{}]*)\}/g, '$1');
+    math = math.replace(/([A-Za-z0-9)])\^([0-9]+)/g, '$1<sup>$2</sup>');
+    math = math.replace(/([A-Za-z)])_\{([^{}]+)\}/g, '$1<sub>$2</sub>');
+    math = math.replace(/\\sqrt\s*\{([^{}]+)\}/g, '√($1)');
+    math = math.replace(/\\sqrt\s*([0-9]+)/g, '√($1)');
+    math = math.replace(/\\frac\s*\{([^{}]+)\}\s*\{([^{}]+)\}/g, '<span class="math-fraction"><span class="math-numerator">$1</span><span class="math-denominator">$2</span></span>');
+    math = math.replace(/\\frac\s*(\d)\s*(\d)/g, '<span class="math-fraction"><span class="math-numerator">$1</span><span class="math-denominator">$2</span></span>');
+    math = math.replace(/\\text\s*\{([^{}]*)\}/g, '$1');
+    return math;
+  }
+
   function inlineMarkdown(value) {
-    let text = escapeHtml(value);
+    const mathParts = [];
+    const protectedSource = String(value ?? '').replace(/\\\((.+?)\\\)|\\\[([\s\S]+?)\\\]/g, (_match, inline, display) => {
+      const index = mathParts.push(renderMathExpression(inline ?? display)) - 1;
+      return `MATHPROTECTED${index}TOKEN`;
+    });
+    let text = escapeHtml(protectedSource);
     text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
     text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
-    text = text.replace(/\\\((.+?)\\\)/g, '<span class="math-inline">$1</span>');
-    text = text.replace(/\\\[(.+?)\\\]/g, '<span class="math-inline">$1</span>');
+    text = text.replace(/MATHPROTECTED(\d+)TOKEN/g, (_match, index) => `<span class="math-inline">${mathParts[Number(index)] ?? ''}</span>`);
     return text;
   }
 
   function renderMarkdown(source) {
-    const lines = String(source ?? '').replace(/\r/g, '').split('\n');
+    // A few early task records stored paragraph breaks as the literal two-character
+    // sequence \\n instead of real newlines. Restore those only before Markdown
+    // boundaries so LaTeX commands such as \\neq remain intact.
+    const normalizedSource = String(source ?? '').replace(/\r/g, '')
+      .replace(/\\n(?=\\n|\s*(?:\*\*|#{1,3}\s|[-*+]\s|\d+[.)]\s|>))/g, '\n');
+    const lines = normalizedSource.split('\n');
     const out = [];
     let i = 0;
     while (i < lines.length) {
@@ -135,6 +167,27 @@
     return [...tasks].sort((a, b) => Number(a.taskNumber) - Number(b.taskNumber) || Number(a.variantIndex || 1) - Number(b.variantIndex || 1));
   }
 
+  const TOPIC_GROUPS = [
+    { title: 'Практические и текстовые задачи', description: 'Покупки, величины, формулы и движение.', icon: '↗', className: 'topic-group-practical', numbers: [1, 2, 4, 6, 20] },
+    { title: 'Данные, графики и вероятность', description: 'Таблицы, диаграммы, события и логические утверждения.', icon: '▤', className: 'topic-group-data', numbers: [3, 5, 7, 8] },
+    { title: 'Геометрия и пространственное мышление', description: 'Клетчатая сетка, площади, объёмы и геометрические выводы.', icon: '△', className: 'topic-group-geometry', numbers: [9, 10, 11, 12, 13, 21] },
+    { title: 'Числа, вычисления и алгебра', description: 'Действия, проценты, выражения, уравнения и свойства чисел.', icon: '∑', className: 'topic-group-algebra', numbers: [14, 15, 16, 17, 18, 19] }
+  ];
+
+  function renderTopicGroups() {
+    if (!el.topicGroupGrid) return;
+    el.topicGroupGrid.innerHTML = TOPIC_GROUPS.map((group, groupIndex) => {
+      const availableTopics = group.numbers.map((number) => {
+        const tasks = state.bankTasks.filter((task) => Number(task.taskNumber) === number);
+        if (!tasks.length) return '';
+        const first = tasks[0];
+        return `<button type="button" class="topic-variant-row" data-topic-number="${number}" aria-label="Открыть варианты задания ${number}: ${escapeHtml(first.taskType || first.title)}"><span class="topic-number-badge">№${number}</span><span class="topic-row-copy"><strong>${escapeHtml(first.taskType || first.title)}</strong><small>${escapeHtml(first.title)}</small></span><span class="topic-variant-count">${tasks.length} вар.</span><span class="topic-row-arrow" aria-hidden="true">→</span></button>`;
+      }).filter(Boolean).join('');
+      const count = group.numbers.reduce((sum, number) => sum + state.bankTasks.filter((task) => Number(task.taskNumber) === number).length, 0);
+      return `<details class="topic-group-card ${group.className}" ${groupIndex === 0 ? 'open' : ''}><summary><span class="topic-group-icon">${group.icon}</span><span class="topic-group-heading"><strong>${escapeHtml(group.title)}</strong><small>${escapeHtml(group.description)}</small></span><span class="topic-group-count">${group.numbers.length} тем · ${count} задач</span><span class="topic-group-chevron" aria-hidden="true">⌄</span></summary><div class="topic-variant-list">${availableTopics}</div></details>`;
+    }).join('');
+  }
+
   function toast(message) {
     el.toast.textContent = message;
     el.toast.classList.add('show');
@@ -154,7 +207,7 @@
     el.statPercent.textContent = `${percent}%`;
     el.progressFraction.textContent = `${done} / ${total}`;
     el.progressBar.style.width = `${percent}%`;
-    if (el.statTotalLabel) el.statTotalLabel.textContent = state.mode === 'catalog' ? 'заданий в базе' : state.mode === 'exam' ? 'заданий в варианте' : state.mode === 'topic' ? 'вариантов в отработке' : 'заданий в подборке';
+    if (el.statTotalLabel) el.statTotalLabel.textContent = state.mode === 'catalog' ? 'заданий в базе' : state.mode === 'exam' ? 'заданий в варианте' : state.mode === 'topic' ? 'вариантов в отработке' : state.mode === 'warmup' ? 'заданий в разминке' : 'заданий в подборке';
     if (el.statDoneLabel) el.statDoneLabel.textContent = isExam ? 'ответов сохранено' : 'решено верно';
     const selected = state.tasks.find((task) => task.externalId === state.currentId);
     if (selected) {
@@ -207,6 +260,7 @@
     if (el.randomFipiTaskButton) el.randomFipiTaskButton.disabled = isExam;
     if (el.startExamButton) el.startExamButton.disabled = isExam;
     if (el.startTopicPracticeButton) el.startTopicPracticeButton.disabled = isExam;
+    if (el.startWarmupButton) el.startWarmupButton.disabled = isExam;
     if (el.topicModeSelect) el.topicModeSelect.disabled = isExam;
     if (el.search) el.search.disabled = isExam;
     if (el.typeFilter) el.typeFilter.disabled = isExam;
@@ -218,7 +272,9 @@
           ? `Отработка по типу «${activeType}»: ${state.tasks.length} авторских вариантов одного типа, без таймера.`
           : state.mode === 'collection'
             ? 'Смешанная авторская подборка: по одному заданию каждого из 21 типов, без таймера.'
-            : `В базе ${state.bankTasks.length} авторских задач — по ${Math.floor(state.bankTasks.length / 21)} на каждый номер. Официальные примеры ФИПИ открываются отдельно.`;
+            : state.mode === 'warmup'
+              ? 'Короткая разминка: 5 случайных авторских задач из разных типов, без таймера.'
+              : `В базе ${state.bankTasks.length} авторских задач — по ${Math.floor(state.bankTasks.length / 21)} на каждый номер. Официальные примеры ФИПИ открываются отдельно.`;
     }
     if (!isExam) stopTimer();
     updateStats();
@@ -255,7 +311,7 @@
       : `<div class="task-actions task-actions-with-source"><div class="task-action-links"><button class="link-button" id="toggle-solution" type="button"><span aria-hidden="true">${state.solutionOpen ? '⌃' : '⊕'}</span>${state.solutionOpen ? 'Скрыть разбор' : 'Посмотреть разбор'}</button><button class="link-button fipi-task-link" id="open-fipi-task" type="button">Пример ФИПИ №${escapeHtml(task.taskNumber)} ↗</button></div><div class="nav-buttons"><button class="secondary-button" id="prev-task" type="button" ${index <= 0 ? 'disabled' : ''}>← Назад</button><button class="next-button" id="next-task" type="button">${index >= state.tasks.length - 1 ? 'К началу' : 'Следующее'} →</button></div></div>`;
     const solutionPanel = isExam ? '' : `<section class="solution-panel${state.solutionOpen ? ' open' : ''}" id="solution-panel" aria-label="Разбор решения"><div class="solution-header"><span class="solution-badge">ƒx</span><h3>Разбор решения</h3></div><div class="solution-body">${renderMarkdown(explanation)}</div><div class="answer-reveal"><span>Правильный ответ</span><strong>${escapeHtml(task.correctAnswer)}</strong></div>${mistakes.length ? `<div class="mistakes"><div class="mistakes-title">На что обратить внимание</div><ul>${mistakes.map((mistake) => `<li>${escapeHtml(mistake)}</li>`).join('')}</ul></div>` : ''}</section>`;
     el.taskContent.innerHTML = `
-      <div class="task-top"><div class="task-breadcrumb">Математика (база) <span>›</span> <b>Задание ${escapeHtml(task.taskNumber)}</b></div><span class="task-status${solved && !isExam ? ' done' : ''}">${isExam ? `Авторский вариант · ${index + 1} из ${state.tasks.length}` : state.mode === 'topic' ? `Отработка типа · ${index + 1} из ${state.tasks.length}` : state.mode === 'collection' ? `Смешанная подборка · ${index + 1} из ${state.tasks.length}` : solved ? '✓ Решено верно' : `База · ${index + 1} из ${state.tasks.length}`}</span></div>
+      <div class="task-top"><div class="task-breadcrumb">Математика (база) <span>›</span> <b>Задание ${escapeHtml(task.taskNumber)}</b></div><span class="task-status${solved && !isExam ? ' done' : ''}">${isExam ? `Авторский вариант · ${index + 1} из ${state.tasks.length}` : state.mode === 'topic' ? `Отработка типа · ${index + 1} из ${state.tasks.length}` : state.mode === 'collection' ? `Смешанная подборка · ${index + 1} из ${state.tasks.length}` : state.mode === 'warmup' ? `Разминка · ${index + 1} из ${state.tasks.length}` : solved ? '✓ Решено верно' : `База · ${index + 1} из ${state.tasks.length}`}</span></div>
       <h2 class="task-title">${escapeHtml(task.title)}</h2>
       <div class="task-topic"><span class="topic-dot"></span>${escapeHtml(task.taskType || 'Тренировочное задание')} <span class="source-chip">${escapeHtml(statementType)}</span></div>
       <div class="task-statement">${renderMarkdown(task.statement)}</div>
@@ -443,7 +499,7 @@
     if (!confirmLeaveExam()) return;
     const chosenType = el.topicModeSelect?.value || '';
     if (!chosenType) {
-      toast('Сначала выбери тип задания в карточке «Отработка по типу».');
+      toast('Сначала выбери тип в разделе «Темы и варианты».');
       el.topicModeSelect?.focus();
       return;
     }
@@ -456,12 +512,38 @@
     setTaskCollection(tasks, 'topic', `Отработка по типу «${chosenType}»: найдено ${tasks.length} авторских вариантов без таймера.`);
   }
 
+  function startWarmup() {
+    if (!confirmLeaveExam()) return;
+    // First pick one random task for every exam number; then take five distinct numbers.
+    const pool = randomTasksByNumber();
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    const tasks = pool.slice(0, Math.min(5, pool.length));
+    if (!tasks.length) return;
+    state.examAnswers = {};
+    setTaskCollection(tasks, 'warmup', 'Готова короткая разминка: 5 случайных задач разных типов, без таймера.');
+  }
+
   function startRandomCollection() {
     if (!confirmLeaveExam()) return;
     const tasks = randomTasksByNumber();
     if (tasks.length !== 21) return;
     state.examAnswers = {};
     setTaskCollection(tasks, 'collection', 'Готова смешанная авторская подборка: 21 задание разных типов, без таймера.');
+  }
+
+  function startTopicPracticeByNumber(taskNumber) {
+    if (!confirmLeaveExam()) return;
+    const tasks = state.bankTasks.filter((task) => Number(task.taskNumber) === Number(taskNumber));
+    if (!tasks.length) {
+      toast(`Для задания №${taskNumber} пока нет тренировочных вариантов.`);
+      return;
+    }
+    if (el.topicModeSelect && tasks[0].taskType) el.topicModeSelect.value = tasks[0].taskType;
+    state.examAnswers = {};
+    setTaskCollection(tasks, 'topic', `Отработка задания №${taskNumber}: ${tasks.length} авторских вариантов без таймера.`);
   }
 
   function startExam() {
@@ -549,6 +631,14 @@
     el.allTasksButton?.addEventListener('click', showAllTasks);
     el.startTopicPracticeButton?.addEventListener('click', startTopicPractice);
     el.randomSetButton?.addEventListener('click', startRandomCollection);
+    el.startWarmupButton?.addEventListener('click', startWarmup);
+    document.addEventListener('click', (event) => {
+      const topicButton = event.target.closest('[data-topic-number]');
+      if (topicButton) startTopicPracticeByNumber(Number(topicButton.dataset.topicNumber));
+    });
+    document.querySelectorAll('.topnav .nav-link').forEach((link) => link.addEventListener('click', () => {
+      document.querySelectorAll('.topnav .nav-link').forEach((item) => item.classList.toggle('active', item === link));
+    }));
     el.randomFipiTaskButton?.addEventListener('click', openRandomFipiTask);
     el.startExamButton?.addEventListener('click', startExam);
     el.finishExamButton?.addEventListener('click', () => requestFinishExam(false));
@@ -592,13 +682,14 @@
         const restoredTasks = state.restoreSession.activeTaskIds.map((id) => state.bankTasks.find((task) => task.externalId === id)).filter(Boolean);
         if (restoredTasks.length && (state.restoreSession.mode !== 'exam' || restoredTasks.length === 21)) {
           state.tasks = sortTasks(restoredTasks);
-          state.mode = ['exam', 'collection', 'topic'].includes(state.restoreSession.mode) ? state.restoreSession.mode : 'collection';
+          state.mode = ['exam', 'collection', 'topic', 'warmup'].includes(state.restoreSession.mode) ? state.restoreSession.mode : 'collection';
           state.examEndAt = state.mode === 'exam' ? state.restoreSession.examEndAt : null;
         }
       }
       if (!state.tasks.some((task) => task.externalId === state.currentId)) state.currentId = state.tasks[0].externalId;
       if (!state.tasks.length) state.tasks = state.bankTasks;
       populateFilters();
+      renderTopicGroups();
       if (state.mode === 'topic' && el.topicModeSelect && state.tasks[0]?.taskType) el.topicModeSelect.value = state.tasks[0].taskType;
       updateModeUI(); renderTaskList(); renderCurrentTask(); saveProgress();
       if (state.mode === 'exam') {
