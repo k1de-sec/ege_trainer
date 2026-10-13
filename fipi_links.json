@@ -93,7 +93,28 @@
         "B4BC07",
         "DC1540",
         "D257B9",
-        "93F541"
+        "93F541",
+        "93A088"
+      ],
+      "navigator": "https://doc.fipi.ru/navigator-podgotovki/navigator-ege/2026/Mat_baz_3_algebra.pdf"
+    },
+    "6": {
+      "title": "Наилучший выбор",
+      "questionIds": [
+        "2E93F0",
+        "F39F45",
+        "5E7248",
+        "8E364E",
+        "5CA40A",
+        "9FC941",
+        "E67546",
+        "B606F6",
+        "F0A770",
+        "FD7B20",
+        "4E9D55",
+        "8CD647",
+        "F2AB01",
+        "1E7105"
       ],
       "navigator": "https://doc.fipi.ru/navigator-podgotovki/navigator-ege/2026/Mat_baz_3_algebra.pdf"
     },
@@ -105,7 +126,12 @@
         "BFE34E",
         "DF5BEB",
         "DA1710",
-        "E91CF1"
+        "E91CF1",
+        "BD1CCD",
+        "19D640",
+        "5D1348",
+        "C16C4B",
+        "F95BA3"
       ],
       "navigator": "https://doc.fipi.ru/navigator-podgotovki/navigator-ege/2026/Mat_baz_1_Chisla.pdf"
     },
@@ -226,7 +252,26 @@
         "00511A"
       ],
       "navigator": "https://doc.fipi.ru/navigator-podgotovki/navigator-ege/2026/Mat_baz_1_Chisla.pdf"
+    },
+    "19": {
+      "title": "Свойства чисел",
+      "questionIds": [
+        "444DF0",
+        "90224A",
+        "48DCF4",
+        "DBE441",
+        "E28E42",
+        "1745FB",
+        "7FB7F4",
+        "2AFD45",
+        "21D3F4",
+        "6C90F0",
+        "3A31F8",
+        "1DF008",
+        "D6BE05"
+      ],
+      "navigator": "https://doc.fipi.ru/navigator-podgotovki/navigator-ege/2026/Mat_baz_3_algebra.pdf"
     }
   },
-  "methodNotes": "Прямые questionId взяты из рекомендованных наборов в навигаторах самостоятельной подготовки ФИПИ по базовой математике ЕГЭ-2026. Для номеров, которых нет в этих списках, используется общий официальный банк заданий. Сайт не копирует содержание заданий и не заявляет об автоматической синхронизации банка."
+  "methodNotes": "Прямые questionId сверены с рекомендованными наборами в официальных навигаторах самостоятельной подготовки ФИПИ по базовой математике ЕГЭ-2026: Mat_baz_1_Chisla.pdf, Mat_baz_2_praktik.pdf и Mat_baz_3_algebra.pdf. Подборка содержит только те группы заданий, для которых в этих навигаторах перечислены прямые questionId (сейчас 14 групп, 180 уникальных прямых ссылок). Она не объявляется полным банком и не заменяет полный открытый вариант КИМ. Для полного оригинального варианта дана отдельная ссылка ФИПИ. Сайт не копирует содержание заданий и не заявляет об автоматической синхронизации банка."
 }

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#111827" name="theme-color"/>
+<meta content="Каталог типов заданий базовой математики ЕГЭ+, варианты для тренировки и прямые переходы к оригинальным примерам ФИПИ." name="description"/>
+<title>Темы и варианты — ЕГЭ+</title>
+<link href="./favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="./manifest.webmanifest" rel="manifest"/>
+<link href="./styles.css" rel="stylesheet"/>
+<script defer="" src="./app.js"></script>
+</head>
+<body data-page="topics">
+<div class="app-shell">
+<header class="topbar">
+<a aria-label="Тренажёр ЕГЭ — главная" class="brand" href="./index.html">
+<span aria-hidden="true" class="brand-mark"><span></span><span></span><span></span></span>
+<span class="brand-copy"><strong>егэ<span>+</span></strong><small>тренажёр</small></span>
+</a>
+<nav aria-label="Основная навигация" class="topnav">
+<a class="nav-link" data-nav-page="home" href="./index.html">Главная</a>
+<a aria-current="page" class="nav-link active" data-nav-page="topics" href="./topics.html">Темы и варианты</a>
+<a class="nav-link" data-nav-page="study" href="./self-study.html">Самоподготовка</a>
+<a class="nav-link" data-nav-page="theory" href="./theory.html">Теория</a>
+<a class="nav-link" data-nav-page="official" href="./official.html">Источники</a>
+</nav>
+<div class="topbar-right">
+<span class="saved-status"><span class="status-dot"></span> Прогресс сохранён</span>
+<button aria-label="Сбросить прогресс" class="icon-button" id="reset-progress" title="Сбросить прогресс" type="button">↺</button>
+</div>
+</header>
+<main><section aria-labelledby="route-topics-title" class="route-intro route-intro-topics">
+<div><span class="section-kicker">КАТАЛОГ ПОДГОТОВКИ</span><h1 id="route-topics-title">Темы и варианты</h1><p>Выбирай номер задания, изучай связанные темы и переходи к упражнениям именно этого типа.</p></div>
+<a class="route-intro-link" href="./official.html">Нужны исходные задания? Открыть официальные источники ФИПИ ↗</a>
+</section>
+<section aria-labelledby="official-topic-source-heading" class="official-topic-source" id="official-topic-source">
+<div class="official-topic-source-heading">
+<div><span class="section-kicker">ОРИГИНАЛЫ, А НЕ ПЕРЕСКАЗЫ</span><h2 id="official-topic-source-heading">Оригинальные задания ФИПИ</h2><p>Нажми на пример — откроется исходное задание в официальном банке ФИПИ. Мы не заменяем условие своими числами и не рисуем упрощённую версию: оригинальные формулировки и рисунки остаются у источника.</p></div>
+<div class="official-topic-source-actions"><a class="primary-button" href="https://ege.fipi.ru/bank/index.php?proj=E040A72A1A3DABA14C90C97E0B6EE7DC8" rel="noopener noreferrer" target="_blank">Открыть банк ФИПИ ↗</a><a class="secondary-button" href="https://doc.fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege/2026/Mat_1_ege2026.zip" rel="noopener noreferrer" target="_blank">Полный открытый вариант КИМ · 2026 ↗</a></div>
+</div>
+<div class="official-topic-source-meta"><span class="source-dot"></span><span>Подборка по навигаторам ФИПИ-2026: каждая ссылка открывает оригинальный пример. Для полного варианта из всех заданий используй архив КИМ выше.</span></div>
+<div class="official-task-links" id="official-task-links-topics"><div class="loading-placeholder">Загружаем прямые ссылки на оригинальные задания…</div></div>
+<p class="official-topic-source-footnote">Ниже отдельно расположены авторские упражнения ЕГЭ+ для самоподготовки. Они не являются официальными заданиями ФИПИ и не подменяют оригинальный вариант.</p>
+</section>
+<section aria-label="Статистика тренировки" class="stats-grid">
+<article class="stat-card"><div class="stat-icon icon-purple">▦</div><div><div class="stat-number" id="stat-total">441</div><div class="stat-label" id="stat-total-label">авторских упражнений</div></div><span class="stat-note">БАЗА</span></article>
+<article class="stat-card"><div class="stat-icon icon-green">✓</div><div><div class="stat-number" id="stat-done">0</div><div class="stat-label" id="stat-done-label">решено верно</div></div><span class="stat-note positive" id="stat-percent">0%</span></article>
+<article class="stat-card progress-stat"><div class="stat-icon icon-orange">↗</div><div class="progress-copy"><div class="progress-title"><span>Твой прогресс</span><strong id="progress-fraction">0 / 21</strong></div><div class="progress-track"><span id="progress-bar"></span></div><div class="progress-subtitle">Каждое задание приближает к цели</div></div></article>
+</section>
+<section aria-labelledby="topics-variants-heading" class="topic-browser-section" id="topics-variants">
+<div class="section-heading">
+<div><span class="section-kicker">АВТОРСКАЯ ТРЕНИРОВКА</span><h2 id="topics-variants-heading">Отрабатывай тему отдельно</h2></div>
+<p>Здесь — дополнительные упражнения ЕГЭ+, написанные для тренировки и сгруппированные по темам. Это не оригинальные тексты ФИПИ. Для подлинных условий используй блок оригиналов выше.</p>
+</div>
+<div aria-label="Группы тем" class="topic-group-grid" id="topic-group-grid">
+<div class="loading-placeholder">Загружаем темы…</div>
+</div>
+<div class="topic-picker-panel">
+<div class="topic-picker-copy"><strong>Знаешь номер задания?</strong><span>Выбери тип напрямую и открой все доступные варианты.</span></div>
+<div class="topic-picker-controls">
+<label class="visually-hidden" for="topic-mode-select">Тип задания</label>
+<select class="topic-mode-select" id="topic-mode-select"><option value="">Выбери тип задания</option></select>
+<button class="primary-button" id="start-topic-practice-button" type="button">Открыть варианты →</button>
+<button class="secondary-button" id="all-tasks-button" type="button">Весь банк</button>
+</div>
+</div>
+</section>
+<aside class="task-source-notice" role="note">
+<span class="source-notice-icon">i</span>
+<div><strong>Важно об источниках</strong><p>Банк ниже — авторские упражнения ЕГЭ+ для дополнительной тренировки. Они не заменяют оригинальные задания и не являются официальным КИМ. Для точного условия, всех рисунков и формулировок открой соответствующий пример в ФИПИ выше или перейди в <a href="./official.html">официальные источники</a>.</p></div>
+</aside>
+<section aria-labelledby="topic-workspace-heading" class="workspace" id="topic-workspace">
+<div class="workspace-section-heading"><div><span class="section-kicker">АВТОРСКИЕ УПРАЖНЕНИЯ ЕГЭ+</span><h2 id="topic-workspace-heading">Решай и разбирай</h2></div><p>Выбери упражнение слева, введи краткий ответ и открой разбор после попытки. Официальные задания открываются в первоисточнике.</p></div>
+<aside class="task-sidebar">
+<div class="sidebar-heading"><div><span class="section-kicker">ТВОЙ МАРШРУТ</span><h2>Задания</h2></div><span class="task-count" id="list-count">21</span></div>
+<div aria-label="Выбор уровня" class="subject-tabs" role="group">
+<button aria-pressed="true" class="subject-tab selected" type="button">База</button>
+<button aria-pressed="false" class="subject-tab" disabled="" title="Профильный раздел появится позже" type="button">Профиль <span class="soon-label">скоро</span></button>
+</div>
+<label class="search-box"><span aria-hidden="true">⌕</span><input aria-label="Найти задание" id="task-search" placeholder="Найти задание..." type="search"/></label>
+<div class="filter-row"><label for="type-filter">ТЕМА</label><select id="type-filter"><option value="all">Все темы</option></select></div>
+<div aria-label="Список заданий" class="task-list" id="task-list"><div class="loading-placeholder">Загружаю задания…</div></div>
+<div class="sidebar-foot"><span class="sidebar-check">✓</span><span>Твои ответы никуда не отправляются</span></div>
+</aside>
+<section aria-live="polite" class="practice-panel">
+<div class="task-content" id="task-content">
+<div class="loading-state"><div class="loader"></div><p>Загружаем тренировку</p></div>
+</div>
+</section>
+</section>
+</main>
+<footer class="footer"><a class="footer-brand" href="./index.html">егэ<span>+</span></a><span>Тренажёр для самостоятельной подготовки</span><span class="footer-disclaimer">Авторские задания · ссылки на официальные материалы ФИПИ</span></footer>
+</div>
+<div aria-live="polite" class="toast" id="toast" role="status"></div>
+<dialog class="confirm-dialog" id="reset-dialog"><form method="dialog"><div class="dialog-icon">↺</div><h2>Сбросить прогресс?</h2><p>Все сохранённые отметки о решённых заданиях будут удалены из этого браузера.</p><div class="dialog-actions"><button class="secondary-button" value="cancel">Оставить</button><button class="danger-button" id="confirm-reset" value="confirm">Сбросить</button></div></form></dialog>
+<dialog aria-labelledby="exam-result-heading" class="confirm-dialog exam-result-dialog" id="exam-result-dialog"><div id="exam-result-content"></div></dialog>
+</body>
+</html>

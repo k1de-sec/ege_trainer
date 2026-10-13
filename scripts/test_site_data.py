@@ -28,6 +28,7 @@ assert project == "E040A72A1A3DABA14C90C97E0B6EE7DC8"
 assert FIPI.get("bankUrl", "").startswith("https://ege.fipi.ru/")
 assert FIPI.get("officialBankInfoUrl", "").startswith("https://fipi.ru/")
 assert FIPI.get("topics"), "No official FIPI links configured"
+assert set(['1','2','3','4','5','6','7','8','14','15','16','17','18','19']).issubset(set(FIPI['topics'])), 'Missing task groups listed in FIPI 2026 base-math navigators'
 for number, info in FIPI["topics"].items():
     assert 1 <= int(number) <= 21, number
     assert info.get("title")
@@ -43,4 +44,7 @@ for number, info in FIPI["topics"].items():
         assert "ege.fipi.ru/bank/index.php" in url
 
 print(f"PASS: {len(basic)} basic tasks, 21 variants per number and task type, unique IDs, answers and explanations present.")
-print(f"PASS: {sum(len(v['questionIds']) for v in FIPI['topics'].values())} official navigator example IDs mapped across {len(FIPI['topics'])} task numbers.")
+official_qids = [qid for v in FIPI['topics'].values() for qid in v['questionIds']]
+assert len(official_qids) == 180, f'Expected 180 direct FIPI examples from verified navigator sets, found {len(official_qids)}'
+assert len(set(official_qids)) == len(official_qids), 'Duplicate official FIPI QID in configured set'
+print(f"PASS: {len(official_qids)} direct official FIPI examples mapped across {len(FIPI['topics'])} navigator task groups.")

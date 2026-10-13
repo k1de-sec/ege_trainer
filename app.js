@@ -2,6 +2,7 @@
   'use strict';
   const DATA_URL = './tasks_data.json';
   const FIPI_LINKS_URL = './fipi_links.json';
+  const PAGE = document.body.dataset.page || 'home';
   const STORAGE_KEY = 'ege-trainer-progress-v2';
   const EXAM_SECONDS = 180 * 60;
   const $ = (selector) => document.querySelector(selector);
@@ -189,10 +190,11 @@
   }
 
   function toast(message) {
+    if (!el.toast) return;
     el.toast.textContent = message;
     el.toast.classList.add('show');
     clearTimeout(state.toastTimer);
-    state.toastTimer = setTimeout(() => el.toast.classList.remove('show'), 2800);
+    state.toastTimer = setTimeout(() => el.toast?.classList.remove('show'), 2800);
   }
 
   function updateStats() {
@@ -202,12 +204,12 @@
       ? state.tasks.filter((task) => String(state.examAnswers[task.externalId] ?? '').trim()).length
       : state.tasks.filter((task) => state.solved.has(task.externalId)).length;
     const percent = total ? Math.round(done / total * 100) : 0;
-    el.statTotal.textContent = String(total);
-    el.statDone.textContent = String(done);
-    el.statPercent.textContent = `${percent}%`;
-    el.progressFraction.textContent = `${done} / ${total}`;
-    el.progressBar.style.width = `${percent}%`;
-    if (el.statTotalLabel) el.statTotalLabel.textContent = state.mode === 'catalog' ? 'заданий в базе' : state.mode === 'exam' ? 'заданий в варианте' : state.mode === 'topic' ? 'вариантов в отработке' : state.mode === 'warmup' ? 'заданий в разминке' : 'заданий в подборке';
+    if (el.statTotal) el.statTotal.textContent = String(total);
+    if (el.statDone) el.statDone.textContent = String(done);
+    if (el.statPercent) el.statPercent.textContent = `${percent}%`;
+    if (el.progressFraction) el.progressFraction.textContent = `${done} / ${total}`;
+    if (el.progressBar) el.progressBar.style.width = `${percent}%`;
+    if (el.statTotalLabel) el.statTotalLabel.textContent = state.mode === 'catalog' ? 'авторских упражнений' : state.mode === 'exam' ? 'упражнений в пробнике' : state.mode === 'topic' ? 'упражнений по типу' : state.mode === 'warmup' ? 'упражнений в разминке' : state.mode === 'review' ? 'заданий для разбора' : 'упражнений в подборке';
     if (el.statDoneLabel) el.statDoneLabel.textContent = isExam ? 'ответов сохранено' : 'решено верно';
     const selected = state.tasks.find((task) => task.externalId === state.currentId);
     if (selected) {
@@ -222,13 +224,15 @@
 
   function populateFilters() {
     const types = [...new Set(state.bankTasks.map((task) => task.taskType).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ru'));
-    el.typeFilter.innerHTML = '<option value="all">Все темы</option>' + types.map((type) => `<option value="${escapeHtml(type)}">${escapeHtml(type)}</option>`).join('');
+    if (el.typeFilter) el.typeFilter.innerHTML = '<option value="all">Все темы</option>' + types.map((type) => `<option value="${escapeHtml(type)}">${escapeHtml(type)}</option>`).join('');
     if (el.topicModeSelect) {
       el.topicModeSelect.innerHTML = '<option value="">Выбери тип задания</option>' + types.map((type) => `<option value="${escapeHtml(type)}">${escapeHtml(type)}</option>`).join('');
     }
   }
 
   function renderTaskList() {
+    // Only pages that contain a task browser render a list. Other pages stay truly separate.
+    if (!el.search || !el.typeFilter || !el.listCount || !el.taskList) return;
     const query = el.search.value.trim().toLocaleLowerCase('ru');
     const type = el.typeFilter.value;
     state.visible = state.tasks.filter((task) => {
@@ -254,6 +258,7 @@
   function updateModeUI() {
     const isExam = state.mode === 'exam';
     document.body.classList.toggle('is-exam-mode', isExam);
+    document.body.classList.toggle('has-active-session', state.mode !== 'catalog');
     if (el.examStatus) el.examStatus.hidden = !isExam;
     if (el.allTasksButton) el.allTasksButton.disabled = isExam;
     if (el.randomSetButton) el.randomSetButton.disabled = isExam;
@@ -273,8 +278,10 @@
           : state.mode === 'collection'
             ? 'Смешанная авторская подборка: по одному заданию каждого из 21 типов, без таймера.'
             : state.mode === 'warmup'
-              ? 'Короткая разминка: 5 случайных авторских задач из разных типов, без таймера.'
-              : `В базе ${state.bankTasks.length} авторских задач — по ${Math.floor(state.bankTasks.length / 21)} на каждый номер. Официальные примеры ФИПИ открываются отдельно.`;
+              ? 'Короткая разминка: 5 случайных авторских упражнений из разных типов, без таймера.'
+              : state.mode === 'review'
+                ? 'Разбор ошибки после пробного варианта. Это авторское упражнение; официальный оригинал открывается отдельно.'
+                : `Локально: ${state.bankTasks.length} авторских упражнений, по ${Math.floor(state.bankTasks.length / 21)} на каждый номер. Это не оригинальные задания ФИПИ; официальные условия открываются отдельно.`;
     }
     if (!isExam) stopTimer();
     updateStats();
@@ -292,6 +299,8 @@
   }
 
   function renderCurrentTask() {
+    // A content panel exists only on topics and self-study pages.
+    if (!el.taskContent) return;
     const task = currentTask();
     if (!task) {
       el.taskContent.innerHTML = '<div class="empty-state"><strong>Пока нет заданий</strong>Проверь файл базы данных и обнови страницу.</div>';
@@ -304,14 +313,16 @@
     const hasAnswer = task.correctAnswer !== null && task.correctAnswer !== undefined && String(task.correctAnswer).trim() !== '';
     const mistakes = Array.isArray(task.commonMistakes) ? task.commonMistakes : [];
     const explanation = task.explanation || 'Для этого задания пока не добавлен разбор.';
-    const statementType = task.sourceType === 'author_generated' ? 'Авторская вариация' : (task.sourceLabel || 'Авторская задача');
+    const statementType = task.sourceType === 'official_fipi' ? 'Оригинальное задание ФИПИ' : 'Авторское упражнение · не ФИПИ';
+    const fipiTopicInfo = state.fipiLinks?.topics?.[String(task.taskNumber)];
+    const fipiTaskButtonText = fipiTopicInfo?.questionIds?.length ? 'Открыть оригинальные примеры ФИПИ ↗' : 'Открыть банк ФИПИ ↗';
     const answerButtonText = isExam ? 'Сохранить ответ' : 'Проверить ответ';
     const taskActions = isExam
       ? `<div class="task-actions"><span class="exam-answer-note">Вариант проверится после завершения. Ответы сохраняются автоматически.</span><div class="nav-buttons"><button class="secondary-button" id="prev-task" type="button" ${index <= 0 ? 'disabled' : ''}>← Назад</button><button class="next-button" id="next-task" type="button">${index >= state.tasks.length - 1 ? 'Завершить вариант' : 'Следующее'} →</button></div></div>`
-      : `<div class="task-actions task-actions-with-source"><div class="task-action-links"><button class="link-button" id="toggle-solution" type="button"><span aria-hidden="true">${state.solutionOpen ? '⌃' : '⊕'}</span>${state.solutionOpen ? 'Скрыть разбор' : 'Посмотреть разбор'}</button><button class="link-button fipi-task-link" id="open-fipi-task" type="button">Пример ФИПИ №${escapeHtml(task.taskNumber)} ↗</button></div><div class="nav-buttons"><button class="secondary-button" id="prev-task" type="button" ${index <= 0 ? 'disabled' : ''}>← Назад</button><button class="next-button" id="next-task" type="button">${index >= state.tasks.length - 1 ? 'К началу' : 'Следующее'} →</button></div></div>`;
+      : `<div class="task-actions task-actions-with-source"><div class="task-action-links"><button class="link-button" id="toggle-solution" type="button"><span aria-hidden="true">${state.solutionOpen ? '⌃' : '⊕'}</span>${state.solutionOpen ? 'Скрыть разбор' : 'Посмотреть разбор'}</button><button class="link-button fipi-task-link" id="open-fipi-task" type="button">${fipiTaskButtonText}</button></div><div class="nav-buttons"><button class="secondary-button" id="prev-task" type="button" ${index <= 0 ? 'disabled' : ''}>← Назад</button><button class="next-button" id="next-task" type="button">${index >= state.tasks.length - 1 ? 'К началу' : 'Следующее'} →</button></div></div>`;
     const solutionPanel = isExam ? '' : `<section class="solution-panel${state.solutionOpen ? ' open' : ''}" id="solution-panel" aria-label="Разбор решения"><div class="solution-header"><span class="solution-badge">ƒx</span><h3>Разбор решения</h3></div><div class="solution-body">${renderMarkdown(explanation)}</div><div class="answer-reveal"><span>Правильный ответ</span><strong>${escapeHtml(task.correctAnswer)}</strong></div>${mistakes.length ? `<div class="mistakes"><div class="mistakes-title">На что обратить внимание</div><ul>${mistakes.map((mistake) => `<li>${escapeHtml(mistake)}</li>`).join('')}</ul></div>` : ''}</section>`;
     el.taskContent.innerHTML = `
-      <div class="task-top"><div class="task-breadcrumb">Математика (база) <span>›</span> <b>Задание ${escapeHtml(task.taskNumber)}</b></div><span class="task-status${solved && !isExam ? ' done' : ''}">${isExam ? `Авторский вариант · ${index + 1} из ${state.tasks.length}` : state.mode === 'topic' ? `Отработка типа · ${index + 1} из ${state.tasks.length}` : state.mode === 'collection' ? `Смешанная подборка · ${index + 1} из ${state.tasks.length}` : state.mode === 'warmup' ? `Разминка · ${index + 1} из ${state.tasks.length}` : solved ? '✓ Решено верно' : `База · ${index + 1} из ${state.tasks.length}`}</span></div>
+      <div class="task-top"><div class="task-breadcrumb">Математика (база) <span>›</span> <b>Задание ${escapeHtml(task.taskNumber)}</b></div><span class="task-status${solved && !isExam ? ' done' : ''}">${isExam ? `Авторский вариант · ${index + 1} из ${state.tasks.length}` : state.mode === 'topic' ? `Отработка типа · ${index + 1} из ${state.tasks.length}` : state.mode === 'collection' ? `Смешанная подборка · ${index + 1} из ${state.tasks.length}` : state.mode === 'warmup' ? `Разминка · ${index + 1} из ${state.tasks.length}` : state.mode === 'review' ? `Разбор после пробника · ${index + 1} из ${state.tasks.length}` : solved ? '✓ Решено верно' : `Авторское упражнение · ${index + 1} из ${state.tasks.length}`}</span></div>
       <h2 class="task-title">${escapeHtml(task.title)}</h2>
       <div class="task-topic"><span class="topic-dot"></span>${escapeHtml(task.taskType || 'Тренировочное задание')} <span class="source-chip">${escapeHtml(statementType)}</span></div>
       <div class="task-statement">${renderMarkdown(task.statement)}</div>
@@ -399,6 +410,22 @@
     return `https://ege.fipi.ru/bank/index.php?proj=${encodeURIComponent(projectId)}&qid=${encodeURIComponent(qid)}`;
   }
 
+  function renderOfficialTaskLinks() {
+    const hosts = document.querySelectorAll('#official-task-links, #official-task-links-topics');
+    if (!hosts.length || !state.fipiLinks?.topics) return;
+    const entries = Object.entries(state.fipiLinks.topics).sort((a, b) => Number(a[0]) - Number(b[0]));
+    const renderedGroups = entries.map(([number, info]) => {
+      const ids = (info.questionIds || []).map((qid, index) =>
+        `<a class="official-question-link" href="${escapeHtml(fipiQuestionUrl(qid))}" target="_blank" rel="noopener noreferrer"><span>Пример ${index + 1}</span><small>${escapeHtml(qid)}</small><b aria-hidden="true">↗</b></a>`
+      ).join('');
+      const navigatorLink = info.navigator ? `<a class="official-navigator-link" href="${escapeHtml(info.navigator)}" target="_blank" rel="noopener noreferrer">Навигатор ФИПИ · PDF ↗</a>` : '';
+      return `<details class="official-task-group"><summary><span class="official-task-number">№${escapeHtml(number)}</span><span class="official-task-summary"><strong>${escapeHtml(info.title || `Задание ${number}`)}</strong><small>${(info.questionIds || []).length} прямых ссылок на исходные примеры</small></span><span class="official-task-chevron">⌄</span></summary><div class="official-task-group-body"><div class="official-question-list">${ids}</div>${navigatorLink}</div></details>`;
+    }).join('');
+    hosts.forEach((host) => {
+      host.innerHTML = renderedGroups || '<div class="empty-state">Ссылки на задания пока не настроены.</div>';
+    });
+  }
+
   function openTrustedExternalUrl(url) {
     // The only URLs passed here are built from the local FIPI configuration.
     const popup = window.open(url, '_blank');
@@ -474,8 +501,8 @@
     state.examAnswers = {};
     state.currentId = state.tasks[0].externalId;
     state.solutionOpen = false;
-    el.search.value = '';
-    el.typeFilter.value = 'all';
+    if (el.search) el.search.value = '';
+    if (el.typeFilter) el.typeFilter.value = 'all';
     updateModeUI();
     renderTaskList(); renderCurrentTask(); saveProgress();
     if (mode === 'exam') startTimer();
@@ -490,7 +517,8 @@
     state.examEndAt = null;
     state.currentId = state.bankTasks.some((task) => task.externalId === state.currentId) ? state.currentId : state.bankTasks[0].externalId;
     state.solutionOpen = false;
-    el.search.value = ''; el.typeFilter.value = 'all';
+    if (el.search) el.search.value = '';
+    if (el.typeFilter) el.typeFilter.value = 'all';
     updateModeUI(); renderTaskList(); renderCurrentTask(); saveProgress();
     toast('Открыта вся база заданий.');
   }
@@ -565,7 +593,7 @@
   }
 
   function updateTimer() {
-    if (state.mode !== 'exam' || !state.examEndAt) return;
+    if (state.mode !== 'exam' || !state.examEndAt || !el.examTimer) return;
     const remaining = Math.max(0, Math.ceil((state.examEndAt - Date.now()) / 1000));
     el.examTimer.textContent = formatTime(remaining);
     if (el.examTimerTrack) el.examTimerTrack.style.width = `${Math.min(100, remaining / EXAM_SECONDS * 100)}%`;
@@ -607,7 +635,7 @@
     state.currentId = wrong.length ? wrong[0].task.externalId : state.bankTasks[0].externalId;
     state.solutionOpen = false;
     updateModeUI(); renderTaskList(); renderCurrentTask(); saveProgress();
-    const title = timedOut ? 'Время вышло' : 'Авторский вариант ЕГЭ+ завершён';
+    const title = timedOut ? 'Время вышло' : 'Авторский тренировочный вариант ЕГЭ+ завершён';
     const mistakesHtml = wrong.length ? `<div class="exam-result-list"><h3>Задания для разбора</h3>${wrong.map(({task,userAnswer}) => `<button type="button" class="result-review-row" data-review-task-id="${escapeHtml(task.externalId)}"><span class="result-review-number">№${escapeHtml(task.taskNumber)}</span><span class="result-review-main"><strong>${escapeHtml(task.title)}</strong><small>Твой ответ: ${escapeHtml(userAnswer || 'нет ответа')} · Верный ответ: ${escapeHtml(task.correctAnswer)}</small></span><span class="result-review-action">Разобрать →</span></button>`).join('')}</div>` : '<div class="exam-perfect-note">Отличный результат! Все 21 ответа верны.</div>';
     el.examResultContent.innerHTML = `<div class="dialog-icon">${correctCount >= 15 ? '✓' : '∑'}</div><h2 id="exam-result-heading">${title}</h2><p class="exam-result-lead">Результат: <strong>${correctCount} из 21</strong>. Ответов заполнено: ${answeredCount}; без ответа: ${21-answeredCount}.</p><div class="exam-result-bar"><span style="width:${Math.round(correctCount/21*100)}%"></span></div><div class="exam-result-percent">${Math.round(correctCount/21*100)}% правильных ответов</div>${mistakesHtml}<div class="dialog-actions"><button class="secondary-button" id="exam-result-close" type="button">Вернуться к базе</button><button class="primary-button" id="exam-result-new" type="button">Новый вариант ↗</button></div>`;
     if (!el.examResultDialog.open) el.examResultDialog.showModal();
@@ -615,18 +643,19 @@
   }
 
   function installEvents() {
-    el.search.addEventListener('input', renderTaskList);
-    el.typeFilter.addEventListener('change', renderTaskList);
-    el.taskList.addEventListener('click', (event) => {
+    el.search?.addEventListener('input', renderTaskList);
+    el.typeFilter?.addEventListener('change', renderTaskList);
+    el.taskList?.addEventListener('click', (event) => {
       const button = event.target.closest('[data-task-id]');
       if (button) selectTask(button.dataset.taskId);
     });
-    el.continueButton.addEventListener('click', () => {
+    el.continueButton?.addEventListener('click', () => {
+      if (PAGE !== 'topics') { window.location.href = './topics.html'; return; }
       const currentIndex = state.tasks.findIndex((task) => task.externalId === state.currentId);
       const unsolved = state.tasks.find((task, index) => index >= Math.max(currentIndex, 0) && !state.solved.has(task.externalId))
         || state.tasks.find((task) => !state.solved.has(task.externalId));
       if (unsolved) selectTask(unsolved.externalId, { scroll: true });
-      else { selectTask(state.tasks[0].externalId, { scroll: true }); toast('Все задания решены верно — можно пройти их ещё раз!'); }
+      else if (state.tasks[0]) { selectTask(state.tasks[0].externalId, { scroll: true }); toast('Все задания решены верно — можно пройти их ещё раз!'); }
     });
     el.allTasksButton?.addEventListener('click', showAllTasks);
     el.startTopicPracticeButton?.addEventListener('click', startTopicPractice);
@@ -634,7 +663,11 @@
     el.startWarmupButton?.addEventListener('click', startWarmup);
     document.addEventListener('click', (event) => {
       const topicButton = event.target.closest('[data-topic-number]');
-      if (topicButton) startTopicPracticeByNumber(Number(topicButton.dataset.topicNumber));
+      if (topicButton) {
+        const number = Number(topicButton.dataset.topicNumber);
+        if (PAGE !== 'topics') { window.location.href = `./topics.html?number=${encodeURIComponent(number)}`; return; }
+        startTopicPracticeByNumber(number);
+      }
     });
     document.querySelectorAll('.topnav .nav-link').forEach((link) => link.addEventListener('click', () => {
       document.querySelectorAll('.topnav .nav-link').forEach((item) => item.classList.toggle('active', item === link));
@@ -647,7 +680,7 @@
       if (review) {
         const id = review.dataset.reviewTaskId;
         el.examResultDialog.close();
-        state.mode = 'catalog'; state.tasks = state.bankTasks; state.examEndAt = null;
+        state.mode = 'review'; state.tasks = state.bankTasks; state.examEndAt = null;
         updateModeUI(); selectTask(id, { scroll: false });
         $('.practice-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         return;
@@ -655,8 +688,8 @@
       if (event.target.closest('#exam-result-close')) el.examResultDialog.close();
       if (event.target.closest('#exam-result-new')) { el.examResultDialog.close(); startExam(); }
     });
-    el.resetProgress.addEventListener('click', () => el.resetDialog.showModal());
-    el.resetDialog.addEventListener('close', () => {
+    el.resetProgress?.addEventListener('click', () => el.resetDialog?.showModal());
+    el.resetDialog?.addEventListener('close', () => {
       if (el.resetDialog.returnValue !== 'confirm') return;
       state.solved.clear(); state.attempts = {}; state.values = {};
       saveProgress(); renderTaskList(); renderCurrentTask(); toast('Прогресс сброшен. Можно начать заново.');
@@ -678,7 +711,7 @@
       const bankIds = new Set(state.bankTasks.map((task) => task.externalId));
       state.solved = new Set([...state.solved].filter((id) => bankIds.has(id)));
       state.tasks = state.bankTasks;
-      if (state.restoreSession) {
+      if (state.restoreSession && PAGE === 'study') {
         const restoredTasks = state.restoreSession.activeTaskIds.map((id) => state.bankTasks.find((task) => task.externalId === id)).filter(Boolean);
         if (restoredTasks.length && (state.restoreSession.mode !== 'exam' || restoredTasks.length === 21)) {
           state.tasks = sortTasks(restoredTasks);
@@ -686,12 +719,20 @@
           state.examEndAt = state.mode === 'exam' ? state.restoreSession.examEndAt : null;
         }
       }
+      if (!['topics', 'study'].includes(PAGE)) { state.mode = 'catalog'; state.tasks = state.bankTasks; state.examEndAt = null; }
       if (!state.tasks.some((task) => task.externalId === state.currentId)) state.currentId = state.tasks[0].externalId;
       if (!state.tasks.length) state.tasks = state.bankTasks;
       populateFilters();
       renderTopicGroups();
+      renderOfficialTaskLinks();
       if (state.mode === 'topic' && el.topicModeSelect && state.tasks[0]?.taskType) el.topicModeSelect.value = state.tasks[0].taskType;
-      updateModeUI(); renderTaskList(); renderCurrentTask(); saveProgress();
+      updateModeUI(); renderTaskList(); renderCurrentTask();
+      // Do not overwrite an in-progress session just because the user opens a different page.
+      if (PAGE === 'study') saveProgress(); else updateStats();
+      const requestedTopicNumber = Number(new URLSearchParams(window.location.search).get('number'));
+      if (PAGE === 'topics' && Number.isInteger(requestedTopicNumber) && requestedTopicNumber >= 1 && requestedTopicNumber <= 21) {
+        startTopicPracticeByNumber(requestedTopicNumber);
+      }
       if (state.mode === 'exam') {
         if (!state.examEndAt || state.examEndAt <= Date.now()) finishExam(true);
         else startTimer();
@@ -700,8 +741,8 @@
         navigator.serviceWorker.register('./sw.js').catch(() => {});
       }
     } catch (error) {
-      el.taskContent.innerHTML = `<div class="empty-state"><strong>Не удалось загрузить задания</strong>${escapeHtml(error.message || 'Проверь, что сайт запущен через локальный сервер, а не открыт как файл.')}</div>`;
-      el.taskList.innerHTML = '<div class="empty-state">База не загружена</div>';
+      if (el.taskContent) el.taskContent.innerHTML = `<div class="empty-state"><strong>Не удалось загрузить задания</strong>${escapeHtml(error.message || 'Проверь, что сайт запущен через локальный сервер, а не открыт как файл.')}</div>`;
+      if (el.taskList) el.taskList.innerHTML = '<div class="empty-state">База не загружена</div>';
     }
   }
   document.addEventListener('DOMContentLoaded', init);
