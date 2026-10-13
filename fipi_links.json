@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 1,
+  "provider": "ФИПИ",
+  "navigatorYear": 2026,
+  "projectId": "E040A72A1A3DABA14C90C97E0B6EE7DC8",
+  "bankUrl": "https://ege.fipi.ru/bank/index.php?proj=E040A72A1A3DABA14C90C97E0B6EE7DC8",
+  "officialBankInfoUrl": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege",
+  "officialOpenVariantsUrl": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
+  "examDocumentsUrl": "https://fipi.ru/ege/demoversii-specifikacii-kodifikatory",
+  "topics": {
+    "1": {
+      "title": "Арифметические задачи",
+      "questionIds": [
+        "067644",
+        "216843",
+        "B26746",
+        "7BE5C5",
+        "9C1342",
+        "73E24C",
+        "147C45",
+        "4C1346",
+        "01A24A",
+        "25F964"
+      ],
+      "navigator": "https://doc.fipi.ru/navigator-podgotovki/navigator-ege/2026/Mat_baz_2_praktik.pdf"
+    },
+    "2": {
+      "title": "Сравнение величин",
+      "questionIds": [
+        "FBDFFB",
+        "E3AA45",
+        "36BD43",
+        "55BF2D",
+        "59A448",
+        "D4D1FC",
+        "48DD7A",
+        "A6034F",
+        "C7D64B",
+        "C015F8",
+        "13CF01"
+      ],
+      "navigator": "https://doc.fipi.ru/navigator-podgotovki/navigator-ege/2026/Mat_baz_2_praktik.pdf"
+    },
+    "3": {
+      "title": "Графики, диаграммы и таблицы",
+      "questionIds": [
+        "F7998B",
+        "57C844",
+        "CB860B",
+        "C7EB02",
+        "C7CA1C",
+        "87DF19",
+        "E4B546",
+        "B70E0B",
+        "872A42",
+        "359DFC",
+        "9786F5",
+        "0B800F",
+        "DE1571"
+      ],
+      "navigator": "https://doc.fipi.ru/navigator-podgotovki/navigator-ege/2026/Mat_baz_3_algebra.pdf"
+    },
+    "4": {
+      "title": "Вычисления по формуле",
+      "questionIds": [
+        "2937F9",
+        "0AC548",
+        "145C04",
+        "E398F6",
+        "F6A648",
+        "BF86F7",
+        "6C4C43",
+        "2D90FB",
+        "A428FF",
+        "361CF5",
+        "CDAC47",
+        "EE3E4A",
+        "611E45",
+        "F950FD"
+      ],
+      "navigator": "https://doc.fipi.ru/navigator-podgotovki/navigator-ege/2026/Mat_baz_2_praktik.pdf"
+    },
+    "5": {
+      "title": "Теория вероятностей",
+      "questionIds": [
+        "025E49",
+        "08D94A",
+        "574444",
+        "72D2B6",
+        "E74F4D",
+        "B0B74B",
+        "0F274F",
+        "B4BC07",
+        "DC1540",
+        "D257B9",
+        "93F541"
+      ],
+      "navigator": "https://doc.fipi.ru/navigator-podgotovki/navigator-ege/2026/Mat_baz_3_algebra.pdf"
+    },
+    "7": {
+      "title": "Функции и их графики",
+      "questionIds": [
+        "493C49",
+        "C77447",
+        "BFE34E",
+        "DF5BEB",
+        "DA1710",
+        "E91CF1"
+      ],
+      "navigator": "https://doc.fipi.ru/navigator-podgotovki/navigator-ege/2026/Mat_baz_1_Chisla.pdf"
+    },
+    "8": {
+      "title": "Логика",
+      "questionIds": [
+        "991840",
+        "A992F8",
+        "8ACCFD",
+        "19DCF2",
+        "0FBDFF",
+        "DE39F4",
+        "402FF2",
+        "494843",
+        "290B41",
+        "FCB64E"
+      ],
+      "navigator": "https://doc.fipi.ru/navigator-podgotovki/navigator-ege/2026/Mat_baz_2_praktik.pdf"
+    },
+    "14": {
+      "title": "Арифметика",
+      "questionIds": [
+        "156C4F",
+        "1F5249",
+        "1CCF46",
+        "A254B0",
+        "F2CBD3",
+        "F6DBF2",
+        "254870",
+        "320C02",
+        "51AA05",
+        "637BBC"
+      ],
+      "navigator": "https://doc.fipi.ru/navigator-podgotovki/navigator-ege/2026/Mat_baz_1_Chisla.pdf"
+    },
+    "15": {
+      "title": "Задачи на доли, проценты и отношения",
+      "questionIds": [
+        "77F2C3",
+        "C94D41",
+        "13094A",
+        "D92D49",
+        "3B6B4F",
+        "014241",
+        "5A906E",
+        "B0DB44",
+        "2EAF4C",
+        "22F84C",
+        "A7D44D",
+        "4AD9F3",
+        "28D0FF",
+        "AAEC36",
+        "84DF9C"
+      ],
+      "navigator": "https://doc.fipi.ru/navigator-podgotovki/navigator-ege/2026/Mat_baz_2_praktik.pdf"
+    },
+    "16": {
+      "title": "Преобразование выражений",
+      "questionIds": [
+        "D7EAF2",
+        "8A9A85",
+        "F73247",
+        "EA6BF5",
+        "FB0C07",
+        "503B63",
+        "75DF0B",
+        "0A5277",
+        "65ECD4",
+        "055A4A",
+        "A8C717",
+        "AE04CE"
+      ],
+      "navigator": "https://doc.fipi.ru/navigator-podgotovki/navigator-ege/2026/Mat_baz_1_Chisla.pdf"
+    },
+    "17": {
+      "title": "Уравнения",
+      "questionIds": [
+        "1241D3",
+        "757449",
+        "ECD5FD",
+        "02F6B5",
+        "BEDBF2",
+        "DA4EF3",
+        "4E28BB",
+        "CA5100",
+        "5F267E",
+        "3E9444",
+        "D78CF6",
+        "0555FB",
+        "8D2C06",
+        "B35CF7",
+        "55B377",
+        "BAFE47",
+        "B8752B",
+        "401E06",
+        "0F3DB7",
+        "620044",
+        "C434F7",
+        "CEF34A"
+      ],
+      "navigator": "https://doc.fipi.ru/navigator-podgotovki/navigator-ege/2026/Mat_baz_1_Chisla.pdf"
+    },
+    "18": {
+      "title": "Числовая ось и неравенства",
+      "questionIds": [
+        "71290C",
+        "B1C5FD",
+        "B7B04B",
+        "D45446",
+        "35954E",
+        "1A67DC",
+        "9760DE",
+        "7BF8D6",
+        "2D36FF",
+        "74A90B",
+        "BD30DD",
+        "58B5F8",
+        "00511A"
+      ],
+      "navigator": "https://doc.fipi.ru/navigator-podgotovki/navigator-ege/2026/Mat_baz_1_Chisla.pdf"
+    }
+  },
+  "methodNotes": "Прямые questionId взяты из рекомендованных наборов в навигаторах самостоятельной подготовки ФИПИ по базовой математике ЕГЭ-2026. Для номеров, которых нет в этих списках, используется общий официальный банк заданий. Сайт не копирует содержание заданий и не заявляет об автоматической синхронизации банка."
+}
