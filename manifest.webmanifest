@@ -1,0 +1,14 @@
+{
+  "name": "Тренажёр ЕГЭ — математика",
+  "short_name": "ЕГЭ+",
+  "description": "Самостоятельная подготовка к ЕГЭ по математике",
+  "lang": "ru-RU",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f7fb",
+  "theme_color": "#111827",
+  "icons": [
+    { "src": "./favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

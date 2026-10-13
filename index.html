@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="Тренажёр ЕГЭ по математике: решай задания, проверяй ответы и разбирай решения. Сохраняй прогресс прямо в браузере.">
+  <title>Тренажёр ЕГЭ — базовая математика</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Тренажёр ЕГЭ — главная">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="brand-copy"><strong>егэ<span>+</span></strong><small>тренажёр</small></span>
+      </a>
+      <nav class="topnav" aria-label="Основная навигация">
+        <a class="nav-link active" href="#practice">Тренировка</a>
+        <a class="nav-link" href="#topics">Темы</a>
+        <a class="nav-link" href="#about">О проекте</a>
+      </nav>
+      <div class="topbar-right">
+        <span class="saved-status"><span class="status-dot"></span> Прогресс сохранён</span>
+        <button id="reset-progress" class="icon-button" type="button" title="Сбросить прогресс" aria-label="Сбросить прогресс">↺</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="practice">
+        <div class="hero-content">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> ПОДГОТОВКА К ЕГЭ · 2027</div>
+          <h1>Математика без<br><span>лишнего стресса.</span></h1>
+          <p class="hero-description">Решай по одному заданию, проверяй себя и разбирай ошибки в своём темпе. Прогресс остаётся в этом браузере.</p>
+          <div class="hero-actions">
+            <button class="primary-button" id="continue-button" type="button">Продолжить тренировку <span aria-hidden="true">↗</span></button>
+            <span class="privacy-note"><span aria-hidden="true">◈</span> Без регистрации</span>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <div class="math-card card-back"><span class="math-label">ФОРМУЛА</span><div class="equation small-equation">S = v · t</div><span class="mini-line"></span></div>
+          <div class="math-card card-front"><div class="card-topline"><span class="formula-icon">ƒx</span><span class="tiny-tag">ЗАДАНИЕ 16</span></div><div class="equation">3(2x − 1) = 21</div><div class="equation-rule"></div><div class="answer-row"><span>x = ?</span><span class="answer-chip">реши сам <b>↗</b></span></div></div>
+          <div class="floating-mark mark-plus">+</div><div class="floating-mark mark-x">×</div><div class="floating-mark mark-equal">=</div>
+        </div>
+        <div class="hero-bottom-line"><span>БАЗОВЫЙ УРОВЕНЬ</span><span>Маленький шаг — уже прогресс</span></div>
+      </section>
+
+      <section class="stats-grid" aria-label="Статистика тренировки">
+        <article class="stat-card"><div class="stat-icon icon-purple">▦</div><div><div class="stat-number" id="stat-total">21</div><div class="stat-label">задание в базе</div></div><span class="stat-note">БАЗА</span></article>
+        <article class="stat-card"><div class="stat-icon icon-green">✓</div><div><div class="stat-number" id="stat-done">0</div><div class="stat-label">решено верно</div></div><span class="stat-note positive" id="stat-percent">0%</span></article>
+        <article class="stat-card progress-stat"><div class="stat-icon icon-orange">↗</div><div class="progress-copy"><div class="progress-title"><span>Твой прогресс</span><strong id="progress-fraction">0 / 21</strong></div><div class="progress-track"><span id="progress-bar"></span></div><div class="progress-subtitle">Каждое задание приближает к цели</div></div></article>
+      </section>
+
+      <section class="workspace" id="topics">
+        <aside class="task-sidebar">
+          <div class="sidebar-heading"><div><span class="section-kicker">ТВОЙ МАРШРУТ</span><h2>Задания</h2></div><span class="task-count" id="list-count">21</span></div>
+          <div class="subject-tabs" role="group" aria-label="Выбор уровня">
+            <button class="subject-tab selected" type="button" aria-pressed="true">База</button>
+            <button class="subject-tab" type="button" aria-pressed="false" disabled title="Профильный раздел появится позже">Профиль <span class="soon-label">скоро</span></button>
+          </div>
+          <label class="search-box"><span aria-hidden="true">⌕</span><input id="task-search" type="search" placeholder="Найти задание..." aria-label="Найти задание"></label>
+          <div class="filter-row"><label for="type-filter">ТЕМА</label><select id="type-filter"><option value="all">Все темы</option></select></div>
+          <div class="task-list" id="task-list" aria-label="Список заданий"><div class="loading-placeholder">Загружаю задания…</div></div>
+          <div class="sidebar-foot"><span class="sidebar-check">✓</span><span>Твои ответы никуда не отправляются</span></div>
+        </aside>
+
+        <section class="practice-panel" aria-live="polite">
+          <div id="task-content" class="task-content">
+            <div class="loading-state"><div class="loader"></div><p>Загружаем тренировку</p></div>
+          </div>
+        </section>
+      </section>
+
+      <section class="bottom-section" id="about">
+        <div class="bottom-copy"><span class="section-kicker">УЧИСЬ В СВОЁМ РИТМЕ</span><h2>Не просто ответ.<br><span>Понимание.</span></h2><p>Сначала попробуй решить сам. Если застрял — открой разбор, посмотри на ход решения и возвращайся к похожим задачам.</p></div>
+        <div class="feature-list"><article class="feature-row"><span class="feature-number">01</span><div><h3>Решай самостоятельно</h3><p>Вводи короткий ответ и сразу проверяй себя.</p></div><span class="feature-symbol">⌁</span></article><article class="feature-row"><span class="feature-number">02</span><div><h3>Понимай ход решения</h3><p>Разбор и типичные ошибки доступны по кнопке.</p></div><span class="feature-symbol">∑</span></article><article class="feature-row"><span class="feature-number">03</span><div><h3>Видь свой прогресс</h3><p>Отмеченные задания остаются в браузере.</p></div><span class="feature-symbol">↗</span></article></div>
+      </section>
+    </main>
+    <footer class="footer"><a class="footer-brand" href="./">егэ<span>+</span></a><span>Тренажёр для самостоятельной подготовки</span><span class="footer-disclaimer">Авторские тренировочные задания · не официальный ресурс ФИПИ</span></footer>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="reset-dialog" class="confirm-dialog"><form method="dialog"><div class="dialog-icon">↺</div><h2>Сбросить прогресс?</h2><p>Все сохранённые отметки о решённых заданиях будут удалены из этого браузера.</p><div class="dialog-actions"><button class="secondary-button" value="cancel">Оставить</button><button class="danger-button" id="confirm-reset" value="confirm">Сбросить</button></div></form></dialog>
+</body>
+</html>
