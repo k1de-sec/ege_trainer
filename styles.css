@@ -594,3 +594,23 @@ body[data-page="home"] .home-route-arrow{
 .resume-panel-copy span{font-size:13px;line-height:1.5;color:#6c7081}
 .resume-panel .secondary-button{white-space:nowrap;text-decoration:none}
 @media(max-width:640px){.resume-panel{align-items:flex-start;flex-wrap:wrap;padding:16px;gap:12px}.resume-panel-icon{width:38px;height:38px;flex-basis:38px}.resume-panel-copy{flex-basis:calc(100% - 55px)}.resume-panel .secondary-button{width:100%;justify-content:center}}
+
+
+/* Subject-specific starter banks */
+.subject-practice-bank{display:grid;gap:14px}
+.subject-bank-note{color:var(--muted,#64748b);font-size:.94rem;line-height:1.6;max-width:78ch}
+.subject-practice-progress{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted,#64748b);font-size:.9rem}
+.subject-practice-card{border:1px solid var(--border,#e2e8f0);border-radius:18px;background:var(--surface,#fff);padding:clamp(16px,3vw,24px);display:grid;gap:14px}
+.subject-practice-meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.82rem;color:var(--muted,#64748b)}
+.subject-practice-card h3{margin:0;font-size:1.18rem}
+.subject-practice-statement{line-height:1.75;overflow-wrap:anywhere}
+.subject-practice-card form{display:grid;gap:9px}
+.subject-practice-card textarea{width:100%;max-width:100%;padding:12px 14px;border:1px solid var(--border,#cbd5e1);border-radius:12px;font:inherit;resize:vertical}
+.subject-practice-actions,.subject-practice-nav{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.subject-practice-feedback{padding:0;line-height:1.5}
+.subject-practice-feedback:not(:empty){padding:12px 14px;border-radius:10px;background:var(--surface-secondary,#f1f5f9)}
+.subject-practice-feedback.is-correct{border:1px solid #86c8a0}
+.subject-practice-feedback.is-incorrect{border:1px solid #e4bd8b}
+.subject-practice-explanation{padding:14px 16px;border-radius:12px;background:var(--surface-secondary,#f8fafc);line-height:1.7;overflow-wrap:anywhere}
+.subject-practice-explanation p{margin:.6em 0 0}
+.subject-practice-nav{justify-content:space-between;border-top:1px solid var(--border,#e2e8f0);padding-top:14px}
