@@ -164,6 +164,7 @@
       <section class="multi-section-block"><div class="multi-section-heading"><div><span class="section-kicker">ПЕРВОИСТОЧНИКИ</span><h2>Официальные материалы</h2></div><a href="${routeHref('official',item.id)}">Все источники →</a></div><div class="multi-mini-resources">${cardLink(source.fipiPage || fipiPage,'Демоверсии и кодификаторы ФИПИ','Документы по предмету','↗')}${cardLink(source.openBank || fipiBank,'Открытый банк заданий','Оригинальные формулировки','▤')}</div></section>`;
   }
   function renderGenericSection(item, page) {
+
     const host = document.getElementById('multi-subject-page-content'); if (!host) return;
     document.body.dataset.multiSubjectPage = 'true';
     host.hidden = false;
@@ -183,8 +184,12 @@
     } else {
       specific = `<section class="multi-section-block"><div class="multi-section-heading"><div><span class="section-kicker">ОФИЦИАЛЬНЫЕ РЕСУРСЫ</span><h2>Документы по предмету</h2></div></div>${officialCards(item)}</section>`;
     }
+    if (page === 'study' && !['math_basic','math_profile'].includes(item.id)) {
+      specific += `<section class="multi-section-block subject-practice-block"><div class="multi-section-heading"><div><span class="section-kicker">ПРАКТИКА</span><h2>Стартовый банк заданий</h2></div><span class="multi-muted" id="subject-bank-count">Загружаем задания…</span></div><p class="subject-bank-note">Это авторские упражнения по темам ЕГЭ, не дословные задания ФИПИ. Проверка коротких ответов выполняется по эталону; развёрнутые ответы требуют проверки по критериям.</p><div id="subject-practice-bank" class="subject-practice-bank" aria-live="polite"></div></section>`;
+    }
     document.title = `${headTitle} — ЕГЭ+`;
     host.innerHTML = `${topContext(item,kicker,headTitle,desc)}<div class="multi-page-context">${statusBadge(item)}<a href="./subject.html?subject=${encodeURIComponent(item.id)}">Паспорт предмета ↗</a><a href="./subjects.html">Выбрать другой предмет</a></div>${specific}`;
+    if (page === 'study' && !['math_basic','math_profile'].includes(item.id)) renderSubjectPractice(item);`;
   }
   function renderHomePreview(data) {
     const host = document.getElementById('home-subject-preview-grid'); if (!host) return;
@@ -197,6 +202,52 @@
     const social = data.subjects.find(s => s.id === 'social_science'); if (social) visible.push(social);
     const english = data.subjects.find(s => s.id === 'english'); if (english) visible.push(english);
     host.innerHTML = visible.map(item => `<a class="subject-preview-card" href="./subject.html?subject=${encodeURIComponent(item.id)}"><span class="subject-preview-icon">${escapeHtml(item.icon || 'ЕГЭ')}</span><span class="subject-preview-copy"><strong>${escapeHtml(item.shortName || item.name)}</strong><small>${item.status === 'available' ? '441 авторское упражнение · тренажёр готов' : 'Первоисточники ФИПИ · раздел наполняется'}</small></span><span class="subject-preview-arrow">↗</span></a>`).join('');
+  }
+  async function renderSubjectPractice(item) {
+    const host = document.getElementById('subject-practice-bank');
+    const count = document.getElementById('subject-bank-count');
+    if (!host) return;
+    try {
+      const response = await fetch('./tasks_data.json', { cache: 'no-cache' });
+      if (!response.ok) throw new Error('Не удалось загрузить банк заданий.');
+      const all = await response.json();
+      const tasks = all.filter(t => t.subjectId === item.id && t.sourceType === 'author_original').sort((a,b)=>a.taskNumber-b.taskNumber);
+      if (count) count.textContent = `${tasks.length} заданий в стартовом наборе`;
+      if (!tasks.length) {
+        host.innerHTML = '<div class="multi-notice notice-planned"><strong>Банк ещё не опубликован</strong><p>Пока доступны официальные источники и карта тем.</p></div>';
+        return;
+      }
+      const key = `ege-plus-practice-${item.id}-v1`;
+      let progress = {};
+      try { progress = JSON.parse(localStorage.getItem(key) || '{}') || {}; } catch (_) {}
+      let current = 0;
+      const esc = escapeHtml;
+      const norm = value => String(value ?? '').trim().toLocaleLowerCase().replace(/[ё]/g,'е').replace(/\s+/g,' ').replace(/[.,;]+$/,'');
+      function paint() {
+        const task = tasks[current];
+        const done = Object.keys(progress).filter(id => progress[id]?.correct).length;
+        host.innerHTML = `<div class="subject-practice-progress"><span>Задание ${current+1} из ${tasks.length}</span><span>${done} решено верно</span></div><div class="subject-practice-card"><div class="subject-practice-meta"><span>Задание №${task.taskNumber}</span><span>Сложность ${task.difficulty || 2}/4</span></div><h3>${esc(task.title)}</h3><div class="subject-practice-statement">${esc(task.statement).replace(/\n/g,'<br>')}</div><form id="subject-practice-form"><label for="subject-practice-answer">Твой ответ</label><textarea id="subject-practice-answer" rows="2" autocomplete="off" placeholder="Введи ответ…">${esc(progress[task.externalId]?.answer || '')}</textarea><div class="subject-practice-actions"><button class="primary-button" type="submit">Проверить</button><button class="secondary-button" id="subject-show-solution" type="button">Показать разбор</button></div></form><div id="subject-practice-feedback" class="subject-practice-feedback" aria-live="polite"></div><div id="subject-practice-explanation" class="subject-practice-explanation" hidden><strong>Разбор</strong><p>${esc(task.explanation || 'Разбор пока не добавлен.')}</p><p><strong>Эталон:</strong> ${esc(task.correctAnswer || 'Требует ручной проверки')}</p></div><div class="subject-practice-nav"><button class="secondary-button" id="subject-practice-prev" type="button" ${current===0?'disabled':''}>← Предыдущее</button><button class="next-button" id="subject-practice-next" type="button">${current===tasks.length-1?'К первому заданию':'Следующее →'}</button></div></div>`;
+        const form=document.getElementById('subject-practice-form');
+        form?.addEventListener('submit',event=>{
+          event.preventDefault();
+          const answer=document.getElementById('subject-practice-answer').value;
+          const expected=String(task.correctAnswer ?? '');
+          const ok=Boolean(expected) && norm(answer)===norm(expected);
+          progress[task.externalId]={answer,correct:ok,updatedAt:Date.now()};
+          try { localStorage.setItem(key,JSON.stringify(progress)); } catch (_) {}
+          const feedback=document.getElementById('subject-practice-feedback');
+          feedback.className='subject-practice-feedback '+(ok?'is-correct':'is-incorrect');
+          feedback.textContent=ok?'Верно! Ответ сохранён.':'Пока не совпало с эталоном. Проверь формат ответа или открой разбор.';
+          if(count) count.textContent=`${tasks.length} заданий · ${Object.keys(progress).filter(id=>progress[id]?.correct).length} решено верно`;
+        });
+        document.getElementById('subject-show-solution')?.addEventListener('click',()=>{const box=document.getElementById('subject-practice-explanation');box.hidden=!box.hidden;});
+        document.getElementById('subject-practice-prev')?.addEventListener('click',()=>{current=Math.max(0,current-1);paint();});
+        document.getElementById('subject-practice-next')?.addEventListener('click',()=>{current=current===tasks.length-1?0:current+1;paint();});
+      }
+      paint();
+    } catch (error) {
+      host.innerHTML = `<div class="multi-notice notice-error"><strong>Не удалось загрузить упражнения</strong><p>${escapeHtml(error.message)}</p></div>`;
+    }
   }
   async function init() {
     const catalogOrHome = ['subjects','home'].includes(PAGE);
