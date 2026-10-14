@@ -205,50 +205,66 @@
     host.innerHTML = visible.map(item => `<a class="subject-preview-card" href="./subject.html?subject=${encodeURIComponent(item.id)}"><span class="subject-preview-icon">${escapeHtml(item.icon || 'ЕГЭ')}</span><span class="subject-preview-copy"><strong>${escapeHtml(item.shortName || item.name)}</strong><small>${item.status === 'available' ? '441 авторское упражнение · тренажёр готов' : 'Первоисточники ФИПИ · раздел наполняется'}</small></span><span class="subject-preview-arrow">↗</span></a>`).join('');
   }
   async function renderSubjectPractice(item) {
-    const host = document.getElementById('subject-practice-bank');
-    const count = document.getElementById('subject-bank-count');
-    if (!host) return;
-    try {
-      const response = await fetch('./tasks_data.json', { cache: 'no-cache' });
-      if (!response.ok) throw new Error('Не удалось загрузить банк заданий.');
-      const all = await response.json();
-      const tasks = all.filter(t => t.subjectId === item.id && t.sourceType === 'author_original').sort((a,b)=>a.taskNumber-b.taskNumber);
-      if (count) count.textContent = `${tasks.length} заданий в стартовом наборе`;
-      if (!tasks.length) {
-        host.innerHTML = '<div class="multi-notice notice-planned"><strong>Банк ещё не опубликован</strong><p>Пока доступны официальные источники и карта тем.</p></div>';
-        return;
+    const host=document.getElementById('subject-practice-bank'), count=document.getElementById('subject-bank-count');
+    if(!host)return;
+    try{
+      const response=await fetch('./tasks_data.json',{cache:'no-cache'}); if(!response.ok)throw new Error('Не удалось загрузить банк заданий.');
+      const all=await response.json(), tasks=all.filter(t=>t.subjectId===item.id&&t.sourceType==='author_original').sort((a,b)=>(a.part||1)-(b.part||1)||a.taskNumber-b.taskNumber);
+      if(count)count.textContent=tasks.length+' заданий · '+tasks.filter(t=>(t.part||1)===1).length+' в части 1 · '+tasks.filter(t=>t.part===2).length+' во второй части';
+      if(!tasks.length){host.innerHTML='<div class="multi-notice notice-planned"><strong>Банк ещё не опубликован</strong><p>Пока доступны официальные источники и карта тем.</p></div>';return;}
+      const key='ege-plus-practice-'+item.id+'-v2'; let progress={};
+      try{progress=JSON.parse(localStorage.getItem(key)||'{}')||{};}catch(_){}
+      let current=0,pyodidePromise=null; const esc=escapeHtml;
+      const norm=value=>String(value??'').trim().toLocaleLowerCase().replace(/[ё]/g,'е').replace(/\s+/g,' ').replace(/[.,;]+$/,'');
+      function loadPython(){
+        if(!pyodidePromise)pyodidePromise=new Promise((resolve,reject)=>{
+          const start=()=>window.loadPyodide({indexURL:'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/'}).then(resolve,reject);
+          if(window.loadPyodide){start();return;}
+          const script=document.createElement('script');script.src='https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js';script.onload=start;script.onerror=()=>reject(new Error('Не удалось загрузить Python. Проверь подключение к интернету.'));document.head.appendChild(script);
+        });return pyodidePromise;
       }
-      const key = `ege-plus-practice-${item.id}-v1`;
-      let progress = {};
-      try { progress = JSON.parse(localStorage.getItem(key) || '{}') || {}; } catch (_) {}
-      let current = 0;
-      const esc = escapeHtml;
-      const norm = value => String(value ?? '').trim().toLocaleLowerCase().replace(/[ё]/g,'е').replace(/\s+/g,' ').replace(/[.,;]+$/,'');
-      function paint() {
-        const task = tasks[current];
-        const done = Object.keys(progress).filter(id => progress[id]?.correct).length;
-        host.innerHTML = `<div class="subject-practice-progress"><span>Задание ${current+1} из ${tasks.length}</span><span>${done} решено верно</span></div><div class="subject-practice-card"><div class="subject-practice-meta"><span>Задание №${task.taskNumber}</span><span>Сложность ${task.difficulty || 2}/4</span></div><h3>${esc(task.title)}</h3><div class="subject-practice-statement">${esc(task.statement).replace(/\n/g,'<br>')}</div><form id="subject-practice-form"><label for="subject-practice-answer">Твой ответ</label><textarea id="subject-practice-answer" rows="2" autocomplete="off" placeholder="Введи ответ…">${esc(progress[task.externalId]?.answer || '')}</textarea><div class="subject-practice-actions"><button class="primary-button" type="submit">Проверить</button><button class="secondary-button" id="subject-show-solution" type="button">Показать разбор</button></div></form><div id="subject-practice-feedback" class="subject-practice-feedback" aria-live="polite"></div><div id="subject-practice-explanation" class="subject-practice-explanation" hidden><strong>Разбор</strong><p>${esc(task.explanation || 'Разбор пока не добавлен.')}</p><p><strong>Эталон:</strong> ${esc(task.correctAnswer || 'Требует ручной проверки')}</p></div><div class="subject-practice-nav"><button class="secondary-button" id="subject-practice-prev" type="button" ${current===0?'disabled':''}>← Предыдущее</button><button class="next-button" id="subject-practice-next" type="button">${current===tasks.length-1?'К первому заданию':'Следующее →'}</button></div></div>`;
-        const form=document.getElementById('subject-practice-form');
-        form?.addEventListener('submit',event=>{
-          event.preventDefault();
-          const answer=document.getElementById('subject-practice-answer').value;
-          const expected=String(task.correctAnswer ?? '');
-          const ok=Boolean(expected) && norm(answer)===norm(expected);
-          progress[task.externalId]={answer,correct:ok,updatedAt:Date.now()};
-          try { localStorage.setItem(key,JSON.stringify(progress)); } catch (_) {}
-          const feedback=document.getElementById('subject-practice-feedback');
-          feedback.className='subject-practice-feedback '+(ok?'is-correct':'is-incorrect');
-          feedback.textContent=ok?'Верно! Ответ сохранён.':'Пока не совпало с эталоном. Проверь формат ответа или открой разбор.';
-          if(count) count.textContent=`${tasks.length} заданий · ${Object.keys(progress).filter(id=>progress[id]?.correct).length} решено верно`;
+      function paint(){
+        const task=tasks[current],saved=progress[task.externalId]||{},done=Object.keys(progress).filter(id=>progress[id]?.correct).length;
+        const isCode=task.answerMode==='code',isLong=task.answerMode==='long'||(task.part===2&&!task.correctAnswer);
+        let fields='';
+        if(isCode){
+          fields='<label for="subject-practice-answer">Код на '+esc(task.codeLanguage||'Python')+'</label><textarea id="subject-practice-answer" rows="12" spellcheck="false" autocomplete="off" placeholder="Напиши программу…">'+esc(saved.answer||'')+'</textarea><label for="subject-practice-stdin">Входные данные для запуска</label><textarea id="subject-practice-stdin" rows="4" spellcheck="false">'+esc(saved.stdin??task.codeInput??'')+'</textarea><div class="subject-practice-actions"><button class="primary-button" id="subject-run-code" type="button">▶ Запустить код</button><button class="secondary-button" id="subject-check-output" type="button">Сверить вывод с тестом</button></div><pre id="subject-code-output" class="subject-code-output" aria-live="polite">Результат выполнения появится здесь.</pre>';
+        }else{
+          fields='<label for="subject-practice-answer">'+(isLong?'Развёрнутый ответ':'Твой ответ')+'</label><textarea id="subject-practice-answer" rows="'+(isLong?10:3)+'" autocomplete="off" placeholder="'+(isLong?'Запиши решение по пунктам, с обоснованием…':'Введи ответ…')+'">'+esc(saved.answer||'')+'</textarea><div class="subject-practice-actions"><button class="primary-button" type="submit">'+(isLong?'Сохранить ответ и открыть критерии':'Проверить')+'</button><button class="secondary-button" id="subject-show-solution" type="button">Показать разбор</button></div>';
+        }
+        host.innerHTML='<div class="subject-practice-progress"><span>Задание '+(current+1)+' из '+tasks.length+'</span><span>'+done+' отмечено как верно</span></div><div class="subject-practice-card"><div class="subject-practice-meta"><span>Часть '+(task.part||1)+' · №'+task.taskNumber+'</span><span>Сложность '+(task.difficulty||2)+'/4</span></div><h3>'+esc(task.title)+'</h3><div class="subject-practice-statement">'+esc(task.statement).replace(/\n/g,'<br>')+'</div><form id="subject-practice-form">'+fields+'</form><div id="subject-practice-feedback" class="subject-practice-feedback" aria-live="polite"></div><div id="subject-practice-explanation" class="subject-practice-explanation" hidden><strong>'+(isLong?'Критерии и ориентир для самопроверки':'Разбор')+'</strong><p>'+esc(task.explanation||'Разбор пока не добавлен.')+'</p>'+(task.correctAnswer?'<p><strong>Эталон:</strong> '+esc(task.correctAnswer)+'</p>':'')+(task.rubric?'<p><strong>Критерии:</strong> '+esc(task.rubric)+'</p>':'')+'</div><div class="subject-practice-nav"><button class="secondary-button" id="subject-practice-prev" type="button" '+(current===0?'disabled':'')+'>← Предыдущее</button><button class="next-button" id="subject-practice-next" type="button">'+(current===tasks.length-1?'К первому заданию':'Следующее →')+'</button></div></div>';
+        document.getElementById('subject-practice-form')?.addEventListener('submit',event=>{
+          event.preventDefault();const answer=document.getElementById('subject-practice-answer').value;
+          if(isLong){
+            progress[task.externalId]={...(progress[task.externalId]||{}),answer,correct:false,selfAssessed:false,updatedAt:Date.now()};try{localStorage.setItem(key,JSON.stringify(progress));}catch(_){}
+            const feedback=document.getElementById('subject-practice-feedback');feedback.className='subject-practice-feedback';feedback.innerHTML='Ответ сохранён. Содержание развёрнутого ответа нужно оценить по критериям. <button type="button" class="secondary-button" id="subject-self-assess">Я проверил(а) по критериям</button>';
+            document.getElementById('subject-self-assess')?.addEventListener('click',()=>{progress[task.externalId]={...progress[task.externalId],correct:true,selfAssessed:true,updatedAt:Date.now()};try{localStorage.setItem(key,JSON.stringify(progress));}catch(_){}feedback.className='subject-practice-feedback is-correct';feedback.textContent='Отмечено как проверенное тобой по критериям.';});
+            const box=document.getElementById('subject-practice-explanation');if(box)box.hidden=false;return;
+          }
+          const expected=String(task.correctAnswer??''),ok=Boolean(expected)&&norm(answer)===norm(expected);
+          progress[task.externalId]={...(progress[task.externalId]||{}),answer,correct:ok,updatedAt:Date.now()};try{localStorage.setItem(key,JSON.stringify(progress));}catch(_){}
+          const feedback=document.getElementById('subject-practice-feedback');feedback.className='subject-practice-feedback '+(ok?'is-correct':'is-incorrect');feedback.textContent=ok?'Верно! Ответ сохранён.':'Пока не совпало с эталоном. Проверь формат ответа или открой разбор.';
         });
         document.getElementById('subject-show-solution')?.addEventListener('click',()=>{const box=document.getElementById('subject-practice-explanation');box.hidden=!box.hidden;});
+        if(isCode){
+          document.getElementById('subject-run-code')?.addEventListener('click',async()=>{
+            const out=document.getElementById('subject-code-output'),code=document.getElementById('subject-practice-answer').value,stdin=document.getElementById('subject-practice-stdin').value;out.textContent='Загружаем Python и запускаем программу…';
+            try{const py=await loadPython();py.globals.set('__ege_stdin',stdin);py.globals.set('__ege_code',code);
+              const result=await py.runPythonAsync("import sys, io, contextlib\nsys.stdin = io.StringIO(__ege_stdin)\n__ege_stdout = io.StringIO()\ntry:\n  with contextlib.redirect_stdout(__ege_stdout):\n    exec(compile(__ege_code, '<ege-submission>', 'exec'), {'__name__':'__main__'})\n  __ege_result = __ege_stdout.getvalue()\nexcept Exception as __ege_error:\n  __ege_result = 'Ошибка: ' + str(__ege_error)\n__ege_result");
+              out.textContent=String(result??'');progress[task.externalId]={...(progress[task.externalId]||{}),answer:code,stdin,output:String(result??''),correct:false,updatedAt:Date.now()};try{localStorage.setItem(key,JSON.stringify(progress));}catch(_){}
+            }catch(error){out.textContent=error.message||String(error);}
+          });
+          document.getElementById('subject-check-output')?.addEventListener('click',()=>{
+            const out=document.getElementById('subject-code-output').textContent.trim().replace(/\r/g,''),expected=String(task.expectedOutput??task.correctAnswer??'').trim().replace(/\r/g,''),ok=Boolean(expected)&&out===expected;
+            const feedback=document.getElementById('subject-practice-feedback');feedback.className='subject-practice-feedback '+(ok?'is-correct':'is-incorrect');feedback.textContent=ok?'Вывод совпал с контрольным тестом. Это проверка только на данном тесте — проверь и другие входные данные.':'Вывод отличается от контрольного теста. Проверь алгоритм и входные данные.';
+            progress[task.externalId]={...(progress[task.externalId]||{}),answer:document.getElementById('subject-practice-answer').value,stdin:document.getElementById('subject-practice-stdin').value,correct:ok,updatedAt:Date.now()};try{localStorage.setItem(key,JSON.stringify(progress));}catch(_){}
+          });
+        }
         document.getElementById('subject-practice-prev')?.addEventListener('click',()=>{current=Math.max(0,current-1);paint();});
         document.getElementById('subject-practice-next')?.addEventListener('click',()=>{current=current===tasks.length-1?0:current+1;paint();});
       }
       paint();
-    } catch (error) {
-      host.innerHTML = `<div class="multi-notice notice-error"><strong>Не удалось загрузить упражнения</strong><p>${escapeHtml(error.message)}</p></div>`;
-    }
+    }catch(error){host.innerHTML='<div class="multi-notice notice-error"><strong>Не удалось загрузить упражнения</strong><p>'+escapeHtml(error.message)+'</p></div>';}
   }
   async function init() {
     const catalogOrHome = ['subjects','home'].includes(PAGE);
