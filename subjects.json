@@ -48,7 +48,7 @@
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
-      "bankCount": 2
+      "bankCount": 3
     },
     {
       "id": "mathematics",
@@ -156,7 +156,8 @@
         }
       ],
       "status": "multi-track",
-      "statusLabel": "Два уровня"
+      "statusLabel": "Два уровня",
+      "bankCount": 0
     },
     {
       "id": "physics",
@@ -203,7 +204,7 @@
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
-      "bankCount": 2
+      "bankCount": 3
     },
     {
       "id": "chemistry",
@@ -246,7 +247,7 @@
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
-      "bankCount": 2
+      "bankCount": 3
     },
     {
       "id": "informatics",
@@ -293,7 +294,7 @@
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
-      "bankCount": 2
+      "bankCount": 6
     },
     {
       "id": "biology",
@@ -340,7 +341,7 @@
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
-      "bankCount": 2
+      "bankCount": 3
     },
     {
       "id": "history",
@@ -383,7 +384,7 @@
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
-      "bankCount": 2
+      "bankCount": 3
     },
     {
       "id": "social_science",
@@ -426,7 +427,7 @@
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
-      "bankCount": 2
+      "bankCount": 3
     },
     {
       "id": "geography",
@@ -469,7 +470,7 @@
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
-      "bankCount": 2
+      "bankCount": 3
     },
     {
       "id": "literature",
@@ -512,7 +513,7 @@
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
-      "bankCount": 2
+      "bankCount": 3
     },
     {
       "id": "english",
@@ -551,7 +552,7 @@
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
-      "bankCount": 2
+      "bankCount": 3
     },
     {
       "id": "german",
@@ -590,7 +591,7 @@
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
-      "bankCount": 2
+      "bankCount": 3
     },
     {
       "id": "french",
@@ -629,7 +630,7 @@
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
-      "bankCount": 2
+      "bankCount": 3
     },
     {
       "id": "spanish",
@@ -668,7 +669,7 @@
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
-      "bankCount": 2
+      "bankCount": 3
     },
     {
       "id": "chinese",
@@ -707,7 +708,7 @@
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
-      "bankCount": 2
+      "bankCount": 3
     }
   ]
 }
