@@ -357,3 +357,112 @@ body[data-multi-subject-page="true"] #multi-subject-page-content{display:block!i
 @media(max-width:1050px){.multi-route-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.subjects-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.multi-resource-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.subject-preview-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.multi-hero{padding:20px 18px;margin:14px 0 18px;border-radius:17px}.multi-hero h1{font-size:27px;letter-spacing:-1px}.multi-hero>p{font-size:11px}.multi-hero-bottom{align-items:flex-start;flex-direction:column}.multi-dashboard-stats{grid-template-columns:1fr 1fr;gap:9px}.multi-dashboard-stats article{padding:14px}.multi-dashboard-stats article:last-child{grid-column:1/-1}.multi-dashboard-stats strong{font-size:20px}.multi-section-heading{align-items:flex-start;flex-direction:column;gap:7px}.multi-section-heading h2{font-size:21px}.multi-route-grid{grid-template-columns:1fr 1fr;gap:9px}.multi-route-card{padding:14px;gap:9px}.multi-route-copy strong{font-size:11px}.multi-route-copy small{font-size:9px}.multi-theme-grid,.multi-mode-grid{grid-template-columns:1fr}.multi-resource-grid,.multi-mini-resources{grid-template-columns:1fr}.subjects-browser-toolbar{grid-template-columns:1fr;gap:9px}.subject-filter-group{width:100%;display:grid;grid-template-columns:repeat(3,1fr)}.subject-filter-group button{padding:10px 5px}.subjects-result-count{justify-self:end}.subjects-grid{grid-template-columns:1fr}.subject-card{padding:16px}.subject-preview-grid{grid-template-columns:1fr;gap:8px}.home-subject-showcase{padding:11px 0 22px}.multi-action-row{flex-direction:column;align-items:stretch}.multi-action-row>a{justify-content:center}.multi-page-context{margin:0 0 15px}.multi-small-subject-link{font-size:10px}}
 .subject-tabs .subject-tab-link{text-decoration:none;display:block;text-align:center}
+
+
+/* v1.7 — улучшенная читаемость без длинных строк */
+body {
+  font-size: 16px;
+  line-height: 1.55;
+}
+.app-shell {
+  width: min(1240px, calc(100% - 48px));
+}
+p {
+  line-height: 1.7;
+  max-width: 68ch;
+}
+.hero-description {
+  max-width: 46ch;
+  font-size: 15px;
+  line-height: 1.75;
+}
+.nav-link {
+  font-size: 14px;
+}
+.saved-status {
+  font-size: 13px;
+}
+.eyebrow,
+.section-kicker {
+  font-size: 11px;
+}
+.primary-button,
+.secondary-button,
+.mode-link-button {
+  font-size: 14px;
+}
+.stat-label,
+.progress-title,
+.progress-subtitle {
+  font-size: 12px;
+}
+.section-heading > p,
+.workspace-section-heading > p,
+.route-intro p,
+.home-route-copy small,
+.official-task-directory-heading p,
+.official-source-footer p,
+.topic-row-copy small,
+.theory-item p {
+  font-size: 14px;
+  line-height: 1.65;
+}
+.task-item,
+.topic-variant-row,
+.official-question-link {
+  font-size: 14px;
+}
+.task-item small,
+.task-meta,
+.topic-variant-count,
+.official-task-summary small,
+.official-question-link small {
+  font-size: 12px;
+}
+.search-box input,
+.filter-row select,
+.subject-tab,
+.answer-choice-option {
+  font-size: 14px;
+}
+.structured-answer-field,
+.answer-choice-fieldset legend {
+  font-size: 14px;
+}
+.route-intro p,
+.official-topic-source-heading p,
+.topic-group-heading small {
+  max-width: 66ch;
+}
+.topic-group-heading strong,
+.home-route-copy strong {
+  font-size: 16px;
+  line-height: 1.4;
+}
+.topic-picker-panel,
+.theory-card,
+.mode-card {
+  line-height: 1.6;
+}
+@media (max-width: 760px) {
+  .app-shell {
+    width: calc(100% - 32px);
+  }
+  body {
+    font-size: 15px;
+  }
+  .hero-description,
+  .section-heading > p,
+  .workspace-section-heading > p,
+  .route-intro p,
+  .home-route-copy small,
+  .official-task-directory-heading p,
+  .official-source-footer p,
+  .topic-row-copy small,
+  .theory-item p {
+    font-size: 14px;
+  }
+  .nav-link {
+    font-size: 13px;
+  }
+}
