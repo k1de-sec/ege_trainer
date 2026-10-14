@@ -2,7 +2,7 @@ import re
 from html.parser import HTMLParser
 from pathlib import Path
 ROOT=Path(__file__).resolve().parent.parent
-PAGES=['index.html','topics.html','self-study.html','theory.html','official.html']
+PAGES=['index.html','topics.html','self-study.html','theory.html','official.html','subjects.html','subject.html']
 HTML={name:(ROOT/name).read_text(encoding='utf-8') for name in PAGES}
 JS=(ROOT/'app.js').read_text(encoding='utf-8')
 class IdParser(HTMLParser):

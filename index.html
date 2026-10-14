@@ -4,12 +4,12 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="#111827" name="theme-color"/>
-<meta content="Тренажёр ЕГЭ по базовой математике: выбирай темы, проходи самостоятельную подготовку и смотри разборы." name="description"/>
-<title>ЕГЭ+ — тренажёр базовой математики</title>
+<meta content="ЕГЭ+ — платформа подготовки к 15 предметам ЕГЭ: отдельные темы, теория, самоподготовка и официальные материалы ФИПИ." name="description"/>
+<title>ЕГЭ+ — подготовка к разным предметам ЕГЭ</title>
 <link href="./favicon.svg" rel="icon" type="image/svg+xml"/>
 <link href="./manifest.webmanifest" rel="manifest"/>
 <link href="./styles.css" rel="stylesheet"/>
-<script defer="" src="./app.js"></script>
+<script defer="" src="./multi-exam.js"></script>
 </head>
 <body data-page="home">
 <div class="app-shell">
@@ -20,40 +20,42 @@
 </a>
 <nav aria-label="Основная навигация" class="topnav">
 <a aria-current="page" class="nav-link active" data-nav-page="home" href="./index.html">Главная</a>
+<a class="nav-link" data-nav-page="subjects" href="./subjects.html">Предметы</a>
 <a class="nav-link" data-nav-page="topics" href="./topics.html">Темы и варианты</a>
 <a class="nav-link" data-nav-page="study" href="./self-study.html">Самоподготовка</a>
 <a class="nav-link" data-nav-page="theory" href="./theory.html">Теория</a>
 <a class="nav-link" data-nav-page="official" href="./official.html">Источники</a>
 </nav>
-<div class="topbar-right">
-<span class="saved-status"><span class="status-dot"></span> Прогресс сохранён</span>
-<button aria-label="Сбросить прогресс" class="icon-button" id="reset-progress" title="Сбросить прогресс" type="button">↺</button>
-</div>
+<div class="topbar-right"><span class="saved-status"><span class="status-dot"></span> Без регистрации</span></div>
 </header>
 <main><section class="hero" id="practice">
 <div class="hero-content">
 <div class="eyebrow"><span class="eyebrow-dot"></span> ПОДГОТОВКА К ЕГЭ · 2027</div>
-<h1>Математика без<br/><span>лишнего стресса.</span></h1>
-<p class="hero-description">Отрабатывай один тип заданий, когда нужно закрепить навык, или проходи авторский пробный вариант с таймером. Официальные материалы ФИПИ отмечены отдельно.</p>
+<h1>Все твои ЕГЭ<br/><span>в одном месте.</span></h1>
+<p class="hero-description">Выбирай предмет, изучай темы, повторяй теорию и переходи к оригинальным материалам ФИПИ. Тренажёр математики уже работает, остальные предметы подключаем поэтапно.</p>
 <div class="hero-actions">
-<button class="primary-button" id="continue-button" type="button">Продолжить тренировку <span aria-hidden="true">↗</span></button>
-<span class="privacy-note"><span aria-hidden="true">◈</span> Без регистрации</span>
+<a class="primary-button" href="./subjects.html">Выбрать предмет <span aria-hidden="true">↗</span></a>
+<span class="privacy-note"><span aria-hidden="true">◈</span> Начни без регистрации</span>
 </div>
 </div>
 <div aria-hidden="true" class="hero-visual">
 <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
-<div class="math-card card-back"><span class="math-label">ФОРМУЛА</span><div class="equation small-equation">S = v · t</div><span class="mini-line"></span></div>
-<div class="math-card card-front"><div class="card-topline"><span class="formula-icon">ƒx</span><span class="tiny-tag">ЗАДАНИЕ 17</span></div><div class="equation">3(2x − 1) = 21</div><div class="equation-rule"></div><div class="answer-row"><span>x = ?</span><span class="answer-chip">реши сам <b>↗</b></span></div></div>
+<div class="math-card card-back"><span class="math-label">ТВОЙ МАРШРУТ</span><div class="equation small-equation">Теория → практика</div><span class="mini-line"></span></div>
+<div class="math-card card-front"><div class="card-topline"><span class="formula-icon">Е+</span><span class="tiny-tag">15 ПРЕДМЕТОВ ЕГЭ</span></div><div class="equation">Выбери свой ЕГЭ</div><div class="equation-rule"></div><div class="answer-row"><span>Темы · теория · практика</span><span class="answer-chip">начать <b>↗</b></span></div></div>
 <div class="floating-mark mark-plus">+</div><div class="floating-mark mark-x">×</div><div class="floating-mark mark-equal">=</div>
 </div>
-<div class="hero-bottom-line"><span>БАЗОВЫЙ УРОВЕНЬ</span><span>Маленький шаг — уже прогресс</span></div>
+<div class="hero-bottom-line"><span>15 ПРЕДМЕТОВ ЕГЭ</span><span>Маленький шаг — уже прогресс</span></div>
+</section>
+<section aria-labelledby="home-subject-heading" class="home-subject-showcase" id="home-subject-showcase">
+<div class="section-heading"><div><span class="section-kicker">ВЫБЕРИ ЭКЗАМЕН</span><h2 id="home-subject-heading">С чего начнём подготовку?</h2></div><a class="multi-inline-link" href="./subjects.html">Все 15 предметов ↗</a></div>
+<div class="subject-preview-grid" id="home-subject-preview-grid"><div class="loading-placeholder">Загружаем предметы…</div></div>
 </section>
 <section aria-labelledby="why-ege-heading" class="why-strip" id="why-ege">
 <div class="why-heading"><span class="section-kicker">ПОЧЕМУ ЕГЭ+</span><h2 id="why-ege-heading">Подготовка без лишнего шума</h2><p>Понятный маршрут вместо бесконечного списка задач.</p></div>
 <div class="why-card"><span class="why-icon why-purple">◎</span><div><strong>Тренируй слабое место</strong><p>Выбирай конкретный тип задания и решай похожие задачи, пока не станет увереннее.</p></div></div>
 <div class="why-card"><span class="why-icon why-green">✓</span><div><strong>Разбирай ошибки</strong><p>Сначала решай самостоятельно, а потом открывай объяснение и правильный ответ.</p></div></div>
 <div class="why-card"><span class="why-icon why-orange">↗</span><div><strong>Знай источник</strong><p>Авторские задачи не выдаются за официальный КИМ. Материалы ФИПИ открываются отдельно.</p></div></div>
-<div class="why-future">Сейчас развиваем базовую математику. Следом — профиль и другие предметы.</div>
+<div class="why-future">15 предметов ЕГЭ в каталоге; собственные тренировочные банки подключаются по мере подготовки и проверки.</div>
 </section>
 <section aria-label="Разделы ЕГЭ+" class="home-route-grid">
 <a class="home-route-card" href="./topics.html"><span class="home-route-icon purple">№</span><span class="home-route-copy"><strong>Темы и варианты</strong><small>Каталог номеров, типы и упражнения</small></span><span class="home-route-arrow">↗</span></a>
@@ -61,20 +63,18 @@
 <a class="home-route-card" href="./theory.html"><span class="home-route-icon green">∑</span><span class="home-route-copy"><strong>Теория</strong><small>Формулы и объяснения по группам</small></span><span class="home-route-arrow">↗</span></a>
 <a class="home-route-card" href="./official.html"><span class="home-route-icon blue">↗</span><span class="home-route-copy"><strong>Официальные источники</strong><small>Оригинальные материалы ФИПИ</small></span><span class="home-route-arrow">↗</span></a>
 </section>
-<section aria-label="Статистика тренировки" class="stats-grid">
-<article class="stat-card"><div class="stat-icon icon-purple">▦</div><div><div class="stat-number" id="stat-total">441</div><div class="stat-label" id="stat-total-label">авторских упражнений</div></div><span class="stat-note">БАЗА</span></article>
-<article class="stat-card"><div class="stat-icon icon-green">✓</div><div><div class="stat-number" id="stat-done">0</div><div class="stat-label" id="stat-done-label">решено верно</div></div><span class="stat-note positive" id="stat-percent">0%</span></article>
-<article class="stat-card progress-stat"><div class="stat-icon icon-orange">↗</div><div class="progress-copy"><div class="progress-title"><span>Твой прогресс</span><strong id="progress-fraction">0 / 21</strong></div><div class="progress-track"><span id="progress-bar"></span></div><div class="progress-subtitle">Каждое задание приближает к цели</div></div></article>
+<section aria-label="Платформа в цифрах" class="stats-grid">
+<article class="stat-card"><div class="stat-icon icon-purple">▦</div><div><div class="stat-number">15</div><div class="stat-label">предметов ЕГЭ в каталоге</div></div><span class="stat-note">КАТАЛОГ</span></article>
+<article class="stat-card"><div class="stat-icon icon-green">∑</div><div><div class="stat-number">2</div><div class="stat-label">базовый и профильный уровни</div></div><span class="stat-note positive">БАЗА + ПРОФИЛЬ</span></article>
+<article class="stat-card"><div class="stat-icon icon-orange">✓</div><div class="progress-copy"><div class="progress-title"><span>Локальный тренажёр</span><strong>441</strong></div><div class="progress-subtitle">Авторских упражнений по базовой математике. Другие банки подключаются поэтапно.</div></div></article>
 </section>
 <section class="bottom-section" id="about">
-<div class="bottom-copy"><span class="section-kicker">УЧИСЬ В СВОЁМ РИТМЕ</span><h2>Не просто ответ.<br/><span>Понимание.</span></h2><p>Сначала попробуй решить сам. Если застрял — открой разбор, посмотри на ход решения и возвращайся к похожим задачам.</p></div>
-<div class="feature-list"><article class="feature-row"><span class="feature-number">01</span><div><h3>Решай самостоятельно</h3><p>Вводи короткий ответ и сразу проверяй себя.</p></div><span class="feature-symbol">⌁</span></article><article class="feature-row"><span class="feature-number">02</span><div><h3>Понимай ход решения</h3><p>Разбор и типичные ошибки доступны по кнопке.</p></div><span class="feature-symbol">∑</span></article><article class="feature-row"><span class="feature-number">03</span><div><h3>Видь свой прогресс</h3><p>Отмеченные задания остаются в браузере.</p></div><span class="feature-symbol">↗</span></article></div>
+<div class="bottom-copy"><span class="section-kicker">ПОДГОТОВКА ПОЭТАПНО</span><h2>Не просто ответ.<br/><span>Понимание.</span></h2><p>Выбирай предмет, ориентируйся на официальный кодификатор и тренируйся в готовых разделах. Новые банки публикуем только после проверки условий, ответов и критериев.</p></div>
+<div class="feature-list"><article class="feature-row"><span class="feature-number">01</span><div><h3>Выбирай свой ЕГЭ</h3><p>У каждого предмета отдельные страницы тем, теории, самоподготовки и источников.</p></div><span class="feature-symbol">⌁</span></article><article class="feature-row"><span class="feature-number">02</span><div><h3>Проверяй по источникам</h3><p>Оригинальные формулировки и иллюстрации открываются у ФИПИ, не заменяются пересказами.</p></div><span class="feature-symbol">∑</span></article><article class="feature-row"><span class="feature-number">03</span><div><h3>Доверяй статусу банка</h3><p>Мы отмечаем, где тренажёр уже готов, а где пока доступны карта тем и официальные материалы.</p></div><span class="feature-symbol">↗</span></article></div>
 </section>
 </main>
-<footer class="footer"><a class="footer-brand" href="./index.html">егэ<span>+</span></a><span>Тренажёр для самостоятельной подготовки</span><span class="footer-disclaimer">Авторские задания · ссылки на официальные материалы ФИПИ</span></footer>
+<footer class="footer"><a class="footer-brand" href="./index.html">егэ<span>+</span></a><span>Тренажёр для самостоятельной подготовки</span><span class="footer-disclaimer">Каталог предметов · авторские задания отделены от оригиналов ФИПИ</span></footer>
 </div>
-<div aria-live="polite" class="toast" id="toast" role="status"></div>
-<dialog class="confirm-dialog" id="reset-dialog"><form method="dialog"><div class="dialog-icon">↺</div><h2>Сбросить прогресс?</h2><p>Все сохранённые отметки о решённых заданиях будут удалены из этого браузера.</p><div class="dialog-actions"><button class="secondary-button" value="cancel">Оставить</button><button class="danger-button" id="confirm-reset" value="confirm">Сбросить</button></div></form></dialog>
-<dialog aria-labelledby="exam-result-heading" class="confirm-dialog exam-result-dialog" id="exam-result-dialog"><div id="exam-result-content"></div></dialog>
+
 </body>
 </html>

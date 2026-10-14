@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="theme-color" content="#111827"/>
+<meta name="description" content="Выбери предмет ЕГЭ: математика, русский язык, физика, информатика и другие экзамены."/>
+<title>Предметы ЕГЭ — ЕГЭ+</title>
+<link href="./favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="./manifest.webmanifest" rel="manifest"/>
+<link href="./styles.css" rel="stylesheet"/>
+<script defer src="./multi-exam.js"></script>
+</head>
+<body data-page="subjects">
+<div class="app-shell">
+<header class="topbar">
+<a aria-label="ЕГЭ+ — главная" class="brand" href="./index.html"><span aria-hidden="true" class="brand-mark"><span></span><span></span><span></span></span><span class="brand-copy"><strong>егэ<span>+</span></strong><small>тренажёр</small></span></a>
+<nav aria-label="Основная навигация" class="topnav">
+<a class="nav-link" data-nav-page="home" href="./index.html">Главная</a>
+<a aria-current="page" class="nav-link active" data-nav-page="subjects" href="./subjects.html">Предметы</a>
+<a class="nav-link" data-nav-page="topics" href="./topics.html">Темы и варианты</a>
+<a class="nav-link" data-nav-page="study" href="./self-study.html">Самоподготовка</a>
+<a class="nav-link" data-nav-page="theory" href="./theory.html">Теория</a>
+<a class="nav-link" data-nav-page="official" href="./official.html">Источники</a>
+</nav>
+<div class="topbar-right"><span class="saved-status"><span class="status-dot"></span> Выбор предмета</span></div>
+</header>
+<main>
+<section class="multi-hero catalog-hero"><div class="multi-breadcrumb"><a href="./index.html">Главная</a><span>›</span><span>Предметы ЕГЭ</span></div><span class="section-kicker">ПЛАТФОРМА ПОДГОТОВКИ</span><h1>Какой ЕГЭ готовим?</h1><p>Выбирай экзамен — у него будут свои темы, теория, самостоятельная подготовка и официальные источники. Отдельно показываем, где собственный банк уже доступен, а где он ещё наполняется.</p><div class="catalog-summary"><strong>15 предметов ЕГЭ</strong><span>Математика доступна в базовом и профильном уровнях</span></div></section>
+<section class="subjects-browser-section" aria-label="Каталог предметов">
+<div class="subjects-browser-toolbar"><label class="subjects-search"><span aria-hidden="true">⌕</span><input type="search" id="subjects-search" placeholder="Найти предмет…" aria-label="Найти предмет"/></label><div class="subject-filter-group" role="group" aria-label="Фильтр предметов"><button class="selected" type="button" data-subject-filter="all" aria-pressed="true">Все</button><button type="button" data-subject-filter="mandatory" aria-pressed="false">Обязательные</button><button type="button" data-subject-filter="elective" aria-pressed="false">По выбору</button></div><span id="subjects-result-count" class="subjects-result-count">15 предметов</span></div>
+<div class="subjects-grid" id="subjects-catalog"><div class="loading-placeholder">Загружаем предметы…</div></div>
+</section>
+<section class="multi-notice notice-planned catalog-footnote"><strong>Об источниках и наполнении</strong><p>Оригинальные задания открываются на сайте ФИПИ. Авторские упражнения ЕГЭ+ будут публиковаться отдельно после проверки ответов, решений и форматов. Мы не показываем предмет как полностью готовый тренажёр, пока его банк не наполнен.</p><a href="./official.html">Открыть официальный раздел ФИПИ ↗</a></section>
+</main>
+<footer class="footer"><a class="footer-brand" href="./index.html">егэ<span>+</span></a><span>Подготовка к экзаменам в одном месте</span><span class="footer-disclaimer">Оригинальные материалы остаются у первоисточника</span></footer>
+</div>
+</body>
+</html>

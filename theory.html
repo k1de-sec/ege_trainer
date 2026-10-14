@@ -9,6 +9,7 @@
 <link href="./favicon.svg" rel="icon" type="image/svg+xml"/>
 <link href="./manifest.webmanifest" rel="manifest"/>
 <link href="./styles.css" rel="stylesheet"/>
+<script defer="" src="./multi-exam.js"></script>
 <script defer="" src="./app.js"></script>
 </head>
 <body data-page="theory">
@@ -20,6 +21,7 @@
 </a>
 <nav aria-label="Основная навигация" class="topnav">
 <a class="nav-link" data-nav-page="home" href="./index.html">Главная</a>
+<a class="nav-link" data-nav-page="subjects" href="./subjects.html">Предметы</a>
 <a class="nav-link" data-nav-page="topics" href="./topics.html">Темы и варианты</a>
 <a class="nav-link" data-nav-page="study" href="./self-study.html">Самоподготовка</a>
 <a aria-current="page" class="nav-link active" data-nav-page="theory" href="./theory.html">Теория</a>
@@ -30,7 +32,7 @@
 <button aria-label="Сбросить прогресс" class="icon-button" id="reset-progress" title="Сбросить прогресс" type="button">↺</button>
 </div>
 </header>
-<main><section aria-labelledby="route-theory-title" class="route-intro route-intro-theory">
+<main><section class="multi-subject-page-content" id="multi-subject-page-content" hidden></section><section aria-labelledby="route-theory-title" class="route-intro route-intro-theory">
 <div><span class="section-kicker">ТЕОРИЯ И ПОВТОРЕНИЕ</span><h1 id="route-theory-title">Теория по группам тем</h1><p>Краткие правила и формулы помогают повторить основу; затем открой подборку упражнений по соответствующему номеру.</p></div>
 </section>
 <section aria-labelledby="theory-heading" class="theory-section" id="theory">

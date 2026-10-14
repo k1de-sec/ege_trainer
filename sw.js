@@ -1,7 +1,7 @@
-const CACHE_NAME = 'ege-trainer-web-v11';
+const CACHE_NAME = 'ege-trainer-web-v12-multisubject';
 const APP_SHELL = [
-  './', './index.html', './topics.html', './self-study.html', './theory.html', './official.html',
-  './styles.css', './app.js', './tasks_data.json', './fipi_links.json',
+  './', './index.html', './subjects.html', './subject.html', './topics.html', './self-study.html', './theory.html', './official.html',
+  './styles.css', './app.js', './multi-exam.js', './subjects.json', './tasks_data.json', './fipi_links.json',
   './manifest.webmanifest', './favicon.svg',
   './assets/diagrams/grid-cut.svg', './assets/diagrams/right-triangle.svg', './assets/diagrams/pyramid.svg'
 ];

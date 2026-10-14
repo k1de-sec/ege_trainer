@@ -9,6 +9,7 @@
 <link href="./favicon.svg" rel="icon" type="image/svg+xml"/>
 <link href="./manifest.webmanifest" rel="manifest"/>
 <link href="./styles.css" rel="stylesheet"/>
+<script defer="" src="./multi-exam.js"></script>
 <script defer="" src="./app.js"></script>
 </head>
 <body data-page="topics">
@@ -20,6 +21,7 @@
 </a>
 <nav aria-label="Основная навигация" class="topnav">
 <a class="nav-link" data-nav-page="home" href="./index.html">Главная</a>
+<a class="nav-link" data-nav-page="subjects" href="./subjects.html">Предметы</a>
 <a aria-current="page" class="nav-link active" data-nav-page="topics" href="./topics.html">Темы и варианты</a>
 <a class="nav-link" data-nav-page="study" href="./self-study.html">Самоподготовка</a>
 <a class="nav-link" data-nav-page="theory" href="./theory.html">Теория</a>
@@ -30,7 +32,7 @@
 <button aria-label="Сбросить прогресс" class="icon-button" id="reset-progress" title="Сбросить прогресс" type="button">↺</button>
 </div>
 </header>
-<main><section aria-labelledby="route-topics-title" class="route-intro route-intro-topics">
+<main><section class="multi-subject-page-content" id="multi-subject-page-content" hidden></section><section aria-labelledby="route-topics-title" class="route-intro route-intro-topics">
 <div><span class="section-kicker">КАТАЛОГ ПОДГОТОВКИ</span><h1 id="route-topics-title">Темы и варианты</h1><p>Выбирай номер задания, изучай связанные темы и переходи к упражнениям именно этого типа.</p></div>
 <a class="route-intro-link" href="./official.html">Нужны исходные задания? Открыть официальные источники ФИПИ ↗</a>
 </section>
@@ -76,7 +78,7 @@
 <div class="sidebar-heading"><div><span class="section-kicker">ТВОЙ МАРШРУТ</span><h2>Задания</h2></div><span class="task-count" id="list-count">21</span></div>
 <div aria-label="Выбор уровня" class="subject-tabs" role="group">
 <button aria-pressed="true" class="subject-tab selected" type="button">База</button>
-<button aria-pressed="false" class="subject-tab" disabled="" title="Профильный раздел появится позже" type="button">Профиль <span class="soon-label">скоро</span></button>
+<a class="subject-tab subject-tab-link" href="./subject.html?subject=math_profile" title="Посмотреть статус профильной математики">Профиль <span class="soon-label">2 шаблона</span></a>
 </div>
 <label class="search-box"><span aria-hidden="true">⌕</span><input aria-label="Найти задание" id="task-search" placeholder="Найти задание..." type="search"/></label>
 <div class="filter-row"><label for="type-filter">ТЕМА</label><select id="type-filter"><option value="all">Все темы</option></select></div>

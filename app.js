@@ -3,7 +3,8 @@
   const DATA_URL = './tasks_data.json';
   const FIPI_LINKS_URL = './fipi_links.json';
   const PAGE = document.body.dataset.page || 'home';
-  const STORAGE_KEY = 'ege-trainer-progress-v2';
+  const ACTIVE_SUBJECT_KEY = window.EGE_ACTIVE_SUBJECT_ID || 'math_basic';
+  const STORAGE_KEY = `ege-trainer-progress-v3-${ACTIVE_SUBJECT_KEY}`;
   const EXAM_SECONDS = 180 * 60;
   const $ = (selector) => document.querySelector(selector);
   const el = {
@@ -14,7 +15,7 @@
     progressBar: $('#progress-bar'), resetProgress: $('#reset-progress'), resetDialog: $('#reset-dialog'),
     imageLightbox: $('#image-lightbox'), lightboxImage: $('#lightbox-image'), lightboxCaption: $('#lightbox-caption'),
     lightboxZoomValue: $('#lightbox-zoom-value'), lightboxStage: $('#lightbox-stage'),
-    confirmReset: $('#confirm-reset'), continueButton: $('#continue-button'), toast: $('#toast'),
+    confirmReset: $('#confirm-reset'), toast: $('#toast'),
     statDoneLabel: $('#stat-done-label'), statTotalLabel: $('#stat-total-label'),
     allTasksButton: $('#all-tasks-button'), randomSetButton: $('#random-set-button'), startWarmupButton: $('#start-warmup-button'),
     randomFipiTaskButton: $('#random-fipi-task-button'),
@@ -33,7 +34,8 @@
 
   function readProgress() {
     try {
-      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || localStorage.getItem('ege-trainer-progress-v1') || '{}');
+      const legacyProgress = ACTIVE_SUBJECT_KEY === 'math_basic' ? (localStorage.getItem('ege-trainer-progress-v2') || localStorage.getItem('ege-trainer-progress-v1')) : null;
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || legacyProgress || '{}');
       state.solved = new Set(Array.isArray(saved.solved) ? saved.solved : []);
       state.selfChecked = new Set(Array.isArray(saved.selfChecked) ? saved.selfChecked : []);
       state.attempts = saved.attempts && typeof saved.attempts === 'object' ? saved.attempts : {};
@@ -993,14 +995,6 @@
       const button = event.target.closest('[data-task-id]');
       if (button) selectTask(button.dataset.taskId);
     });
-    el.continueButton?.addEventListener('click', () => {
-      if (PAGE !== 'topics') { window.location.href = './topics.html'; return; }
-      const currentIndex = state.tasks.findIndex((task) => task.externalId === state.currentId);
-      const unsolved = state.tasks.find((task, index) => index >= Math.max(currentIndex, 0) && !state.solved.has(task.externalId))
-        || state.tasks.find((task) => !state.solved.has(task.externalId));
-      if (unsolved) selectTask(unsolved.externalId, { scroll: true });
-      else if (state.tasks[0]) { selectTask(state.tasks[0].externalId, { scroll: true }); toast('Все задания решены верно — можно пройти их ещё раз!'); }
-    });
     el.allTasksButton?.addEventListener('click', showAllTasks);
     el.startTopicPracticeButton?.addEventListener('click', startTopicPractice);
     el.randomSetButton?.addEventListener('click', startRandomCollection);
@@ -1041,6 +1035,9 @@
   }
 
   async function init() {
+    // The legacy task engine is currently populated for basic mathematics only.
+    // Other subjects are rendered by multi-exam.js and must never fall back to math questions.
+    if (window.EGE_ACTIVE_SUBJECT_ID && window.EGE_ACTIVE_SUBJECT_ID !== 'math_basic') return;
     readProgress(); installEvents();
     try {
       const response = await fetch(DATA_URL, { cache: 'no-cache' });

@@ -1,0 +1,699 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-10-14",
+  "countOfficialSubjects": 15,
+  "sourcesNotice": "Раздел ФИПИ для ЕГЭ-2027 в текущей публикации содержит проекты демонстрационных вариантов, спецификаций и кодификаторов. Сверяйте актуальный статус документов у первоисточника.",
+  "officialDocumentsPage": "https://fipi.ru/ege/demoversii-specifikacii-kodifikatory",
+  "openBankUrl": "https://ege.fipi.ru/bank/",
+  "openVariantsUrl": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
+  "subjects": [
+    {
+      "id": "russian",
+      "name": "Русский язык",
+      "icon": "Аа",
+      "category": "mandatory",
+      "description": "Культура речи, орфография, пунктуация, работа с текстом и сочинение.",
+      "themes": [
+        {
+          "title": "Текст и его смысл",
+          "description": "Определение темы и главной мысли, смысловые связи между предложениями, понимание позиции автора и логики текста."
+        },
+        {
+          "title": "Языковые нормы",
+          "description": "Лексические, грамматические и речевые нормы; выбор формы слова и построения предложения в контексте."
+        },
+        {
+          "title": "Орфография",
+          "description": "Правописание корней, приставок, суффиксов, окончаний, НЕ/НИ и слитных, раздельных и дефисных написаний."
+        },
+        {
+          "title": "Пунктуация",
+          "description": "Знаки препинания в простом и сложном предложении, при обособленных конструкциях, вводных словах и прямой речи."
+        },
+        {
+          "title": "Средства выразительности",
+          "description": "Лексические и синтаксические приёмы, тропы, стилистические функции языковых средств и их роль в тексте."
+        },
+        {
+          "title": "Сочинение и аргументация",
+          "description": "Формулировка проблемы и позиции автора, комментарий с примерами, обоснование собственной позиции и речевая точность."
+        }
+      ],
+      "sources": {
+        "fipiPage": "https://fipi.ru/ege/demoversii-specifikacii-kodifikatory",
+        "openBank": "https://ege.fipi.ru/bank/",
+        "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
+        "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/ru_11_2027.zip",
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/ru_11_2026.zip"
+      },
+      "status": "preparing",
+      "statusLabel": "Структура подготовлена · банк наполняется"
+    },
+    {
+      "id": "mathematics",
+      "name": "Математика",
+      "icon": "∑",
+      "category": "mandatory",
+      "description": "Два уровня: базовый для аттестата и профильный для поступления на направления с математикой.",
+      "themes": [
+        {
+          "title": "Практические и текстовые задачи",
+          "description": "Карта направления для базового и профильного уровня. Актуальные типы задач и критерии сверяй с официальной спецификацией ФИПИ."
+        },
+        {
+          "title": "Числа и вычисления",
+          "description": "Карта направления для базового и профильного уровня. Актуальные типы задач и критерии сверяй с официальной спецификацией ФИПИ."
+        },
+        {
+          "title": "Алгебра и уравнения",
+          "description": "Карта направления для базового и профильного уровня. Актуальные типы задач и критерии сверяй с официальной спецификацией ФИПИ."
+        },
+        {
+          "title": "Функции и графики",
+          "description": "Карта направления для базового и профильного уровня. Актуальные типы задач и критерии сверяй с официальной спецификацией ФИПИ."
+        },
+        {
+          "title": "Планиметрия и стереометрия",
+          "description": "Карта направления для базового и профильного уровня. Актуальные типы задач и критерии сверяй с официальной спецификацией ФИПИ."
+        },
+        {
+          "title": "Вероятность и статистика",
+          "description": "Карта направления для базового и профильного уровня. Актуальные типы задач и критерии сверяй с официальной спецификацией ФИПИ."
+        },
+        {
+          "title": "Экономические задачи",
+          "description": "Карта направления для базового и профильного уровня. Актуальные типы задач и критерии сверяй с официальной спецификацией ФИПИ."
+        },
+        {
+          "title": "Сложные задачи и параметры",
+          "description": "Карта направления для базового и профильного уровня. Актуальные типы задач и критерии сверяй с официальной спецификацией ФИПИ."
+        }
+      ],
+      "sources": {
+        "fipiPage": "https://fipi.ru/ege/demoversii-specifikacii-kodifikatory",
+        "openBank": "https://ege.fipi.ru/bank/",
+        "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
+        "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/ma_11_2027.zip",
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/ma_11_2026.zip"
+      },
+      "tracks": [
+        {
+          "id": "math_basic",
+          "name": "Базовый уровень",
+          "shortName": "Математика · база",
+          "status": "available",
+          "statusLabel": "Тренажёр доступен",
+          "bankCount": 441,
+          "durationMinutes": 180,
+          "description": "Полный локальный набор из авторских тренировочных упражнений по 21 номеру: 21 вариант на каждый тип. Не официальный банк ФИПИ.",
+          "themes": [
+            {
+              "title": "Практические задачи и числа",
+              "description": "Числовые вычисления, величины, пропорции, проценты и практические расчёты."
+            },
+            {
+              "title": "Алгебра и функции",
+              "description": "Выражения, уравнения, неравенства, формулы и графики."
+            },
+            {
+              "title": "Геометрия",
+              "description": "Планиметрия, стереометрия, измерения, площадь и объём."
+            },
+            {
+              "title": "Вероятность, статистика и логика",
+              "description": "Чтение данных, вероятность, таблицы, логические рассуждения."
+            }
+          ]
+        },
+        {
+          "id": "math_profile",
+          "name": "Профильный уровень",
+          "shortName": "Математика · профиль",
+          "status": "pilot",
+          "statusLabel": "Начальное наполнение",
+          "bankCount": 2,
+          "durationMinutes": null,
+          "description": "В проекте есть только два демонстрационных шаблона профильной математики. Полный каталог и экзаменационный режим ещё не готовы.",
+          "themes": [
+            {
+              "title": "Алгебра и анализ",
+              "description": "Функции, уравнения, неравенства, производная и интеграл."
+            },
+            {
+              "title": "Планиметрия и стереометрия",
+              "description": "Геометрические конфигурации, доказательства и вычисления."
+            },
+            {
+              "title": "Вероятность и статистика",
+              "description": "Вероятностные модели и анализ данных."
+            },
+            {
+              "title": "Задачи повышенной сложности",
+              "description": "Параметры, экономические модели и развёрнутые рассуждения."
+            }
+          ]
+        }
+      ],
+      "status": "multi-track",
+      "statusLabel": "Два уровня"
+    },
+    {
+      "id": "physics",
+      "name": "Физика",
+      "icon": "↗",
+      "category": "elective",
+      "description": "Законы природы, расчётные задачи, графики и анализ эксперимента.",
+      "themes": [
+        {
+          "title": "Механика",
+          "description": "Кинематика, динамика, силы, законы Ньютона, импульс, работа, энергия и механические колебания."
+        },
+        {
+          "title": "Молекулярная физика и термодинамика",
+          "description": "Модель идеального газа, температура, давление, уравнения состояния, внутренняя энергия, теплообмен и термодинамические процессы."
+        },
+        {
+          "title": "Электродинамика",
+          "description": "Электрическое поле и ток, цепи постоянного тока, магнитное поле, электромагнитная индукция и электромагнитные колебания."
+        },
+        {
+          "title": "Колебания и волны",
+          "description": "Гармонические колебания, маятники, резонанс, распространение волн и основные характеристики звука."
+        },
+        {
+          "title": "Оптика",
+          "description": "Геометрическая оптика, отражение и преломление света, линзы и волновые свойства света."
+        },
+        {
+          "title": "Квантовая физика",
+          "description": "Фотоэффект, модели атома, радиоактивность, ядерные реакции и свойства элементарных частиц на базовом уровне."
+        },
+        {
+          "title": "Эксперимент и графики",
+          "description": "Чтение экспериментальных установок, таблиц и графиков; анализ погрешностей, единиц измерения и зависимостей."
+        }
+      ],
+      "sources": {
+        "fipiPage": "https://fipi.ru/ege/demoversii-specifikacii-kodifikatory",
+        "openBank": "https://ege.fipi.ru/bank/",
+        "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
+        "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/fi_11_2027.zip",
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/fi_11_2026.zip"
+      },
+      "status": "preparing",
+      "statusLabel": "Структура подготовлена · банк наполняется"
+    },
+    {
+      "id": "chemistry",
+      "name": "Химия",
+      "icon": "⚗",
+      "category": "elective",
+      "description": "Строение веществ, реакции, свойства соединений и расчётные задачи.",
+      "themes": [
+        {
+          "title": "Строение атома и химическая связь",
+          "description": "Электронные конфигурации, периодический закон, валентность, степень окисления и типы химической связи."
+        },
+        {
+          "title": "Неорганическая химия",
+          "description": "Классы неорганических веществ, свойства оксидов, кислот, оснований и солей, генетические связи и ОВР."
+        },
+        {
+          "title": "Химические реакции",
+          "description": "Классификация реакций, ионные уравнения, окислительно-восстановительные процессы, скорость и равновесие."
+        },
+        {
+          "title": "Растворы и расчёты",
+          "description": "Массовая доля, количество вещества, молярные величины, уравнения реакций и расчётные задачи."
+        },
+        {
+          "title": "Органическая химия",
+          "description": "Классы углеводородов и функциональных соединений, изомерия, номенклатура и характерные реакции."
+        },
+        {
+          "title": "Эксперимент и цепочки превращений",
+          "description": "Химические свойства веществ, качественные реакции, распознавание и обоснование последовательности превращений."
+        }
+      ],
+      "sources": {
+        "fipiPage": "https://fipi.ru/ege/demoversii-specifikacii-kodifikatory",
+        "openBank": "https://ege.fipi.ru/bank/",
+        "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
+        "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/hi_11_2027.zip",
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/hi_11_2026.zip"
+      },
+      "status": "preparing",
+      "statusLabel": "Структура подготовлена · банк наполняется"
+    },
+    {
+      "id": "informatics",
+      "name": "Информатика",
+      "icon": "</>",
+      "category": "elective",
+      "description": "Алгоритмы, программирование, логика, кодирование и информационные модели.",
+      "themes": [
+        {
+          "title": "Информация и системы счисления",
+          "description": "Единицы информации, кодирование, перевод чисел между системами счисления и вычисления с представлением данных."
+        },
+        {
+          "title": "Логика и таблицы истинности",
+          "description": "Логические операции, таблицы истинности, логические выражения, условия и области значений."
+        },
+        {
+          "title": "Алгоритмы и программирование",
+          "description": "Трассировка алгоритмов, циклы, ветвления, массивы, функции и проверка программ на тестах."
+        },
+        {
+          "title": "Графы и комбинаторика",
+          "description": "Подсчёт путей, правила комбинаторики, графовые модели и перебор вариантов."
+        },
+        {
+          "title": "Электронные таблицы",
+          "description": "Формулы, ссылки, фильтры и сортировка, обработка данных и анализ результатов вычислений."
+        },
+        {
+          "title": "Поиск и обработка данных",
+          "description": "Запросы, файловые данные, таблицы, базы данных и оценка условий поиска."
+        },
+        {
+          "title": "Сети и информационная безопасность",
+          "description": "Адресация и передача данных, пропускная способность, сетевые модели и основы защиты информации."
+        }
+      ],
+      "sources": {
+        "fipiPage": "https://fipi.ru/ege/demoversii-specifikacii-kodifikatory",
+        "openBank": "https://ege.fipi.ru/bank/",
+        "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
+        "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/inf_11_2027.zip",
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/inf_11_2026.zip"
+      },
+      "status": "preparing",
+      "statusLabel": "Структура подготовлена · банк наполняется"
+    },
+    {
+      "id": "biology",
+      "name": "Биология",
+      "icon": "⌁",
+      "category": "elective",
+      "description": "Клетка, организм, генетика, эволюция и экосистемы.",
+      "themes": [
+        {
+          "title": "Биология как наука",
+          "description": "Методы биологии, признаки живого, уровни организации и взаимосвязь научных областей."
+        },
+        {
+          "title": "Клетка и обмен веществ",
+          "description": "Органоиды, мембраны, деление клетки, фотосинтез, дыхание, биосинтез белка и хранение наследственной информации."
+        },
+        {
+          "title": "Организм человека",
+          "description": "Системы органов, регуляция, иммунитет, обмен веществ, здоровье и взаимосвязь физиологических процессов."
+        },
+        {
+          "title": "Генетика и селекция",
+          "description": "Законы наследования, генотип и фенотип, наследование признаков, изменчивость и основы селекции."
+        },
+        {
+          "title": "Эволюция",
+          "description": "Доказательства эволюции, естественный отбор, видообразование, адаптации и происхождение человека."
+        },
+        {
+          "title": "Экология",
+          "description": "Экосистемы, пищевые цепи, круговороты веществ, популяции, факторы среды и устойчивость экосистем."
+        },
+        {
+          "title": "Ботаника и зоология",
+          "description": "Строение, жизненные процессы, классификация и особенности основных групп растений, грибов и животных."
+        }
+      ],
+      "sources": {
+        "fipiPage": "https://fipi.ru/ege/demoversii-specifikacii-kodifikatory",
+        "openBank": "https://ege.fipi.ru/bank/",
+        "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
+        "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/bi_11_2027.zip",
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/bi_11_2026.zip"
+      },
+      "status": "preparing",
+      "statusLabel": "Структура подготовлена · банк наполняется"
+    },
+    {
+      "id": "history",
+      "name": "История",
+      "icon": "◷",
+      "category": "elective",
+      "description": "Исторические процессы, источники, хронология, культура и аргументация.",
+      "themes": [
+        {
+          "title": "Хронология и периоды истории",
+          "description": "Систематизация событий по времени, определение последовательности, соотнесение персоналий и исторических эпох."
+        },
+        {
+          "title": "Исторические процессы России",
+          "description": "Государственность, общественные изменения, реформы, войны, экономика и внешняя политика России в разные периоды."
+        },
+        {
+          "title": "Всемирная история",
+          "description": "Крупные мировые процессы и события, международные отношения и их связь с российской историей."
+        },
+        {
+          "title": "Исторические источники",
+          "description": "Анализ письменных источников, карт, изображений и статистики; определение контекста и достоверных выводов."
+        },
+        {
+          "title": "Культура и памятники",
+          "description": "Архитектура, живопись, литература и другие культурные явления в историческом контексте."
+        },
+        {
+          "title": "Причины, следствия и аргументация",
+          "description": "Объяснение исторических причин и последствий, сравнение процессов, подбор аргументов и доказательств."
+        }
+      ],
+      "sources": {
+        "fipiPage": "https://fipi.ru/ege/demoversii-specifikacii-kodifikatory",
+        "openBank": "https://ege.fipi.ru/bank/",
+        "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
+        "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/is_11_2027.zip",
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/is_11_2026.zip"
+      },
+      "status": "preparing",
+      "statusLabel": "Структура подготовлена · банк наполняется"
+    },
+    {
+      "id": "social_science",
+      "name": "Обществознание",
+      "icon": "◎",
+      "category": "elective",
+      "description": "Человек и общество, экономика, социальные отношения, политика и право.",
+      "themes": [
+        {
+          "title": "Человек и общество",
+          "description": "Личность, познание, культура, образование, духовная жизнь и глобальные общественные процессы."
+        },
+        {
+          "title": "Экономика",
+          "description": "Спрос и предложение, рынки, производство, предпринимательство, финансы, инфляция и государственная экономическая политика."
+        },
+        {
+          "title": "Социальные отношения",
+          "description": "Социальные группы, стратификация, мобильность, семья, конфликты, нормы и социальный контроль."
+        },
+        {
+          "title": "Политика и власть",
+          "description": "Государство, политические режимы, выборы, партии, гражданское общество, политическое участие и органы власти."
+        },
+        {
+          "title": "Право",
+          "description": "Основы конституционного, гражданского, трудового, семейного, административного и уголовного права."
+        },
+        {
+          "title": "Анализ социальных данных и аргументация",
+          "description": "Интерпретация таблиц, диаграмм и высказываний, формулирование тезиса, объяснение и аргументация."
+        }
+      ],
+      "sources": {
+        "fipiPage": "https://fipi.ru/ege/demoversii-specifikacii-kodifikatory",
+        "openBank": "https://ege.fipi.ru/bank/",
+        "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
+        "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/ob_11_2027.zip",
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/ob_11_2026.zip"
+      },
+      "status": "preparing",
+      "statusLabel": "Структура подготовлена · банк наполняется"
+    },
+    {
+      "id": "geography",
+      "name": "География",
+      "icon": "⌖",
+      "category": "elective",
+      "description": "Карты, природные процессы, население, хозяйство и географические расчёты.",
+      "themes": [
+        {
+          "title": "Географические источники и карты",
+          "description": "Масштаб, координаты, условные знаки, профиль рельефа, картографические проекции и анализ географической информации."
+        },
+        {
+          "title": "Природа и ресурсы",
+          "description": "Климат, рельеф, воды, почвы, природные зоны, ресурсы и закономерности географической оболочки."
+        },
+        {
+          "title": "Население и миграции",
+          "description": "Численность и размещение населения, воспроизводство, урбанизация, миграции и трудовые ресурсы."
+        },
+        {
+          "title": "Мировое хозяйство",
+          "description": "Отраслевая и территориальная структура хозяйства, энергетика, промышленность, сельское хозяйство и транспорт."
+        },
+        {
+          "title": "Регионы России и мира",
+          "description": "Экономико-географическая характеристика территорий, специализация, размещение производства и региональные различия."
+        },
+        {
+          "title": "Географические расчёты",
+          "description": "Часовые пояса, расстояния по карте, демографические показатели и расчёты по таблицам и статистике."
+        }
+      ],
+      "sources": {
+        "fipiPage": "https://fipi.ru/ege/demoversii-specifikacii-kodifikatory",
+        "openBank": "https://ege.fipi.ru/bank/",
+        "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
+        "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/gg_11_2027.zip",
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/gg_11_2026.zip"
+      },
+      "status": "preparing",
+      "statusLabel": "Структура подготовлена · банк наполняется"
+    },
+    {
+      "id": "literature",
+      "name": "Литература",
+      "icon": "❝",
+      "category": "elective",
+      "description": "Анализ художественного текста, теория литературы и развёрнутые ответы.",
+      "themes": [
+        {
+          "title": "Теория литературы",
+          "description": "Роды, жанры, композиция, конфликт, система персонажей, тропы, стихотворные размеры и средства художественной выразительности."
+        },
+        {
+          "title": "Анализ лирики",
+          "description": "Тема и мотивы стихотворения, лирический герой, образная система, композиция и выразительные средства."
+        },
+        {
+          "title": "Анализ эпического и драматического текста",
+          "description": "Проблематика, характеры, авторская позиция, конфликт, детали и функции эпизода."
+        },
+        {
+          "title": "Сопоставление произведений",
+          "description": "Общие основания и различия в проблематике, персонажах, авторских приёмах и художественном решении."
+        },
+        {
+          "title": "Историко-литературные процессы",
+          "description": "Направления, эпохи, биографии авторов и историко-культурный контекст произведений."
+        },
+        {
+          "title": "Развёрнутый ответ и сочинение",
+          "description": "Точный тезис, опора на текст, анализ примеров, сопоставление и грамотная письменная аргументация."
+        }
+      ],
+      "sources": {
+        "fipiPage": "https://fipi.ru/ege/demoversii-specifikacii-kodifikatory",
+        "openBank": "https://ege.fipi.ru/bank/",
+        "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
+        "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/li_11_2027.zip",
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/li_11_2026.zip"
+      },
+      "status": "preparing",
+      "statusLabel": "Структура подготовлена · банк наполняется"
+    },
+    {
+      "id": "english",
+      "name": "Английский язык",
+      "icon": "EN",
+      "category": "elective",
+      "description": "Письменная и устная части, аудирование, чтение, грамматика и письмо.",
+      "themes": [
+        {
+          "title": "Аудирование",
+          "description": "Понимание основной идеи, запрашиваемых деталей, позиции говорящего и связи реплик в аудиотексте."
+        },
+        {
+          "title": "Чтение",
+          "description": "Понимание главной мысли, поиск конкретной информации, логика текста и соответствие утверждений."
+        },
+        {
+          "title": "Грамматика и лексика",
+          "description": "Грамматические формы, словообразование, устойчивые сочетания и выбор лексики по контексту."
+        },
+        {
+          "title": "Письменная речь",
+          "description": "Структура письменного ответа, коммуникативная задача, логичность, связность и языковое оформление."
+        },
+        {
+          "title": "Устная речь",
+          "description": "Чёткое выполнение устной инструкции, описание/сравнение, аргументация, темп и произношение."
+        }
+      ],
+      "sources": {
+        "fipiPage": "https://fipi.ru/ege/demoversii-specifikacii-kodifikatory",
+        "openBank": "https://ege.fipi.ru/bank/",
+        "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
+        "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/aya_11_2027.zip",
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/aya_11_2026.zip"
+      },
+      "status": "preparing",
+      "statusLabel": "Структура подготовлена · банк наполняется"
+    },
+    {
+      "id": "german",
+      "name": "Немецкий язык",
+      "icon": "DE",
+      "category": "elective",
+      "description": "Письменная и устная части, аудирование, чтение, грамматика и письмо.",
+      "themes": [
+        {
+          "title": "Аудирование",
+          "description": "Понимание основной идеи, конкретных деталей и отношений между участниками аудиообщения."
+        },
+        {
+          "title": "Чтение",
+          "description": "Поиск информации, понимание смысла незнакомых слов из контекста и установление логических связей."
+        },
+        {
+          "title": "Грамматика и лексика",
+          "description": "Падежи, порядок слов, времена, словообразование и лексические сочетания в контексте."
+        },
+        {
+          "title": "Письменная речь",
+          "description": "Выполнение задачи письма, логика, структура текста, обращение, аргументы и языковая точность."
+        },
+        {
+          "title": "Устная речь",
+          "description": "Подготовленный устный ответ, описание изображения/ситуации, сравнение, аргументация и произношение."
+        }
+      ],
+      "sources": {
+        "fipiPage": "https://fipi.ru/ege/demoversii-specifikacii-kodifikatory",
+        "openBank": "https://ege.fipi.ru/bank/",
+        "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
+        "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/nya_11_2027.zip",
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/nya_11_2026.zip"
+      },
+      "status": "preparing",
+      "statusLabel": "Структура подготовлена · банк наполняется"
+    },
+    {
+      "id": "french",
+      "name": "Французский язык",
+      "icon": "FR",
+      "category": "elective",
+      "description": "Письменная и устная части, аудирование, чтение, грамматика и письмо.",
+      "themes": [
+        {
+          "title": "Аудирование",
+          "description": "Понимание основной мысли, деталей и коммуникативной ситуации по звучащему тексту."
+        },
+        {
+          "title": "Чтение",
+          "description": "Поиск информации, понимание темы и деталей, логические отношения и контекстная догадка."
+        },
+        {
+          "title": "Грамматика и лексика",
+          "description": "Согласование, времена и наклонения, местоимения, словообразование и лексические сочетания."
+        },
+        {
+          "title": "Письменная речь",
+          "description": "Структура и связность текста, точность ответа на коммуникативную задачу и языковая корректность."
+        },
+        {
+          "title": "Устная речь",
+          "description": "Понимание инструкции, связное высказывание, описание, сравнение и аргументация."
+        }
+      ],
+      "sources": {
+        "fipiPage": "https://fipi.ru/ege/demoversii-specifikacii-kodifikatory",
+        "openBank": "https://ege.fipi.ru/bank/",
+        "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
+        "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/fya_11_2027.zip",
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/fya_11_2026.zip"
+      },
+      "status": "preparing",
+      "statusLabel": "Структура подготовлена · банк наполняется"
+    },
+    {
+      "id": "spanish",
+      "name": "Испанский язык",
+      "icon": "ES",
+      "category": "elective",
+      "description": "Письменная и устная части, аудирование, чтение, грамматика и письмо.",
+      "themes": [
+        {
+          "title": "Аудирование",
+          "description": "Понимание темы, коммуникативного намерения и деталей звучащего текста."
+        },
+        {
+          "title": "Чтение",
+          "description": "Определение основной мысли, поиск фактов и понимание связей между частями текста."
+        },
+        {
+          "title": "Грамматика и лексика",
+          "description": "Спряжение, времена и наклонения, согласование, местоименные формы и словообразование."
+        },
+        {
+          "title": "Письменная речь",
+          "description": "Выполнение задания, последовательность высказывания, связующие слова и языковая точность."
+        },
+        {
+          "title": "Устная речь",
+          "description": "Построение связного устного ответа, описание, сравнение, обоснование мнения и произношение."
+        }
+      ],
+      "sources": {
+        "fipiPage": "https://fipi.ru/ege/demoversii-specifikacii-kodifikatory",
+        "openBank": "https://ege.fipi.ru/bank/",
+        "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
+        "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/iya_11_2027.zip",
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/iya_11_2026.zip"
+      },
+      "status": "preparing",
+      "statusLabel": "Структура подготовлена · банк наполняется"
+    },
+    {
+      "id": "chinese",
+      "name": "Китайский язык",
+      "icon": "中",
+      "category": "elective",
+      "description": "Письменная и устная части, аудирование, чтение, лексика и грамматика.",
+      "themes": [
+        {
+          "title": "Аудирование",
+          "description": "Понимание темы диалога, ключевых деталей и намерения говорящего на слух."
+        },
+        {
+          "title": "Чтение",
+          "description": "Распознавание ключевой информации, понимание контекста и отношений между частями текста."
+        },
+        {
+          "title": "Лексика и грамматика",
+          "description": "Лексические сочетания, грамматические конструкции, порядок слов и выбор языковой формы по ситуации."
+        },
+        {
+          "title": "Письменная речь",
+          "description": "Выполнение коммуникативной задачи, структура ответа, точность лексики и грамматики."
+        },
+        {
+          "title": "Устная речь",
+          "description": "Понимание задания, связное высказывание, описание/сравнение и разборчивое произношение."
+        }
+      ],
+      "sources": {
+        "fipiPage": "https://fipi.ru/ege/demoversii-specifikacii-kodifikatory",
+        "openBank": "https://ege.fipi.ru/bank/",
+        "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
+        "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/kya_11_2027.zip",
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/kya_11_2026.zip"
+      },
+      "status": "preparing",
+      "statusLabel": "Структура подготовлена · банк наполняется"
+    }
+  ]
+}

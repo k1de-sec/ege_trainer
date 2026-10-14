@@ -9,6 +9,7 @@
 <link href="./favicon.svg" rel="icon" type="image/svg+xml"/>
 <link href="./manifest.webmanifest" rel="manifest"/>
 <link href="./styles.css" rel="stylesheet"/>
+<script defer="" src="./multi-exam.js"></script>
 <script defer="" src="./app.js"></script>
 </head>
 <body data-page="official">
@@ -20,6 +21,7 @@
 </a>
 <nav aria-label="Основная навигация" class="topnav">
 <a class="nav-link" data-nav-page="home" href="./index.html">Главная</a>
+<a class="nav-link" data-nav-page="subjects" href="./subjects.html">Предметы</a>
 <a class="nav-link" data-nav-page="topics" href="./topics.html">Темы и варианты</a>
 <a class="nav-link" data-nav-page="study" href="./self-study.html">Самоподготовка</a>
 <a class="nav-link" data-nav-page="theory" href="./theory.html">Теория</a>
@@ -30,7 +32,7 @@
 <button aria-label="Сбросить прогресс" class="icon-button" id="reset-progress" title="Сбросить прогресс" type="button">↺</button>
 </div>
 </header>
-<main><section aria-labelledby="route-official-title" class="route-intro route-intro-official">
+<main><section class="multi-subject-page-content" id="multi-subject-page-content" hidden></section><section aria-labelledby="route-official-title" class="route-intro route-intro-official">
 <div><span class="section-kicker">ПЕРВОИСТОЧНИКИ</span><h1 id="route-official-title">Официальные задания и материалы</h1><p>Здесь ссылки ведут к исходным материалам: условие, рисунки и формулировка остаются на сайте-источнике без пересказа и переделки.</p></div>
 </section>
 <section aria-labelledby="sources-heading" class="resources-section" id="sources">
