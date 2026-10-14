@@ -614,3 +614,9 @@ body[data-page="home"] .home-route-arrow{
 .subject-practice-explanation{padding:14px 16px;border-radius:12px;background:var(--surface-secondary,#f8fafc);line-height:1.7;overflow-wrap:anywhere}
 .subject-practice-explanation p{margin:.6em 0 0}
 .subject-practice-nav{justify-content:space-between;border-top:1px solid var(--border,#e2e8f0);padding-top:14px}
+
+.subject-practice-card textarea{width:100%;box-sizing:border-box;font:inherit;line-height:1.55;padding:12px 14px;border:1px solid var(--border,#cbd5e1);border-radius:10px;background:var(--surface,#fff);color:inherit;resize:vertical}
+.subject-practice-card textarea#subject-practice-answer[spellcheck="false"]{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:4}
+.subject-practice-card label{display:block;font-weight:650;margin:12px 0 6px}
+.subject-code-output{white-space:pre-wrap;overflow-wrap:anywhere;min-height:48px;padding:14px;border-radius:10px;background:#111827;color:#e5e7eb;font:14px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-x:auto}
+.subject-practice-statement{line-height:1.75;overflow-wrap:anywhere}
