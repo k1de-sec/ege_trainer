@@ -55,7 +55,8 @@
     return `<a class="multi-route-card" href="${href}"><span class="multi-route-icon">${icon}</span><span class="multi-route-copy"><strong>${escapeHtml(title)}</strong><small>${escapeHtml(desc)}</small></span><span class="multi-route-arrow">↗</span></a>`;
   }
   function statusParagraph(item) {
-    if (item.status === 'available') return `<div class="multi-notice notice-ready"><strong>Тренажёр готов</strong><p>${escapeHtml(item.description || 'Локальная база упражнений доступна.') } Прогресс сохраняется отдельно от других предметов в этом браузере.</p></div>`;
+    if (item.bankCount > 0 && item.status !== 'available') return `<div class="multi-notice notice-pilot"><strong>Есть стартовый набор упражнений</strong><p>${escapeHtml(item.description || 'Доступна небольшая авторская подборка.')} Это начальное наполнение, а не полный экзаменационный банк. Сверяй структуру и критерии с актуальной спецификацией ФИПИ.</p></div>`;
+    if (item.status === 'available') return `<div class="multi-notice notice-ready"><strong>Тренажёр готов</strong><p>${escapeHtml(item.description || 'Локальная база упражнений доступна.')} Прогресс сохраняется отдельно от других предметов в этом браузере.</p></div>`;
     if (item.status === 'pilot') return `<div class="multi-notice notice-pilot"><strong>Пока это стартовая версия</strong><p>${escapeHtml(item.description || 'Локальный банк содержит только демонстрационные материалы.')} Полноценный пробник и статистику по всему экзамену пока не включаем, чтобы не показывать неполную базу как готовую.</p></div>`;
     return `<div class="multi-notice notice-planned"><strong>Раздел оформлен, собственный банк готовится</strong><p>Навигация, карта тем и переходы к официальным материалам доступны. Авторские задания, автоматическая проверка и полноценный пробный вариант для этого предмета ещё не опубликованы.</p></div>`;
   }
