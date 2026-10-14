@@ -12,7 +12,7 @@
       "name": "Русский язык",
       "icon": "Аа",
       "category": "mandatory",
-      "description": "Культура речи, орфография, пунктуация, работа с текстом и сочинение.",
+      "description": "Стартовая подборка из 2 авторских упражнений с ответами и разборами. Это не полный экзаменационный банк; форматы и критерии сверяются с документами ФИПИ.",
       "themes": [
         {
           "title": "Текст и его смысл",
@@ -46,8 +46,9 @@
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/ru_11_2027.zip",
         "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/ru_11_2026.zip"
       },
-      "status": "preparing",
-      "statusLabel": "Структура подготовлена · банк наполняется"
+      "status": "pilot",
+      "statusLabel": "Стартовый банк упражнений",
+      "bankCount": 2
     },
     {
       "id": "mathematics",
@@ -162,7 +163,7 @@
       "name": "Физика",
       "icon": "↗",
       "category": "elective",
-      "description": "Законы природы, расчётные задачи, графики и анализ эксперимента.",
+      "description": "Стартовая подборка из 2 авторских упражнений с ответами и разборами. Это не полный экзаменационный банк; форматы и критерии сверяются с документами ФИПИ.",
       "themes": [
         {
           "title": "Механика",
@@ -200,15 +201,16 @@
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/fi_11_2027.zip",
         "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/fi_11_2026.zip"
       },
-      "status": "preparing",
-      "statusLabel": "Структура подготовлена · банк наполняется"
+      "status": "pilot",
+      "statusLabel": "Стартовый банк упражнений",
+      "bankCount": 2
     },
     {
       "id": "chemistry",
       "name": "Химия",
       "icon": "⚗",
       "category": "elective",
-      "description": "Строение веществ, реакции, свойства соединений и расчётные задачи.",
+      "description": "Стартовая подборка из 2 авторских упражнений с ответами и разборами. Это не полный экзаменационный банк; форматы и критерии сверяются с документами ФИПИ.",
       "themes": [
         {
           "title": "Строение атома и химическая связь",
@@ -242,15 +244,16 @@
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/hi_11_2027.zip",
         "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/hi_11_2026.zip"
       },
-      "status": "preparing",
-      "statusLabel": "Структура подготовлена · банк наполняется"
+      "status": "pilot",
+      "statusLabel": "Стартовый банк упражнений",
+      "bankCount": 2
     },
     {
       "id": "informatics",
       "name": "Информатика",
       "icon": "</>",
       "category": "elective",
-      "description": "Алгоритмы, программирование, логика, кодирование и информационные модели.",
+      "description": "Стартовая подборка из 2 авторских упражнений с ответами и разборами. Это не полный экзаменационный банк; форматы и критерии сверяются с документами ФИПИ.",
       "themes": [
         {
           "title": "Информация и системы счисления",
@@ -288,15 +291,16 @@
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/inf_11_2027.zip",
         "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/inf_11_2026.zip"
       },
-      "status": "preparing",
-      "statusLabel": "Структура подготовлена · банк наполняется"
+      "status": "pilot",
+      "statusLabel": "Стартовый банк упражнений",
+      "bankCount": 2
     },
     {
       "id": "biology",
       "name": "Биология",
       "icon": "⌁",
       "category": "elective",
-      "description": "Клетка, организм, генетика, эволюция и экосистемы.",
+      "description": "Стартовая подборка из 2 авторских упражнений с ответами и разборами. Это не полный экзаменационный банк; форматы и критерии сверяются с документами ФИПИ.",
       "themes": [
         {
           "title": "Биология как наука",
@@ -334,15 +338,16 @@
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/bi_11_2027.zip",
         "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/bi_11_2026.zip"
       },
-      "status": "preparing",
-      "statusLabel": "Структура подготовлена · банк наполняется"
+      "status": "pilot",
+      "statusLabel": "Стартовый банк упражнений",
+      "bankCount": 2
     },
     {
       "id": "history",
       "name": "История",
       "icon": "◷",
       "category": "elective",
-      "description": "Исторические процессы, источники, хронология, культура и аргументация.",
+      "description": "Стартовая подборка из 2 авторских упражнений с ответами и разборами. Это не полный экзаменационный банк; форматы и критерии сверяются с документами ФИПИ.",
       "themes": [
         {
           "title": "Хронология и периоды истории",
@@ -376,15 +381,16 @@
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/is_11_2027.zip",
         "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/is_11_2026.zip"
       },
-      "status": "preparing",
-      "statusLabel": "Структура подготовлена · банк наполняется"
+      "status": "pilot",
+      "statusLabel": "Стартовый банк упражнений",
+      "bankCount": 2
     },
     {
       "id": "social_science",
       "name": "Обществознание",
       "icon": "◎",
       "category": "elective",
-      "description": "Человек и общество, экономика, социальные отношения, политика и право.",
+      "description": "Стартовая подборка из 2 авторских упражнений с ответами и разборами. Это не полный экзаменационный банк; форматы и критерии сверяются с документами ФИПИ.",
       "themes": [
         {
           "title": "Человек и общество",
@@ -418,15 +424,16 @@
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/ob_11_2027.zip",
         "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/ob_11_2026.zip"
       },
-      "status": "preparing",
-      "statusLabel": "Структура подготовлена · банк наполняется"
+      "status": "pilot",
+      "statusLabel": "Стартовый банк упражнений",
+      "bankCount": 2
     },
     {
       "id": "geography",
       "name": "География",
       "icon": "⌖",
       "category": "elective",
-      "description": "Карты, природные процессы, население, хозяйство и географические расчёты.",
+      "description": "Стартовая подборка из 2 авторских упражнений с ответами и разборами. Это не полный экзаменационный банк; форматы и критерии сверяются с документами ФИПИ.",
       "themes": [
         {
           "title": "Географические источники и карты",
@@ -460,15 +467,16 @@
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/gg_11_2027.zip",
         "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/gg_11_2026.zip"
       },
-      "status": "preparing",
-      "statusLabel": "Структура подготовлена · банк наполняется"
+      "status": "pilot",
+      "statusLabel": "Стартовый банк упражнений",
+      "bankCount": 2
     },
     {
       "id": "literature",
       "name": "Литература",
       "icon": "❝",
       "category": "elective",
-      "description": "Анализ художественного текста, теория литературы и развёрнутые ответы.",
+      "description": "Стартовая подборка из 2 авторских упражнений с ответами и разборами. Это не полный экзаменационный банк; форматы и критерии сверяются с документами ФИПИ.",
       "themes": [
         {
           "title": "Теория литературы",
@@ -502,15 +510,16 @@
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/li_11_2027.zip",
         "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/li_11_2026.zip"
       },
-      "status": "preparing",
-      "statusLabel": "Структура подготовлена · банк наполняется"
+      "status": "pilot",
+      "statusLabel": "Стартовый банк упражнений",
+      "bankCount": 2
     },
     {
       "id": "english",
       "name": "Английский язык",
       "icon": "EN",
       "category": "elective",
-      "description": "Письменная и устная части, аудирование, чтение, грамматика и письмо.",
+      "description": "Стартовая подборка из 2 авторских упражнений с ответами и разборами. Это не полный экзаменационный банк; форматы и критерии сверяются с документами ФИПИ.",
       "themes": [
         {
           "title": "Аудирование",
@@ -540,15 +549,16 @@
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/aya_11_2027.zip",
         "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/aya_11_2026.zip"
       },
-      "status": "preparing",
-      "statusLabel": "Структура подготовлена · банк наполняется"
+      "status": "pilot",
+      "statusLabel": "Стартовый банк упражнений",
+      "bankCount": 2
     },
     {
       "id": "german",
       "name": "Немецкий язык",
       "icon": "DE",
       "category": "elective",
-      "description": "Письменная и устная части, аудирование, чтение, грамматика и письмо.",
+      "description": "Стартовая подборка из 2 авторских упражнений с ответами и разборами. Это не полный экзаменационный банк; форматы и критерии сверяются с документами ФИПИ.",
       "themes": [
         {
           "title": "Аудирование",
@@ -578,15 +588,16 @@
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/nya_11_2027.zip",
         "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/nya_11_2026.zip"
       },
-      "status": "preparing",
-      "statusLabel": "Структура подготовлена · банк наполняется"
+      "status": "pilot",
+      "statusLabel": "Стартовый банк упражнений",
+      "bankCount": 2
     },
     {
       "id": "french",
       "name": "Французский язык",
       "icon": "FR",
       "category": "elective",
-      "description": "Письменная и устная части, аудирование, чтение, грамматика и письмо.",
+      "description": "Стартовая подборка из 2 авторских упражнений с ответами и разборами. Это не полный экзаменационный банк; форматы и критерии сверяются с документами ФИПИ.",
       "themes": [
         {
           "title": "Аудирование",
@@ -616,15 +627,16 @@
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/fya_11_2027.zip",
         "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/fya_11_2026.zip"
       },
-      "status": "preparing",
-      "statusLabel": "Структура подготовлена · банк наполняется"
+      "status": "pilot",
+      "statusLabel": "Стартовый банк упражнений",
+      "bankCount": 2
     },
     {
       "id": "spanish",
       "name": "Испанский язык",
       "icon": "ES",
       "category": "elective",
-      "description": "Письменная и устная части, аудирование, чтение, грамматика и письмо.",
+      "description": "Стартовая подборка из 2 авторских упражнений с ответами и разборами. Это не полный экзаменационный банк; форматы и критерии сверяются с документами ФИПИ.",
       "themes": [
         {
           "title": "Аудирование",
@@ -654,15 +666,16 @@
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/iya_11_2027.zip",
         "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/iya_11_2026.zip"
       },
-      "status": "preparing",
-      "statusLabel": "Структура подготовлена · банк наполняется"
+      "status": "pilot",
+      "statusLabel": "Стартовый банк упражнений",
+      "bankCount": 2
     },
     {
       "id": "chinese",
       "name": "Китайский язык",
       "icon": "中",
       "category": "elective",
-      "description": "Письменная и устная части, аудирование, чтение, лексика и грамматика.",
+      "description": "Стартовая подборка из 2 авторских упражнений с ответами и разборами. Это не полный экзаменационный банк; форматы и критерии сверяются с документами ФИПИ.",
       "themes": [
         {
           "title": "Аудирование",
@@ -692,8 +705,9 @@
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/kya_11_2027.zip",
         "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/kya_11_2026.zip"
       },
-      "status": "preparing",
-      "statusLabel": "Структура подготовлена · банк наполняется"
+      "status": "pilot",
+      "statusLabel": "Стартовый банк упражнений",
+      "bankCount": 2
     }
   ]
 }
