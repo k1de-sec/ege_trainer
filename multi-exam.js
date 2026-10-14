@@ -83,6 +83,45 @@
     const name = item.shortName || item.name;
     return `<section class="multi-hero"><div class="multi-breadcrumb"><a href="./subjects.html">Все предметы</a><span>›</span><span>${escapeHtml(name)}</span></div><span class="section-kicker">${escapeHtml(kicker)}</span><h1>${escapeHtml(title)}</h1><p>${escapeHtml(description)}</p><div class="multi-hero-bottom">${statusBadge(item)}<a class="multi-change-subject" href="./subjects.html">Сменить предмет ↗</a></div></section>`;
   }
+  function setupGlobalQuickSearch() {
+    if (document.getElementById('ege-global-search')) return;
+    const nav = document.querySelector('.topbar');
+    if (!nav) return;
+    const panel = document.createElement('div');
+    panel.className = 'ege-quick-search';
+    panel.innerHTML = '<label class="ege-quick-search-field"><span aria-hidden="true">⌕</span><input id="ege-global-search" type="search" autocomplete="off" placeholder="Найти предмет или тему…" aria-label="Поиск по предметам и темам"><kbd>Enter</kbd></label><div class="ege-quick-search-results" id="ege-global-search-results" hidden></div>';
+    nav.insertAdjacentElement('afterend', panel);
+    const input = panel.querySelector('input');
+    const results = panel.querySelector('.ege-quick-search-results');
+    let index = [];
+    const buildIndex = (data) => {
+      const entries = [];
+      (data.subjects || []).forEach((s) => {
+        const tracks = Array.isArray(s.tracks) ? s.tracks : [s];
+        tracks.forEach((t) => {
+          entries.push({ title:t.name || s.name, subtitle:'Предмет · ' + (t.statusLabel || s.statusLabel || 'подготовка'), href:'./subject.html?subject='+encodeURIComponent(t.id || s.id), terms:[s.name,t.name,t.shortName,s.description,...(t.themes||s.themes||[]).map(x=>x.title)].filter(Boolean).join(' ').toLowerCase(), kind:'subject' });
+          (t.themes || (!s.tracks ? s.themes : []) || []).forEach((theme) => entries.push({ title:theme.title, subtitle:(t.shortName || t.name || s.name)+' · тема', href:'./topics.html?subject='+encodeURIComponent(t.id || s.id), terms:[theme.title,theme.description,s.name,t.name].filter(Boolean).join(' ').toLowerCase(), kind:'theme' }));
+        });
+      });
+      return entries;
+    };
+    const draw = () => {
+      const q = input.value.trim().toLocaleLowerCase('ru');
+      if (!q) { results.hidden = true; results.innerHTML = ''; return; }
+      const words = q.split(/\\s+/).filter(Boolean);
+      const found = index.filter(item => words.every(word => item.terms.includes(word) || item.title.toLocaleLowerCase('ru').includes(word))).slice(0,8);
+      results.innerHTML = found.length ? found.map(item=>'<a class="ege-search-result" href="'+escapeHtml(item.href)+'"><span class="ege-search-result-icon">'+(item.kind==='theme'?'#':'↗')+'</span><span><strong>'+escapeHtml(item.title)+'</strong><small>'+escapeHtml(item.subtitle)+'</small></span><span aria-hidden="true">→</span></a>').join('') : '<p class="ege-search-empty">Ничего не найдено. Попробуй другое слово.</p>';
+      results.hidden = false;
+    };
+    input.addEventListener('input', draw);
+    input.addEventListener('keydown', event => {
+      if (event.key === 'Escape') { input.value=''; draw(); input.blur(); }
+      if (event.key === 'Enter') { const first=results.querySelector('a'); if(first) window.location.href=first.href; }
+    });
+    document.addEventListener('click', event => { if (!panel.contains(event.target)) results.hidden=true; });
+    fetch('./subjects.json',{cache:'no-cache'}).then(response=>{if(!response.ok)throw new Error('catalog');return response.json();}).then(data=>{index=buildIndex(data);}).catch(()=>{});
+  }
+
   function renderSubjectsCatalog() {
     const host = document.getElementById('subjects-catalog'); if (!host || !registry) return;
     const cards = registry.subjects.map((s) => {
@@ -200,5 +239,6 @@
     if (scaffold) { scaffold.hidden = false; scaffold.innerHTML = '<div class="multi-notice"><strong>Загружаем выбранный предмет…</strong><p>Подготавливаем его темы и официальные источники.</p></div>'; }
   }
   setupNavigation();
+  setupGlobalQuickSearch();
   document.addEventListener('DOMContentLoaded', init);
 })();
