@@ -14649,5 +14649,761 @@
     "sourceType": "author_original",
     "sourceLabel": "Авторская задача · формат ЕГЭ",
     "variantIndex": 26
+  },
+  {
+    "externalId": "russian_practice_01_2027_v1",
+    "subjectId": "russian",
+    "subjectName": "Русский язык",
+    "taskNumber": 1,
+    "title": "Орфография",
+    "taskType": "Орфография",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "В каком слове пишется НН: стекля..ый, ветре..ый, ю..ый, серебря..ый? Запишите слово полностью.\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "орфография"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "«Стеклянный» пишется с НН; «ветреный», «юный», «серебряный» — с одной Н.",
+    "correctAnswer": "стеклянный",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "russian_practice_02_2027_v1",
+    "subjectId": "russian",
+    "subjectName": "Русский язык",
+    "taskNumber": 2,
+    "title": "Пунктуация",
+    "taskType": "Пунктуация",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Расставьте знаки: Когда стемнело мы вернулись домой и включили свет.\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "пунктуация"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "Придаточная часть времени отделяется запятой; между однородными сказуемыми запятая не нужна.",
+    "correctAnswer": "Когда стемнело, мы вернулись домой и включили свет.",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "physics_practice_01_2027_v1",
+    "subjectId": "physics",
+    "subjectName": "Физика",
+    "taskNumber": 1,
+    "title": "Механика",
+    "taskType": "Механика",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Тело движется со скоростью 12 м/с в течение 25 с. Найдите путь в метрах.\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "механика"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "s=vt=12·25=300 м.",
+    "correctAnswer": "300",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "physics_practice_02_2027_v1",
+    "subjectId": "physics",
+    "subjectName": "Физика",
+    "taskNumber": 2,
+    "title": "Электричество",
+    "taskType": "Электричество",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Сопротивление 6 Ом, напряжение 12 В. Найдите силу тока в амперах.\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "электричество"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "По закону Ома I=U/R=12/6=2 А.",
+    "correctAnswer": "2",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "chemistry_practice_01_2027_v1",
+    "subjectId": "chemistry",
+    "subjectName": "Химия",
+    "taskNumber": 1,
+    "title": "Количество вещества",
+    "taskType": "Количество вещества",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Сколько моль воды содержится в 18 г H₂O? M(H₂O)=18 г/моль.\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "расчёты"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "n=m/M=18/18=1 моль.",
+    "correctAnswer": "1",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "chemistry_practice_02_2027_v1",
+    "subjectId": "chemistry",
+    "subjectName": "Химия",
+    "taskNumber": 2,
+    "title": "Реакции",
+    "taskType": "Реакции",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Запишите продукты: HCl + NaOH → ?\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "реакции"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "Кислота и основание образуют соль и воду: HCl+NaOH→NaCl+H₂O.",
+    "correctAnswer": "NaCl + H2O",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "informatics_practice_01_2027_v1",
+    "subjectId": "informatics",
+    "subjectName": "Информатика",
+    "taskNumber": 1,
+    "title": "Системы счисления",
+    "taskType": "Системы счисления",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Переведите 101101₂ в десятичную систему.\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "системы счисления"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "32+8+4+1=45.",
+    "correctAnswer": "45",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "informatics_practice_02_2027_v1",
+    "subjectId": "informatics",
+    "subjectName": "Информатика",
+    "taskNumber": 2,
+    "title": "Программирование",
+    "taskType": "Программирование",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Что выведет Python?\n\n```python\ns = 0\nfor i in range(1, 5):\n    s += i * i\nprint(s)\n```\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "программирование"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "Сумма квадратов: 1+4+9+16=30.",
+    "correctAnswer": "30",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "biology_practice_01_2027_v1",
+    "subjectId": "biology",
+    "subjectName": "Биология",
+    "taskNumber": 1,
+    "title": "Генетика",
+    "taskType": "Генетика",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "A доминирует над a. При скрещивании Aa × Aa какова вероятность рецессивного фенотипа в процентах?\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "генетика"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "Расщепление 1:2:1; генотип aa возникает с вероятностью 1/4=25%.",
+    "correctAnswer": "25",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "biology_practice_02_2027_v1",
+    "subjectId": "biology",
+    "subjectName": "Биология",
+    "taskNumber": 2,
+    "title": "Клетка",
+    "taskType": "Клетка",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "В какой органелле происходит основная часть синтеза АТФ при аэробном дыхании?\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "клетка"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "Основная часть АТФ синтезируется в митохондриях.",
+    "correctAnswer": "митохондрии",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "history_practice_01_2027_v1",
+    "subjectId": "history",
+    "subjectName": "История",
+    "taskNumber": 1,
+    "title": "Хронология",
+    "taskType": "Хронология",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Расположите по возрастанию дат: Крещение Руси; Ледовое побоище; Куликовская битва. Запишите годы через пробел.\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "хронология"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "События датируются 988, 1242 и 1380 годами соответственно.",
+    "correctAnswer": "988 1242 1380",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "history_practice_02_2027_v1",
+    "subjectId": "history",
+    "subjectName": "История",
+    "taskNumber": 2,
+    "title": "Исторические термины",
+    "taskType": "Исторические термины",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Как называется историческая дисциплина, изучающая гербы?\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "термины"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "Геральдика изучает гербы и правила их использования.",
+    "correctAnswer": "геральдика",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "social_science_practice_01_2027_v1",
+    "subjectId": "social_science",
+    "subjectName": "Обществознание",
+    "taskNumber": 1,
+    "title": "Экономика",
+    "taskType": "Экономика",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Как называется закономерность: при прочих равных рост цены ведёт к снижению величины спроса?\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "экономика"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "Закон спроса описывает обратную зависимость цены и величины спроса при прочих равных условиях.",
+    "correctAnswer": "закон спроса",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "social_science_practice_02_2027_v1",
+    "subjectId": "social_science",
+    "subjectName": "Обществознание",
+    "taskNumber": 2,
+    "title": "Право",
+    "taskType": "Право",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "С какого возраста по общему правилу наступает уголовная ответственность в России? Ответ в годах.\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "право"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "Общее правило — с 16 лет; для ряда преступлений предусмотрен возраст 14 лет.",
+    "correctAnswer": "16",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "geography_practice_01_2027_v1",
+    "subjectId": "geography",
+    "subjectName": "География",
+    "taskNumber": 1,
+    "title": "Масштаб",
+    "taskType": "Масштаб",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Масштаб 1:200 000. Расстояние на карте 3,5 см. Каково расстояние на местности в километрах?\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "карты"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "1 см соответствует 2 км, значит 3,5 см — 7 км.",
+    "correctAnswer": "7",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "geography_practice_02_2027_v1",
+    "subjectId": "geography",
+    "subjectName": "География",
+    "taskNumber": 2,
+    "title": "Плотность населения",
+    "taskType": "Плотность населения",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "В стране 12 млн жителей, площадь 600 тыс. км². Найдите плотность населения, чел./км².\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "население"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "12 000 000 / 600 000 = 20 чел./км².",
+    "correctAnswer": "20",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "literature_practice_01_2027_v1",
+    "subjectId": "literature",
+    "subjectName": "Литература",
+    "taskNumber": 1,
+    "title": "Тропы",
+    "taskType": "Тропы",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Как называется приём, при котором неживому приписываются человеческие качества: «лес задумался»?\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "теория литературы"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "Олицетворение изображает неживое как живое.",
+    "correctAnswer": "олицетворение",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "literature_practice_02_2027_v1",
+    "subjectId": "literature",
+    "subjectName": "Литература",
+    "taskNumber": 2,
+    "title": "Лирика",
+    "taskType": "Лирика",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Как называется образ носителя чувств и мыслей в лирическом произведении?\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "анализ"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "Лирический герой не всегда тождествен автору.",
+    "correctAnswer": "лирический герой",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "english_practice_01_2027_v1",
+    "subjectId": "english",
+    "subjectName": "Английский язык",
+    "taskNumber": 1,
+    "title": "Grammar",
+    "taskType": "Grammar",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Complete: She ___ (live) here since 2020.\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "grammar"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "Present Perfect: has + past participle; the situation continues to the present.",
+    "correctAnswer": "has lived",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "english_practice_02_2027_v1",
+    "subjectId": "english",
+    "subjectName": "Английский язык",
+    "taskNumber": 2,
+    "title": "Word formation",
+    "taskType": "Word formation",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Complete: The instructions were very ___ (HELP).\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "vocabulary"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "The adjective helpful is formed with the suffix -ful.",
+    "correctAnswer": "helpful",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "german_practice_01_2027_v1",
+    "subjectId": "german",
+    "subjectName": "Немецкий язык",
+    "taskNumber": 1,
+    "title": "Grammatik",
+    "taskType": "Grammatik",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Ergänzen: Gestern ___ ich einen Film gesehen. (haben)\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "grammar"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "Im Perfekt: ich habe gesehen.",
+    "correctAnswer": "habe",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "german_practice_02_2027_v1",
+    "subjectId": "german",
+    "subjectName": "Немецкий язык",
+    "taskNumber": 2,
+    "title": "Wortschatz",
+    "taskType": "Wortschatz",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Was ist das Gegenteil von «teuer»?\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "vocabulary"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "«Billig» bedeutet «дешёвый».",
+    "correctAnswer": "billig",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "french_practice_01_2027_v1",
+    "subjectId": "french",
+    "subjectName": "Французский язык",
+    "taskNumber": 1,
+    "title": "Grammaire",
+    "taskType": "Grammaire",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Complétez : Hier, nous ___ (aller) au musée.\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "grammar"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "Aller se conjugue avec être au passé composé; groupe masculin ou mixte : allés.",
+    "correctAnswer": "sommes allés",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "french_practice_02_2027_v1",
+    "subjectId": "french",
+    "subjectName": "Французский язык",
+    "taskNumber": 2,
+    "title": "Vocabulaire",
+    "taskType": "Vocabulaire",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Quel est le contraire de «rapide» ?\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "vocabulary"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "«Lent» est l’antonyme de «rapide».",
+    "correctAnswer": "lent",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "spanish_practice_01_2027_v1",
+    "subjectId": "spanish",
+    "subjectName": "Испанский язык",
+    "taskNumber": 1,
+    "title": "Gramática",
+    "taskType": "Gramática",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Completa: Esta semana yo ___ (estudiar) mucho.\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "grammar"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "Avec «esta semana», on peut utiliser le pretérito perfecto : he estudiado.",
+    "correctAnswer": "he estudiado",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "spanish_practice_02_2027_v1",
+    "subjectId": "spanish",
+    "subjectName": "Испанский язык",
+    "taskNumber": 2,
+    "title": "Vocabulario",
+    "taskType": "Vocabulario",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "¿Cuál es el antónimo de «fácil»?\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "vocabulary"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "«Difícil» es el antónimo de «fácil».",
+    "correctAnswer": "difícil",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "chinese_practice_01_2027_v1",
+    "subjectId": "chinese",
+    "subjectName": "Китайский язык",
+    "taskNumber": 1,
+    "title": "词汇",
+    "taskType": "词汇",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Что означает 学生 (xuésheng)?\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "vocabulary"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "学生 означает «ученик/студент».",
+    "correctAnswer": "ученик",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
+  },
+  {
+    "externalId": "chinese_practice_02_2027_v1",
+    "subjectId": "chinese",
+    "subjectName": "Китайский язык",
+    "taskNumber": 2,
+    "title": "语法",
+    "taskType": "语法",
+    "part": 1,
+    "difficulty": 2,
+    "answerFormat": "Краткий ответ",
+    "statement": "Запишите по-китайски «Я изучаю китайский язык» в обычном порядке слов.\n\n**Источник:** авторское тренировочное задание в формате ЕГЭ, не дословный вопрос ФИПИ.",
+    "keywords": [
+      "grammar"
+    ],
+    "commonMistakes": [
+      "Проверить условие, единицы измерения и формат ответа."
+    ],
+    "explanation": "Порядок: подлежащее + глагол + дополнение: 我 + 学习 + 汉语.",
+    "correctAnswer": "我学习汉语",
+    "isPremium": false,
+    "isVerified": false,
+    "examYear": 2027,
+    "contentVersion": 1,
+    "sourceType": "author_original",
+    "sourceLabel": "Авторское упражнение · формат ЕГЭ",
+    "variantIndex": 1
   }
 ]
