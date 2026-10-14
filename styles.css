@@ -466,3 +466,38 @@ p {
     font-size: 13px;
   }
 }
+
+
+/* Homepage: larger, more comfortable blocks */
+body[data-page="home"] .hero{
+  min-height:390px;
+  padding:48px 58px 58px;
+}
+body[data-page="home"] .hero-content{max-width:600px}
+body[data-page="home"] .hero-description{font-size:15px;max-width:500px;line-height:1.8}
+body[data-page="home"] .primary-button{font-size:14px;padding:16px 21px}
+body[data-page="home"] .home-subject-showcase{padding:28px 0 34px}
+body[data-page="home"] .section-heading h2{font-size:28px}
+body[data-page="home"] .subject-preview-grid{gap:14px}
+body[data-page="home"] .subject-preview-card{min-height:94px;padding:19px 20px;border-radius:17px;gap:14px}
+body[data-page="home"] .subject-preview-icon{width:48px;height:48px;border-radius:14px;font-size:16px}
+body[data-page="home"] .subject-preview-copy strong{font-size:14px;line-height:1.4}
+body[data-page="home"] .subject-preview-copy small{font-size:11px;line-height:1.5;margin-top:5px}
+body[data-page="home"] .subject-preview-arrow{font-size:15px}
+body[data-page="home"] .home-route-grid{gap:14px;margin-bottom:40px}
+body[data-page="home"] .home-route-card{min-height:94px;padding:18px 19px;border-radius:16px;gap:14px}
+body[data-page="home"] .home-route-icon{width:43px;height:43px;border-radius:13px;font-size:17px}
+body[data-page="home"] .home-route-copy strong{font-size:14px}
+body[data-page="home"] .home-route-copy small{font-size:11px;line-height:1.5;margin-top:5px}
+@media(max-width:900px){
+ body[data-page="home"] .hero{padding:36px 30px 52px;min-height:340px}
+ body[data-page="home"] .subject-preview-card{padding:16px;min-height:88px}
+}
+@media(max-width:600px){
+ body[data-page="home"] .hero{padding:27px 18px 48px}
+ body[data-page="home"] .hero-description{font-size:14px}
+ body[data-page="home"] .home-subject-showcase{padding:22px 0 28px}
+ body[data-page="home"] .section-heading h2{font-size:24px}
+ body[data-page="home"] .subject-preview-card{padding:15px;min-height:82px}
+ body[data-page="home"] .subject-preview-icon{width:42px;height:42px}
+}
