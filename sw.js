@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ege-trainer-web-v23-final-audit';
+const CACHE_NAME = 'ege-trainer-web-v24-query-aware-offline';
 const APP_SHELL = [
   './', './index.html', './subjects.html', './subject.html', './topics.html', './self-study.html', './theory.html', './official.html',
   './styles.css', './design-refresh.css', './app.js', './multi-exam.js', './progress-dashboard.js', './subjects.json', './tasks_data.json', './fipi_links.json', './informatics_guide.json', './python-runner-worker.js',
@@ -25,7 +25,7 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET' || new URL(event.request.url).origin !== self.location.origin) return;
   event.respondWith(
-    caches.match(event.request).then((cached) => {
+    caches.match(event.request, { ignoreSearch: true }).then((cached) => {
       if (cached) return cached;
       return fetch(event.request).then((response) => {
         if (response && response.ok) {
