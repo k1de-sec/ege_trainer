@@ -1050,8 +1050,35 @@
         const fipiResponse = await fetch(FIPI_LINKS_URL, { cache: 'no-cache' });
         if (fipiResponse.ok) state.fipiLinks = await fipiResponse.json();
       } catch (_) { state.fipiLinks = null; }
-      state.bankTasks = sortTasks(data.filter((task) => task.subjectId === ACTIVE_SUBJECT_KEY)); 
-      if (!state.bankTasks.length) throw new Error('В локальной базе не найдены задания базовой математики.');
+      // Official-only policy: author-created/generated tasks must never appear as real EGE tasks.
+      state.bankTasks = sortTasks(data.filter((task) =>
+        task.subjectId === ACTIVE_SUBJECT_KEY &&
+        task.sourceType === 'official_fipi' &&
+        task.isVerified === true &&
+        task.sourceUrl &&
+        task.externalId
+      ));
+      if (!state.bankTasks.length) {
+        const officialUrl = state.fipiLinks?.bankUrl || 'https://ege.fipi.ru/bank/';
+        const variantUrl = 'https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege';
+        const notice = '<div class="empty-state official-only-empty"><strong>Официальный банк ещё не импортирован</strong><p>Мы не показываем авторские упражнения вместо заданий ФИПИ. Открой первоисточник: там опубликованы оригинальные условия и материалы.</p><p><a href="' + escapeHtml(officialUrl) + '" target="_blank" rel="noopener noreferrer">Открытый банк заданий ФИПИ ↗</a></p><p><a href="' + escapeHtml(variantUrl) + '" target="_blank" rel="noopener noreferrer">Оригинальные варианты КИМ ↗</a></p></div>';
+        if (el.taskList) el.taskList.innerHTML = notice;
+        if (el.taskContent) el.taskContent.innerHTML = notice;
+        if (el.listCount) el.listCount.textContent = '0';
+        if (el.statTotal) el.statTotal.textContent = '0';
+        if (el.statDone) el.statDone.textContent = '0';
+        if (el.statPercent) el.statPercent.textContent = '0%';
+        if (el.progressFraction) el.progressFraction.textContent = '0 / 0';
+        if (el.progressBar) el.progressBar.style.width = '0%';
+        ['start-topic-practice-button','start-warmup-button','random-set-button','start-exam-button'].forEach((id) => {
+          const button = document.getElementById(id);
+          if (button) { button.disabled = true; button.title = 'Станет доступно после проверки и импорта официальных заданий ФИПИ'; }
+        });
+        renderOfficialTaskLinks();
+        const status = document.querySelector('.saved-status');
+        if (status) status.textContent = 'Официальный банк не импортирован';
+        return;
+      }
       const bankIds = new Set(state.bankTasks.map((task) => task.externalId));
       state.solved = new Set([...state.solved].filter((id) => bankIds.has(id)));
       state.tasks = state.bankTasks;
