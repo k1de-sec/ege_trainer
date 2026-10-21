@@ -55,6 +55,8 @@ assert "page === 'study' && item.id !== 'math_basic'" in js, 'Profile math needs
 assert 'renderSubjectPractice(item)' in js, 'Subject-specific practice bank is not rendered'
 app = (ROOT/'app.js').read_text(encoding='utf-8')
 assert "if (ACTIVE_SUBJECT_KEY !== 'math_basic') return;" in app, 'Legacy base-math trainer must not run for other subjects'
+dashboard = (ROOT/'progress-dashboard.js').read_text(encoding='utf-8')
+assert "document.body.dataset.multiSubjectPage === 'true'" in dashboard, 'Base-math resume panel must not leak into other subjects'
 assert "item.bankCount > 0 ? item.bankCount : '—'" in js, 'Subject dashboards must show real starter-bank counts'
 assert "item.status === 'pilot' ? '2'" not in js, 'Subject dashboard must not hard-code pilot task counts'
 assert 'project2027' in js and 'approved2026' in js
