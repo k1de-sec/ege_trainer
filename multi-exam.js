@@ -191,7 +191,7 @@
     }
     document.title = `${headTitle} — ЕГЭ+`;
     host.innerHTML = `${topContext(item,kicker,headTitle,desc)}<div class="multi-page-context">${statusBadge(item)}<a href="./subject.html?subject=${encodeURIComponent(item.id)}">Паспорт предмета ↗</a><a href="./subjects.html">Выбрать другой предмет</a></div>${specific}`;
-    if (page === 'study' && !['math_basic','math_profile'].includes(item.id)) renderSubjectPractice(item);`;
+    if (page === 'study' && !['math_basic','math_profile'].includes(item.id)) renderSubjectPractice(item);
   }
   function renderHomePreview(data) {
     const host = document.getElementById('home-subject-preview-grid'); if (!host) return;
