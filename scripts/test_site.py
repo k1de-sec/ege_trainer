@@ -67,7 +67,7 @@ for task in basic:
 assert 'function renderMathExpression' in APP and 'function startWarmup' in APP
 assert "task.subjectId === ACTIVE_SUBJECT_KEY" in APP, 'Base-math trainer must keep subject isolation'
 sw=(ROOT/'sw.js').read_text(encoding='utf-8')
-assert "ege-trainer-web-v26-official-catalog" in sw, 'Service worker cache was not bumped for the design release'
+assert "ege-trainer-web-v27-official-catalog" in sw, 'Service worker cache was not bumped for the design release'
 assert "'./design-refresh.css'" in sw, 'Shared design stylesheet must be available offline'
 assert "'./progress-dashboard.js'" in sw, 'Progress dashboard must be available offline'
 assert "'./official_exam_sources.json'" in sw, 'Official source catalog must be available offline'
@@ -77,7 +77,7 @@ for page in ['index.html','subjects.html','subject.html','topics.html','self-stu
     assert 'design-refresh.css?v=20261021-ui2' in source, f'{page}: shared design stylesheet is missing or stale'
     assert 'multi-exam.js?v=20261021-audit7' in source, f'{page}: subject routing script version is stale'
     if 'src="./app.js' in source:
-        assert 'app.js?v=20261021-audit7' in source, f'{page}: trainer script version is stale'
+        assert 'app.js?v=20261021-audit8' in source, f'{page}: trainer script version is stale'
     if 'src="./progress-dashboard.js' in source:
         assert 'progress-dashboard.js?v=20261021-audit5' in source, f'{page}: progress dashboard script version is stale'
 print(f'PASS: {len(data)} legacy tasks classified; {len(basic)} base-math author tasks are excluded from official practice until verified.')
