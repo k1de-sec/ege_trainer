@@ -62,6 +62,6 @@ for task in basic:
     assert task.get('correctAnswer') not in (None,''), f"Missing answer: {task.get('externalId')}"
     assert task.get('explanation'), f"Missing explanation: {task.get('externalId')}"
 assert 'function renderMathExpression' in APP and 'function startWarmup' in APP
-assert 'ege-trainer-web-v13-cleanup' in (ROOT/'sw.js').read_text(encoding='utf-8'), 'Service worker cache was not bumped'
+assert 'ege-trainer-web-v14-official-variants' in (ROOT/'sw.js').read_text(encoding='utf-8'), 'Service worker cache was not bumped'
 print(f'PASS: {len(data)} tasks; {len(basic)} base math tasks (21 types × 21 variants)')
 print('PASS: five separate pages have unique content, routed navigation and the expected page-specific controls')
