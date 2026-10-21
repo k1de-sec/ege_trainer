@@ -1,0 +1,13 @@
+# Local archives and generated bundles
+*.zip
+*.tar
+*.tar.gz
+*.7z
+
+# Python and editor/OS artifacts
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
