@@ -62,6 +62,12 @@ for task in basic:
     assert task.get('correctAnswer') not in (None,''), f"Missing answer: {task.get('externalId')}"
     assert task.get('explanation'), f"Missing explanation: {task.get('externalId')}"
 assert 'function renderMathExpression' in APP and 'function startWarmup' in APP
-assert 'ege-trainer-web-v18-informatics-complete' in (ROOT/'sw.js').read_text(encoding='utf-8'), 'Service worker cache was not bumped'
+sw=(ROOT/'sw.js').read_text(encoding='utf-8')
+assert "ege-trainer-web-v19-design-consistency" in sw, 'Service worker cache was not bumped for the design release'
+assert "'./design-refresh.css'" in sw, 'Shared design stylesheet must be available offline'
+assert "'./progress-dashboard.js'" in sw, 'Progress dashboard must be available offline'
+for page in ['index.html','subjects.html','subject.html','topics.html','self-study.html','theory.html','official.html']:
+    source=(ROOT/page).read_text(encoding='utf-8')
+    assert 'design-refresh.css?v=20261021-ui2' in source, f'{page}: shared design stylesheet is missing or stale'
 print(f'PASS: {len(data)} tasks; {len(basic)} base math tasks (21 types × 21 variants)')
 print('PASS: five separate pages have unique content, routed navigation and the expected page-specific controls')
