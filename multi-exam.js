@@ -247,9 +247,9 @@
     if(!host)return;
     try{
       const response=await fetch('./tasks_data.json',{cache:'no-cache'}); if(!response.ok)throw new Error('Не удалось загрузить банк заданий.');
-      const all=await response.json(), tasks=all.filter(t=>t.subjectId===item.id&&t.sourceType==='author_original').sort((a,b)=>(a.part||1)-(b.part||1)||a.taskNumber-b.taskNumber);
+      const all=await response.json(), tasks=all.filter(t=>t.subjectId===item.id&&t.sourceType==='official_fipi'&&t.isVerified===true&&t.sourceUrl&&t.externalId).sort((a,b)=>(a.part||1)-(b.part||1)||a.taskNumber-b.taskNumber);
       if(count)count.textContent=taskCountLabel(tasks.length)+' · '+taskCountLabel(tasks.filter(t=>(t.part||1)===1).length)+' в части 1 · '+taskCountLabel(tasks.filter(t=>t.part===2).length)+' во второй части';
-      if(!tasks.length){host.innerHTML='<div class="multi-notice notice-planned"><strong>Банк ещё не опубликован</strong><p>Пока доступны официальные источники и карта тем.</p></div>';return;}
+      if(!tasks.length){const src=item.parentSubject?.sources||item.sources||{};const bank=src.openBank||'https://ege.fipi.ru/bank/';const variant=src.openVariant2026||src.openVariants||'https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege';if(count)count.textContent='0 проверенных официальных заданий';host.innerHTML='<div class="multi-notice notice-planned"><strong>Официальные задания не подменяем авторскими</strong><p>В локальном банке пока нет заданий, прошедших сверку с ФИПИ. Открой оригинальные условия и вариант экзамена у первоисточника.</p><p><a href="'+escapeHtml(bank)+'" target="_blank" rel="noopener noreferrer">Открытый банк ФИПИ ↗</a></p><p><a href="'+escapeHtml(variant)+'" target="_blank" rel="noopener noreferrer">Оригинальный вариант ЕГЭ ↗</a></p></div>';return;}
       const key='ege-plus-practice-'+item.id+'-v2'; let progress={};
       try{progress=JSON.parse(localStorage.getItem(key)||'{}')||{};}catch(_){}
       let current=0,activePythonWorker=null,runTimeout=null; const esc=escapeHtml;
