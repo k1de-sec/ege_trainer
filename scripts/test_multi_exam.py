@@ -20,8 +20,10 @@ for subject in subjects:
     assert subject.get('sources',{}).get('openVariant2026','').endswith('_1_ege2026.zip'), subject['id']
 math=next(s for s in subjects if s['id']=='mathematics')
 assert {t['id'] for t in math['tracks']}=={'math_basic','math_profile'}
-assert next(t for t in math['tracks'] if t['id']=='math_basic')['bankCount']==441
-assert next(t for t in math['tracks'] if t['id']=='math_profile')['bankCount']==26
+assert next(t for t in math['tracks'] if t['id']=='math_basic')['bankCount']==0
+assert next(t for t in math['tracks'] if t['id']=='math_basic')['officialBankCount']==0
+assert next(t for t in math['tracks'] if t['id']=='math_profile')['bankCount']==0
+assert next(t for t in math['tracks'] if t['id']=='math_profile')['officialBankCount']==0
 profile_tasks = [task for task in json.loads((ROOT/'tasks_data.json').read_text(encoding='utf-8')) if task.get('subjectId') == 'math_profile' and task.get('sourceType') == 'author_original']
 assert len(profile_tasks) == 26, f"Profile math bank count must match usable original exercises, got {len(profile_tasks)}"
 assert all(task.get('correctAnswer') not in (None, '') and task.get('explanation') for task in profile_tasks), 'Profile math exercises need an answer and explanation'
@@ -33,9 +35,11 @@ assert 'subject.html?subject=math_profile' in (ROOT/'self-study.html').read_text
 pilot_subjects = [s for s in subjects if s['id'] != 'mathematics']
 assert all(s.get('status') == 'pilot' for s in pilot_subjects)
 tasks = json.loads((ROOT/'tasks_data.json').read_text(encoding='utf-8'))
-for subject in pilot_subjects:
-    actual = sum(1 for task in tasks if task.get('subjectId') == subject['id'] and task.get('sourceType') == 'author_original')
-    assert actual == subject.get('bankCount'), f"{subject['id']}: registry says {subject.get('bankCount')} pilot tasks, found {actual}"
+for subject in subjects:
+    assert subject.get('bankCount', 0) == 0, f"{subject['id']} must not count author tasks as official"
+    assert subject.get('officialBankCount', 0) == 0, f"{subject['id']} must not claim unverified official tasks"
+    for track in subject.get('tracks', []):
+        assert track.get('bankCount', 0) == 0 and track.get('officialBankCount', 0) == 0, f"{track['id']} must not count author tasks as official"
 assert all(s.get('status') != 'available' for s in pilot_subjects), 'Pilot banks must not be labelled as complete'
 # Each separate global page loads the new context script and has subject navigation.
 for fname in ['index.html','topics.html','self-study.html','theory.html','official.html','subjects.html','subject.html']:
@@ -53,11 +57,12 @@ assert 'window.EGE_ACTIVE_SUBJECT_ID' in js and 'ege-plus-active-subject-v1' in 
 assert 'function renderSubjectsCatalog()' in js and 'function renderGenericSection(item, page)' in js
 assert "page === 'study' && item.id !== 'math_basic'" in js, 'Profile math needs its own practice bank on the study page'
 assert 'renderSubjectPractice(item)' in js, 'Subject-specific practice bank is not rendered'
+assert "t.sourceType==='official_fipi'&&t.isVerified===true&&t.sourceUrl" in js, 'Subject practice must filter to verified official tasks only'
 app = (ROOT/'app.js').read_text(encoding='utf-8')
 assert "if (ACTIVE_SUBJECT_KEY !== 'math_basic') return;" in app, 'Legacy base-math trainer must not run for other subjects'
 dashboard = (ROOT/'progress-dashboard.js').read_text(encoding='utf-8')
 assert "document.body.dataset.multiSubjectPage === 'true'" in dashboard, 'Base-math resume panel must not leak into other subjects'
-assert "item.bankCount > 0 ? item.bankCount : '—'" in js, 'Subject dashboards must show real starter-bank counts'
+assert 'item.officialBankCount || 0' in js, 'Subject dashboards must show verified official task counts only'
 assert "item.status === 'pilot' ? '2'" not in js, 'Subject dashboard must not hard-code pilot task counts'
 assert 'project2027' in js and 'approved2026' in js
 assert 'src.openVariant2026' in js and 'Реальный открытый вариант ЕГЭ-2026' in js
