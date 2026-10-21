@@ -9,6 +9,7 @@ self.onmessage=async event=>{
   const {code,stdin}=event.data||{};
   try{
     const py=await getPython();
+    self.postMessage({ready:true});
     py.globals.set('__ege_stdin',String(stdin??''));
     py.globals.set('__ege_code',String(code??''));
     const result=await py.runPythonAsync(
