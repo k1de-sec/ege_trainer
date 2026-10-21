@@ -4,6 +4,9 @@
   const FIPI_LINKS_URL = './fipi_links.json';
   const PAGE = document.body.dataset.page || 'home';
   const ACTIVE_SUBJECT_KEY = window.EGE_ACTIVE_SUBJECT_ID || 'math_basic';
+  // The legacy task UI only owns base-math pages. Other subjects are rendered by multi-exam.js;
+  // let it handle their practice banks instead of loading base-math tasks into hidden controls.
+  if (ACTIVE_SUBJECT_KEY !== 'math_basic') return;
   const STORAGE_KEY = `ege-trainer-progress-v3-${ACTIVE_SUBJECT_KEY}`;
   const EXAM_SECONDS = 180 * 60;
   const $ = (selector) => document.querySelector(selector);
