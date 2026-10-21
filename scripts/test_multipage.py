@@ -2,7 +2,7 @@ from pathlib import Path
 import re
 ROOT=Path(__file__).resolve().parent.parent
 pages={
- 'index.html':('home',['id="practice"','id="why-ege"','class="home-route-grid"'],['id="topics-variants"','id="self-study"','id="theory"','id="sources"']),
+ 'index.html':('home',['id="practice"','id="home-subject-preview-grid"','class="home-route-grid"'],['id="topics-variants"','id="self-study"','id="theory"','id="sources"']),
  'topics.html':('topics',['id="official-topic-source"','id="topics-variants"','id="topic-workspace"'],['id="self-study"','id="theory"','id="sources"']),
  'self-study.html':('study',['id="self-study"','id="start-exam-button"','id="topic-workspace"'],['id="topics-variants"','id="theory"','id="sources"']),
  'theory.html':('theory',['id="theory"'],['id="topics-variants"','id="self-study"','id="sources"']),
