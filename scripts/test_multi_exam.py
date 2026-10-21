@@ -55,6 +55,7 @@ assert 'id="subject-dashboard"' in (ROOT/'subject.html').read_text(encoding='utf
 js=(ROOT/'multi-exam.js').read_text(encoding='utf-8')
 assert 'window.EGE_ACTIVE_SUBJECT_ID' in js and 'ege-plus-active-subject-v1' in js
 assert 'function renderSubjectsCatalog()' in js and 'function renderGenericSection(item, page)' in js
+assert 'function renderOfficialSubjectCatalog(data)' in js and 'official-subject-grid' in js, 'Official source links for all subjects must render'
 assert "page === 'study' && item.id !== 'math_basic'" in js, 'Profile math needs its own practice bank on the study page'
 assert 'renderSubjectPractice(item)' in js, 'Subject-specific practice bank is not rendered'
 assert "t.sourceType==='official_fipi'&&t.isVerified===true&&t.sourceUrl" in js, 'Subject practice must filter to verified official tasks only'
