@@ -1078,9 +1078,6 @@
         if (!state.examEndAt || state.examEndAt <= Date.now()) finishExam(true);
         else startTimer();
       }
-      if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
-      }
     } catch (error) {
       if (el.taskContent) el.taskContent.innerHTML = `<div class="empty-state"><strong>Не удалось загрузить задания</strong>${escapeHtml(error.message || 'Проверь, что сайт запущен через локальный сервер, а не открыт как файл.')}</div>`;
       if (el.taskList) el.taskList.innerHTML = '<div class="empty-state">База не загружена</div>';
