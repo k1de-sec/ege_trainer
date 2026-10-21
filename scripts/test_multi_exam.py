@@ -16,6 +16,8 @@ for subject in subjects:
     assert subject.get('sources',{}).get('openBank','').startswith('https://'), subject['id']
     assert subject.get('sources',{}).get('project2027','').endswith('_2027.zip'), subject['id']
     assert subject.get('sources',{}).get('approved2026','').endswith('_2026.zip'), subject['id']
+    assert subject.get('sources',{}).get('openVariant2026','').startswith('https://doc.fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege/2026/'), subject['id']
+    assert subject.get('sources',{}).get('openVariant2026','').endswith('_1_ege2026.zip'), subject['id']
 math=next(s for s in subjects if s['id']=='mathematics')
 assert {t['id'] for t in math['tracks']}=={'math_basic','math_profile'}
 assert next(t for t in math['tracks'] if t['id']=='math_basic')['bankCount']==441
@@ -39,6 +41,7 @@ js=(ROOT/'multi-exam.js').read_text(encoding='utf-8')
 assert 'window.EGE_ACTIVE_SUBJECT_ID' in js and 'ege-plus-active-subject-v1' in js
 assert 'function renderSubjectsCatalog()' in js and 'function renderGenericSection(item, page)' in js
 assert 'project2027' in js and 'approved2026' in js
+assert 'src.openVariant2026' in js and 'Реальный открытый вариант ЕГЭ-2026' in js
 # Ensure all subject nav section URLs preserve subject query params at runtime.
 assert "subject=${encodeURIComponent(subjectId)}" in js
 sw=(ROOT/'sw.js').read_text(encoding='utf-8')
