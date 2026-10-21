@@ -253,8 +253,12 @@
           if(runTimeout)clearTimeout(runTimeout);
           const worker=new Worker('./python-runner-worker.js?v=1',{name:'ege-plus-python-runner'});activePythonWorker=worker;
           const cleanup=()=>{if(runTimeout)clearTimeout(runTimeout);runTimeout=null;worker.terminate();if(activePythonWorker===worker)activePythonWorker=null;};
-          runTimeout=setTimeout(()=>{cleanup();reject(new Error('Превышено время выполнения (5 секунд). Проверь бесконечный цикл или слишком большой перебор.'));},5000);
-          worker.onmessage=event=>{const data=event.data||{};cleanup();if(data.ok)resolve(data.output);else reject(new Error(data.error||'Не удалось выполнить код.'));};
+          runTimeout=setTimeout(()=>{cleanup();reject(new Error('Python не успел загрузиться. Проверь подключение к интернету и повтори запуск.'));},30000);
+          worker.onmessage=event=>{
+            const data=event.data||{};
+            if(data.ready){if(runTimeout)clearTimeout(runTimeout);runTimeout=setTimeout(()=>{cleanup();reject(new Error('Превышено время выполнения (5 секунд). Проверь бесконечный цикл или слишком большой перебор.'));},5000);return;}
+            cleanup();if(data.ok)resolve(data.output);else reject(new Error(data.error||'Не удалось выполнить код.'));
+          };
           worker.onerror=event=>{cleanup();reject(new Error(event.message||'Ошибка среды Python.'));};
           worker.postMessage({code:String(code).slice(0,50000),stdin:String(stdin).slice(0,100000)});
         });
