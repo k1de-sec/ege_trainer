@@ -192,7 +192,11 @@
       const local = item.status === 'available';
       specific = `<section class="multi-section-block"><div class="multi-section-heading"><div><span class="section-kicker">РЕЖИМЫ ПОДГОТОВКИ</span><h2>${local ? 'Начни с банка заданий' : 'Подготовка включается по мере проверки банка'}</h2></div></div>${statusParagraph(item)}<div class="multi-mode-grid"><article class="multi-mode-card"><span class="multi-mode-icon">⚡</span><h3>Быстрая разминка</h3><p>${local ? 'Пять случайных упражнений из проверенной авторской базы.' : 'Станет доступна после появления достаточного количества качественных заданий с проверенными ответами.'}</p><span class="multi-mode-state ${local?'state-ready':'state-locked'}">${local?'Доступно в тренажёре базы':'Пока не подключено'}</span>${local?`<a class="primary-button" href="${routeHref('study','math_basic')}">Начать →</a>`:`<a class="secondary-button" href="${routeHref('official',item.id)}">Официальные материалы ↗</a>`}</article><article class="multi-mode-card"><span class="multi-mode-icon">↻</span><h3>Смешанная подборка</h3><p>Случайный набор разных типов с автоматической проверкой каждого ответа.</p><span class="multi-mode-state ${local?'state-ready':'state-locked'}">${local?'Доступно в тренажёре базы':'Откроется после наполнения банка'}</span>${local?`<a class="secondary-button" href="${routeHref('study','math_basic')}">Собрать подборку →</a>`:`<a class="secondary-button" href="${routeHref('official',item.id)}">Пока решать у ФИПИ ↗</a>`}</article><article class="multi-mode-card"><span class="multi-mode-icon">◷</span><h3>Пробный вариант</h3><p>Режим экзамена должен соответствовать актуальной спецификации: структуре, времени и критериям предмета.</p><span class="multi-mode-state state-locked">${local?'180 минут · математика база':'Будет настроено по спецификации ФИПИ'}</span><a class="secondary-button" href="${parentSources.openVariant2026 || routeHref('official',item.id)}" target="_blank" rel="noopener noreferrer">Открыть оригинальный вариант 2026 ↗</a></article></div></section>`;
     } else if (page === 'theory') {
-      specific = `<section class="multi-section-block"><div class="multi-section-heading"><div><span class="section-kicker">СТРУКТУРА ТЕОРИИ</span><h2>Что нужно повторить</h2></div></div>${themeCards(item,'theory')}<div class="multi-notice notice-planned"><strong>Что важно</strong><p>Сейчас здесь карта направлений. Полноценные конспекты, примеры и упражнения будут добавляться по одному блоку после сверки с официальным кодификатором и редакторской проверки. Мы не выдаём пустой план за готовую теорию.</p></div><div class="multi-action-row"><a class="primary-button" href="${parentSources.fipiPage || fipiPage}" target="_blank" rel="noopener noreferrer">Открыть кодификатор ФИПИ ↗</a><a class="secondary-button" href="${routeHref('topics',item.id)}">Темы и варианты</a></div></section>`;
+      if (item.id === 'informatics') {
+        specific = `<section class="multi-section-block"><div class="multi-section-heading"><div><span class="section-kicker">ТЕОРИЯ И РАЗБОРЫ · ЕГЭ-2027</span><h2>Все 27 позиций экзамена</h2></div><span class="multi-muted">Авторские объяснения методов</span></div><p>Для каждой позиции есть алгоритм решения, мини-пример и список типичных ошибок. Это учебный конспект, не копия заданий ФИПИ; точную формулировку и актуальные критерии проверяй по первоисточникам.</p><div id="informatics-guide" class="informatics-guide" aria-live="polite"><div class="multi-notice">Загружаем карту 27 заданий…</div></div><div class="multi-action-row"><a class="primary-button" href="${parentSources.project2027}" target="_blank" rel="noopener noreferrer">Демоверсия ФИПИ-2027 ↗</a><a class="secondary-button" href="https://www.kpolyakov.spb.ru/school/ege.htm" target="_blank" rel="noopener noreferrer">Материалы Полякова ↗</a><a class="secondary-button" href="https://inf-ege.sdamgia.ru/" target="_blank" rel="noopener noreferrer">Решу ЕГЭ ↗</a><a class="secondary-button" href="https://kompege.ru/" target="_blank" rel="noopener noreferrer">КЕГЭ ↗</a></div></section>`;
+      } else {
+        specific = `<section class="multi-section-block"><div class="multi-section-heading"><div><span class="section-kicker">СТРУКТУРА ТЕОРИИ</span><h2>Что нужно повторить</h2></div></div>${themeCards(item,'theory')}<div class="multi-notice notice-planned"><strong>Что важно</strong><p>Сейчас здесь карта направлений. Полноценные конспекты, примеры и упражнения будут добавляться по одному блоку после сверки с официальным кодификатором и редакторской проверки. Мы не выдаём пустой план за готовую теорию.</p></div><div class="multi-action-row"><a class="primary-button" href="${parentSources.fipiPage || fipiPage}" target="_blank" rel="noopener noreferrer">Открыть кодификатор ФИПИ ↗</a><a class="secondary-button" href="${routeHref('topics',item.id)}">Темы и варианты</a></div></section>`;
+      }
     } else {
       specific = `<section class="multi-section-block"><div class="multi-section-heading"><div><span class="section-kicker">ОФИЦИАЛЬНЫЕ РЕСУРСЫ</span><h2>Документы по предмету</h2></div></div>${officialCards(item)}</section>`;
     }
@@ -215,6 +219,22 @@
     const english = data.subjects.find(s => s.id === 'english'); if (english) visible.push(english);
     host.innerHTML = visible.map(item => `<a class="subject-preview-card" href="./subject.html?subject=${encodeURIComponent(item.id)}"><span class="subject-preview-icon">${escapeHtml(item.icon || 'ЕГЭ')}</span><span class="subject-preview-copy"><strong>${escapeHtml(item.shortName || item.name)}</strong><small>${item.status === 'available' ? '441 авторское упражнение · тренажёр готов' : 'Первоисточники ФИПИ · раздел наполняется'}</small></span><span class="subject-preview-arrow">↗</span></a>`).join('');
   }
+
+  async function renderInformaticsGuide(){
+    const host=document.getElementById('informatics-guide');if(!host)return;
+    try{
+      const response=await fetch('./informatics_guide.json',{cache:'no-cache'});if(!response.ok)throw new Error('Не удалось загрузить конспект.');
+      const guide=await response.json();const items=guide.items||[];let filter='all',query='';
+      const draw=()=>{
+        const q=query.trim().toLocaleLowerCase('ru');
+        const visible=items.filter(item=>(filter==='all'||filter==='part1'&&item.part===1||filter==='part2'&&item.part===2)&&(!q||[item.number,item.title,item.kind,item.goal,...item.method,...item.pitfalls].join(' ').toLocaleLowerCase('ru').includes(q)));
+        host.innerHTML=`<div class="informatics-guide-tools"><label class="informatics-guide-search">Поиск по 27 темам<input id="informatics-guide-query" type="search" placeholder="Например: маска, рекурсия, строки" value="${escapeHtml(query)}"></label><div class="informatics-guide-filters" role="group" aria-label="Фильтр тем"><button type="button" data-guide-filter="all" aria-pressed="${filter==='all'}" class="${filter==='all'?'selected':''}">Все 27</button><button type="button" data-guide-filter="part1" aria-pressed="${filter==='part1'}" class="${filter==='part1'?'selected':''}">Часть 1</button><button type="button" data-guide-filter="part2" aria-pressed="${filter==='part2'}" class="${filter==='part2'?'selected':''}">Часть 2</button></div></div><p class="informatics-guide-count">Показано ${visible.length} из ${items.length} тем · версия ЕГЭ-2027</p><div class="informatics-guide-grid">${visible.map(item=>`<details class="informatics-guide-card"><summary><span class="informatics-guide-number">${item.number}</span><span class="informatics-guide-card-title"><strong>${escapeHtml(item.title)}</strong><small>${escapeHtml(item.kind)} · ${item.part===1?'часть 1':'часть 2'}</small></span><span class="informatics-guide-chevron" aria-hidden="true">＋</span></summary><div class="informatics-guide-body"><p class="informatics-guide-goal">${escapeHtml(item.goal)}</p><h4>Алгоритм решения</h4><ol>${item.method.map(step=>`<li>${escapeHtml(step)}</li>`).join('')}</ol><div class="informatics-guide-example"><strong>Мини-пример</strong><p>${escapeHtml(item.example)}</p><strong>Почему так</strong><p>${escapeHtml(item.solution)}</p></div><h4>Типичные ошибки</h4><ul class="informatics-guide-pitfalls">${item.pitfalls.map(p=>`<li>${escapeHtml(p)}</li>`).join('')}</ul></div></details>`).join('')||'<div class="multi-notice">Ничего не найдено. Попробуй изменить запрос.</div>'}</div>`;
+        host.querySelector('#informatics-guide-query')?.addEventListener('input',event=>{query=event.target.value;const cursor=event.target.selectionStart;draw();const input=host.querySelector('#informatics-guide-query');input?.focus();input?.setSelectionRange(cursor,cursor);});
+        host.querySelectorAll('[data-guide-filter]').forEach(button=>button.addEventListener('click',()=>{filter=button.dataset.guideFilter;draw();}));
+      };
+      draw();
+    }catch(error){host.innerHTML='<div class="multi-notice notice-error" role="alert"><strong>Не удалось загрузить разборы</strong><p>'+escapeHtml(error.message)+'</p><button class="secondary-button" type="button" id="retry-informatics-guide">Повторить</button></div>';host.querySelector('#retry-informatics-guide')?.addEventListener('click',renderInformaticsGuide,{once:true});}
+  }
   async function renderSubjectPractice(item) {
     const host=document.getElementById('subject-practice-bank'), count=document.getElementById('subject-bank-count');
     if(!host)return;
@@ -225,14 +245,19 @@
       if(!tasks.length){host.innerHTML='<div class="multi-notice notice-planned"><strong>Банк ещё не опубликован</strong><p>Пока доступны официальные источники и карта тем.</p></div>';return;}
       const key='ege-plus-practice-'+item.id+'-v2'; let progress={};
       try{progress=JSON.parse(localStorage.getItem(key)||'{}')||{};}catch(_){}
-      let current=0,pyodidePromise=null; const esc=escapeHtml;
-      const norm=value=>String(value??'').trim().toLocaleLowerCase().replace(/[ё]/g,'е').replace(/\s+/g,' ').replace(/[.,;]+$/,'');
-      function loadPython(){
-        if(!pyodidePromise)pyodidePromise=new Promise((resolve,reject)=>{
-          const start=()=>window.loadPyodide({indexURL:'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/'}).then(resolve,reject);
-          if(window.loadPyodide){start();return;}
-          const script=document.createElement('script');script.src='https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js';script.onload=start;script.onerror=()=>reject(new Error('Не удалось загрузить Python. Проверь подключение к интернету.'));document.head.appendChild(script);
-        });return pyodidePromise;
+      let current=0,activePythonWorker=null,runTimeout=null; const esc=escapeHtml;
+      const norm=value=>String(value??'').trim().replace(/\r/g,'').replace(/\s+$/,'');
+      function runPythonIsolated(code,stdin){
+        return new Promise((resolve,reject)=>{
+          if(activePythonWorker){activePythonWorker.terminate();activePythonWorker=null;}
+          if(runTimeout)clearTimeout(runTimeout);
+          const worker=new Worker('./python-runner-worker.js?v=1',{name:'ege-plus-python-runner'});activePythonWorker=worker;
+          const cleanup=()=>{if(runTimeout)clearTimeout(runTimeout);runTimeout=null;worker.terminate();if(activePythonWorker===worker)activePythonWorker=null;};
+          runTimeout=setTimeout(()=>{cleanup();reject(new Error('Превышено время выполнения (5 секунд). Проверь бесконечный цикл или слишком большой перебор.'));},5000);
+          worker.onmessage=event=>{const data=event.data||{};cleanup();if(data.ok)resolve(data.output);else reject(new Error(data.error||'Не удалось выполнить код.'));};
+          worker.onerror=event=>{cleanup();reject(new Error(event.message||'Ошибка среды Python.'));};
+          worker.postMessage({code:String(code).slice(0,50000),stdin:String(stdin).slice(0,100000)});
+        });
       }
       function paint(){
         const task=tasks[current],saved=progress[task.externalId]||{},done=Object.keys(progress).filter(id=>progress[id]?.correct).length;
@@ -260,10 +285,13 @@
         if(isCode){
           document.getElementById('subject-run-code')?.addEventListener('click',async()=>{
             const out=document.getElementById('subject-code-output'),code=document.getElementById('subject-practice-answer').value,stdin=document.getElementById('subject-practice-stdin').value;out.textContent='Загружаем Python и запускаем программу…';
-            try{const py=await loadPython();py.globals.set('__ege_stdin',stdin);py.globals.set('__ege_code',code);
-              const result=await py.runPythonAsync("import sys, io, contextlib\nsys.stdin = io.StringIO(__ege_stdin)\n__ege_stdout = io.StringIO()\ntry:\n  with contextlib.redirect_stdout(__ege_stdout):\n    exec(compile(__ege_code, '<ege-submission>', 'exec'), {'__name__':'__main__'})\n  __ege_result = __ege_stdout.getvalue()\nexcept Exception as __ege_error:\n  __ege_result = 'Ошибка: ' + str(__ege_error)\n__ege_result");
-              out.textContent=String(result??'');progress[task.externalId]={...(progress[task.externalId]||{}),answer:code,stdin,output:String(result??''),correct:false,updatedAt:Date.now()};try{localStorage.setItem(key,JSON.stringify(progress));}catch(_){}
+            const runButton=document.getElementById('subject-run-code');if(runButton){runButton.disabled=true;runButton.textContent='Выполняется…';}
+            try{
+              const result=await runPythonIsolated(code,stdin);
+              out.textContent=result.length>20000?result.slice(0,20000)+'\\n… вывод сокращён …':result;
+              progress[task.externalId]={...(progress[task.externalId]||{}),answer:code,stdin,output:out.textContent,correct:false,updatedAt:Date.now()};try{localStorage.setItem(key,JSON.stringify(progress));}catch(_){}
             }catch(error){out.textContent=error.message||String(error);}
+            finally{const button=document.getElementById('subject-run-code');if(button){button.disabled=false;button.textContent='▶ Запустить код';}}
           });
           document.getElementById('subject-check-output')?.addEventListener('click',()=>{
             const out=document.getElementById('subject-code-output').textContent.trim().replace(/\r/g,''),expected=String(task.expectedOutput??task.correctAnswer??'').trim().replace(/\r/g,''),ok=Boolean(expected)&&out===expected;
@@ -287,7 +315,10 @@
       if (PAGE === 'home') { renderHomePreview(registry); return; }
       const item = context(); if (!item) return;
       if (PAGE === 'subject') { renderSubjectDashboard(item); return; }
-      if (item.id !== 'math_basic') renderGenericSection(item, PAGE);
+      if (item.id !== 'math_basic') {
+        renderGenericSection(item, PAGE);
+        if (PAGE === 'theory' && item.id === 'informatics') renderInformaticsGuide();
+      }
     } catch (error) {
       const hostId = PAGE === 'subjects' ? 'subjects-catalog'
         : PAGE === 'subject' ? 'subject-dashboard'
