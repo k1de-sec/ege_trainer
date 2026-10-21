@@ -64,7 +64,7 @@ for task in basic:
 assert 'function renderMathExpression' in APP and 'function startWarmup' in APP
 assert "data.filter((task) => task.subjectId === ACTIVE_SUBJECT_KEY)" in APP, 'Base-math trainer must not count demo long-answer tasks as exam tasks'
 sw=(ROOT/'sw.js').read_text(encoding='utf-8')
-assert "ege-trainer-web-v19-design-consistency" in sw, 'Service worker cache was not bumped for the design release'
+assert "ege-trainer-web-v20-subject-routing" in sw, 'Service worker cache was not bumped for the design release'
 assert "'./design-refresh.css'" in sw, 'Shared design stylesheet must be available offline'
 assert "'./progress-dashboard.js'" in sw, 'Progress dashboard must be available offline'
 for page in ['index.html','subjects.html','subject.html','topics.html','self-study.html','theory.html','official.html']:
