@@ -64,9 +64,10 @@ for task in basic:
 assert 'function renderMathExpression' in APP and 'function startWarmup' in APP
 assert "data.filter((task) => task.subjectId === ACTIVE_SUBJECT_KEY)" in APP, 'Base-math trainer must not count demo long-answer tasks as exam tasks'
 sw=(ROOT/'sw.js').read_text(encoding='utf-8')
-assert "ege-trainer-web-v23-final-audit" in sw, 'Service worker cache was not bumped for the design release'
+assert "ege-trainer-web-v24-query-aware-offline" in sw, 'Service worker cache was not bumped for the design release'
 assert "'./design-refresh.css'" in sw, 'Shared design stylesheet must be available offline'
 assert "'./progress-dashboard.js'" in sw, 'Progress dashboard must be available offline'
+assert "caches.match(event.request, { ignoreSearch: true })" in sw, 'Versioned assets must resolve to the offline app shell cache'
 for page in ['index.html','subjects.html','subject.html','topics.html','self-study.html','theory.html','official.html']:
     source=(ROOT/page).read_text(encoding='utf-8')
     assert 'design-refresh.css?v=20261021-ui2' in source, f'{page}: shared design stylesheet is missing or stale'
