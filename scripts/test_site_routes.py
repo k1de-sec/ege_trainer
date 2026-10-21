@@ -18,7 +18,7 @@ for fname in ['topics.html','self-study.html','theory.html','official.html']:
     assert 'href="./subjects.html"' in s
 for fname in ['subjects.html', 'subject.html']:
     source=(ROOT/fname).read_text(encoding='utf-8')
-    nav=re.search(r'<a\\b(?=[^>]*class="nav-link active")(?=[^>]*data-nav-page="([^"]+)")[^>]*>',source)
+    nav=re.search(r'<a\b(?=[^>]*class="nav-link active")(?=[^>]*data-nav-page="([^"]+)")[^>]*>',source)
     assert nav and nav.group(1)=='subjects', f'{fname}: subject navigation should be active'
 js=(ROOT/'multi-exam.js').read_text(encoding='utf-8')
 for id_ in ['math_basic','math_profile','russian','physics','chemistry','informatics','biology','history','social_science','geography','literature','english','german','french','spanish','chinese']:
