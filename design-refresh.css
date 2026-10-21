@@ -1,0 +1,137 @@
+/* ЕГЭ+ Design Refresh — unified responsive layer, preserving the existing task engine */
+:root{
+  --ink:#172033;--muted:#68758a;--paper:#f5f7fc;--white:#fff;--line:#e5e9f2;
+  --purple:#635bdb;--purple-dark:#4d45bd;--green:#159b72;--orange:#d98245;
+  --navy:#151b2d;--soft-purple:#f0efff;--soft-green:#e6f7f0;--radius:22px;
+  --shadow:0 10px 34px rgba(24,34,58,.06);--shadow-hover:0 18px 42px rgba(24,34,58,.11)
+}
+html{scroll-padding-top:100px;scroll-behavior:smooth}
+body{background:radial-gradient(ellipse at 15% 0%,rgba(99,91,219,.045),transparent 34%),var(--paper);font-size:15px;line-height:1.55}
+.app-shell{width:min(1360px,calc(100% - 48px))}
+.topbar{position:sticky;top:0;z-index:100;height:76px;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);border-bottom:1px solid rgba(225,230,240,.9);margin:0 -24px;padding:0 24px;box-shadow:0 4px 18px rgba(25,35,60,.025)}
+.brand{min-width:145px}.brand-mark{border-radius:12px;box-shadow:0 5px 12px rgba(99,91,219,.2)}
+.topnav{gap:clamp(12px,2vw,28px)}.nav-link{height:76px;font-size:13px;white-space:nowrap}
+.nav-link.active:after{height:3px}
+.saved-status{font-size:12px}
+.hero{margin-top:24px;border-radius:28px;padding:clamp(30px,4.5vw,58px) clamp(28px,4.5vw,58px) 52px;min-height:370px;box-shadow:0 20px 50px rgba(21,27,45,.1)}
+.hero h1{font-size:clamp(36px,4.3vw,56px);letter-spacing:-2px;line-height:1.1}
+.hero-description{font-size:15px;line-height:1.8;max-width:490px}
+.primary-button{font-size:13px;padding:14px 18px;border-radius:12px;text-decoration:none}
+.home-subject-showcase,.subjects-browser-section,.topic-browser-section,.practice-controls,.official-topic-source,.multi-subject-page-content,.route-intro,.resume-panel,.multi-notice{
+  border-radius:22px
+}
+.home-subject-showcase{margin:34px 0}
+.section-heading{margin-bottom:18px;gap:16px}
+.section-heading h2,.sidebar-heading h2{font-size:clamp(22px,2.2vw,28px);letter-spacing:-.7px}
+.subject-preview-grid,.subjects-grid{gap:16px}
+.subject-card,.subject-preview-card,.multi-subject-card,.home-route-card,.multi-route-card,.multi-resource-card,.mode-card,.stat-card,.task-sidebar,.practice-panel{
+  border-radius:18px;transition:box-shadow .18s ease,transform .18s ease,border-color .18s ease
+}
+.subject-card,.subject-preview-card,.multi-subject-card{min-height:170px;padding:22px}
+.subject-card:hover,.subject-preview-card:hover,.multi-subject-card:hover,.home-route-card:hover,.multi-route-card:hover,.multi-resource-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover)}
+.home-route-grid{gap:14px;margin:24px 0 56px}
+.home-route-card{min-height:112px;padding:21px 22px;border:1px solid var(--line);background:#fff}
+.home-route-copy strong,.multi-route-copy strong{font-size:15px;line-height:1.4}
+.home-route-copy small,.multi-route-copy small{font-size:12px;line-height:1.6}
+.multi-hero,.route-intro{padding:clamp(26px,4vw,46px);border-radius:26px;margin-top:24px}
+.multi-hero h1,.route-intro h1{font-size:clamp(32px,4vw,46px);line-height:1.14;letter-spacing:-1.5px}
+.multi-hero p,.route-intro p{font-size:15px;line-height:1.8;max-width:760px}
+.catalog-summary{margin-top:24px}
+.subjects-browser-section{padding:24px;margin:24px 0;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}
+.subjects-browser-toolbar{gap:14px;margin-bottom:20px}
+.subjects-search{min-height:46px;border-radius:12px}
+.subject-filter-group{padding:4px;border-radius:12px;background:#f4f5fb}
+.subject-filter-group button{padding:10px 14px;border-radius:9px;font-size:12px}
+.subjects-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.multi-status{font-size:11px}
+.multi-notice{padding:20px 22px;line-height:1.7}
+.route-intro{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
+.route-intro-link{max-width:300px;line-height:1.65}
+.stats-grid{gap:16px;margin:22px 0 30px}
+.stat-card{min-height:108px;padding:22px;border-radius:18px}
+.stat-number{font-size:28px}
+.stat-label{font-size:12px;line-height:1.5}
+.workspace{grid-template-columns:minmax(260px,320px) minmax(0,1fr);gap:20px}
+.task-sidebar{padding:24px 20px}
+.practice-panel{padding:clamp(22px,3vw,38px);border-radius:20px}
+.task-title{font-size:clamp(24px,2.6vw,34px);line-height:1.25}
+.task-statement{font-size:15px;line-height:1.9}
+.answer-box{padding:20px;border-radius:15px}
+.mode-card-grid{gap:18px}
+.mode-card{padding:24px;border:1px solid var(--line);box-shadow:var(--shadow)}
+.mode-card h3{font-size:20px;letter-spacing:-.4px}
+.mode-card p{font-size:14px;line-height:1.75}
+.footer{padding:28px 0 34px;gap:16px;flex-wrap:wrap}
+a{transition:color .15s ease}
+button,input,select,textarea{border-radius:10px}
+:focus-visible{outline:3px solid rgba(99,91,219,.38)!important;outline-offset:3px!important}
+.loading-placeholder{padding:22px;border-radius:14px;background:#f8f9fd;color:#69758a}
+@media(max-width:1100px){
+ .app-shell{width:calc(100% - 32px)}
+ .topbar{margin:0 -16px;padding:0 16px;gap:14px}
+ .topnav{gap:15px}.nav-link{font-size:12px}
+ .topbar-right .saved-status{display:none}
+ .hero-visual{min-width:280px;transform:scale(.92);transform-origin:center right}
+ .subjects-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .workspace{grid-template-columns:280px minmax(0,1fr)}
+}
+@media(max-width:800px){
+ .app-shell{width:calc(100% - 28px)}
+ .topbar{height:auto;min-height:70px;position:sticky;top:0;flex-wrap:wrap;padding:12px 14px;margin:0 -14px;gap:10px}
+ .brand{min-width:0}.brand-mark{width:31px;height:31px}
+ .topnav{order:3;width:100%;overflow-x:auto;gap:20px;scrollbar-width:none}
+ .topnav::-webkit-scrollbar{display:none}
+ .nav-link{height:39px;flex:0 0 auto;font-size:12px}
+ .topbar-right{margin-left:auto}
+ .hero{margin-top:16px;min-height:0;padding:30px 24px 48px}
+ .hero-content{max-width:none}.hero h1{font-size:clamp(34px,8vw,48px)}
+ .hero-description{font-size:14px}
+ .hero-visual{display:none}
+ .hero-bottom-line{left:24px;right:24px}
+ .home-subject-showcase{margin:28px 0}
+ .home-route-grid{grid-template-columns:1fr 1fr}
+ .route-intro{align-items:flex-start;flex-direction:column}
+ .route-intro-link{max-width:none}
+ .stats-grid{grid-template-columns:1fr 1fr}
+ .progress-stat{grid-column:1/-1}
+ .workspace{grid-template-columns:1fr}
+ .task-list{max-height:340px}
+ .practice-panel{min-height:0}
+ .subjects-browser-section{padding:16px}
+ .subjects-browser-toolbar{align-items:stretch;flex-direction:column}
+ .subject-filter-group{overflow-x:auto}
+ .subject-filter-group button{white-space:nowrap}
+}
+@media(max-width:520px){
+ body{font-size:14px}
+ .app-shell{width:calc(100% - 22px)}
+ .topbar{margin:0 -11px;padding:10px 11px}
+ .brand-copy strong{font-size:20px}
+ .saved-status{font-size:10px}
+ .hero{padding:26px 19px 48px;border-radius:20px}
+ .hero h1{letter-spacing:-1.4px;margin-top:17px}
+ .hero-description{line-height:1.7}
+ .hero-actions{align-items:flex-start;flex-direction:column;gap:12px}
+ .hero-bottom-line{left:19px;right:19px;font-size:7px}
+ .section-heading{align-items:flex-start}
+ .section-heading h2{font-size:23px}
+ .subject-preview-grid,.subjects-grid,.home-route-grid,.mode-card-grid{grid-template-columns:1fr}
+ .subject-card,.subject-preview-card,.multi-subject-card{min-height:0;padding:19px}
+ .home-route-card{min-height:94px;padding:17px}
+ .multi-hero,.route-intro{padding:24px 19px;border-radius:20px}
+ .multi-hero h1,.route-intro h1{font-size:33px;letter-spacing:-1px}
+ .subjects-browser-section{padding:13px;margin:16px 0}
+ .stats-grid{gap:10px}
+ .stat-card{min-height:94px;padding:14px;gap:10px}
+ .stat-icon{width:34px;height:34px}
+ .stat-number{font-size:23px}
+ .stat-label{font-size:10px}
+ .task-sidebar{padding:18px 14px}
+ .practice-panel{padding:20px 16px}
+ .task-title{font-size:25px}
+ .task-statement{font-size:14px}
+ .answer-box{padding:14px}
+ .mode-card{padding:19px}
+ .footer{align-items:flex-start;flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
