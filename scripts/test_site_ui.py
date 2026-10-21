@@ -19,7 +19,7 @@ el_block=JS[JS.index('const el = {'):JS.index('\n  };',JS.index('const el = {'))
 bindings=re.findall(r"\$\('#([a-zA-Z0-9_-]+)'\)",el_block)
 missing=sorted(set(bindings)-all_ids)
 assert not missing, f'JS bindings not present on any route: {missing}'
-for phrase in ('Оригинальные задания ФИПИ','Смешанная подборка','авторские упражнения','Официальные источники'):
+for phrase in ('Оригинальные задания ФИПИ','Смешанная подборка','авторские упражнения','Источники ФИПИ'):
     assert any(phrase in source for source in HTML.values()), f'Missing clarity label: {phrase}'
 assert 'Отработка по типу' in JS, 'Topic drill mode label missing'
 assert 'if (!el.taskContent) return;' in JS, 'JS should gracefully handle pages without a task workspace'
