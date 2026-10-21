@@ -1,7 +1,8 @@
 (() => {
   'use strict';
   const panel = document.getElementById('resume-panel');
-  if (!panel) return;
+  // The legacy resume panel reads only base-math progress. Other subjects have their own progress UI.
+  if (!panel || document.body.dataset.multiSubjectPage === 'true') return;
   const key = 'ege-trainer-progress-v3-math_basic';
   const title = document.getElementById('resume-title');
   const description = document.getElementById('resume-description');
