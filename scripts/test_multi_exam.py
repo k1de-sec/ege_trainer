@@ -60,7 +60,7 @@ assert "page === 'study' && item.id !== 'math_basic'" in js, 'Profile math needs
 assert 'renderSubjectPractice(item)' in js, 'Subject-specific practice bank is not rendered'
 assert "t.sourceType==='official_fipi'&&t.isVerified===true&&t.sourceUrl" in js, 'Subject practice must filter to verified official tasks only'
 app = (ROOT/'app.js').read_text(encoding='utf-8')
-assert "if (ACTIVE_SUBJECT_KEY !== 'math_basic') return;" in app, 'Legacy base-math trainer must not run for other subjects'
+assert "if (ACTIVE_SUBJECT_KEY !== 'math_basic' || PAGE === 'home') return;" in app, 'Legacy base-math trainer must not run for other subjects or the homepage'
 dashboard = (ROOT/'progress-dashboard.js').read_text(encoding='utf-8')
 assert "document.body.dataset.multiSubjectPage === 'true'" in dashboard, 'Base-math resume panel must not leak into other subjects'
 assert 'item.officialBankCount || 0' in js, 'Subject dashboards must show verified official task counts only'
