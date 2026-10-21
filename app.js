@@ -1050,7 +1050,7 @@
         const fipiResponse = await fetch(FIPI_LINKS_URL, { cache: 'no-cache' });
         if (fipiResponse.ok) state.fipiLinks = await fipiResponse.json();
       } catch (_) { state.fipiLinks = null; }
-      state.bankTasks = sortTasks(data.filter((task) => ['math_basic', 'math_basic_extra'].includes(task.subjectId))); 
+      state.bankTasks = sortTasks(data.filter((task) => task.subjectId === ACTIVE_SUBJECT_KEY)); 
       if (!state.bankTasks.length) throw new Error('В локальной базе не найдены задания базовой математики.');
       const bankIds = new Set(state.bankTasks.map((task) => task.externalId));
       state.solved = new Set([...state.solved].filter((id) => bankIds.has(id)));
