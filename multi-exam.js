@@ -50,7 +50,7 @@
   function context() { return flat.find((item) => item.id === activeId) || flat.find((item) => item.id === 'math_basic'); }
   function statusBadge(item) {
     if (item.status === 'available') return '<span class="multi-status status-ready"><i></i> Тренажёр доступен</span>';
-    if (item.status === 'pilot') return '<span class="multi-status status-pilot"><i></i> Начальное наполнение</span>';
+    if (item.status === 'pilot') return '<span class="multi-status status-pilot"><i></i> Официальные источники доступны</span>';
     if (item.status === 'multi-track') return '<span class="multi-status status-pilot"><i></i> Два уровня</span>';
     return '<span class="multi-status status-planned"><i></i> Раздел наполняется</span>';
   }
@@ -62,7 +62,7 @@
     return `<a class="multi-route-card" href="${href}"><span class="multi-route-icon">${icon}</span><span class="multi-route-copy"><strong>${escapeHtml(title)}</strong><small>${escapeHtml(desc)}</small></span><span class="multi-route-arrow">↗</span></a>`;
   }
   function statusParagraph(item) {
-    if (item.bankCount > 0 && item.status !== 'available') return `<div class="multi-notice notice-pilot"><strong>Есть стартовый набор упражнений</strong><p>${escapeHtml(item.description || 'Доступна небольшая авторская подборка.')} Это начальное наполнение, а не полный экзаменационный банк. Сверяй структуру и критерии с актуальной спецификацией ФИПИ.</p></div>`;
+    if (Number(item.officialBankCount || 0) === 0) return `<div class="multi-notice notice-pilot"><strong>Официальный банк не импортирован</strong><p>${escapeHtml(item.description || 'Локальные задания не опубликованы как официальные без сверки с первоисточником.')} Открой оригинальные задания и варианты на сайте ФИПИ. Авторские упражнения не подменяют официальный банк.</p></div>`;
     if (item.status === 'available') return `<div class="multi-notice notice-ready"><strong>Тренажёр готов</strong><p>${escapeHtml(item.description || 'Локальная база упражнений доступна.')} Прогресс сохраняется отдельно от других предметов в этом браузере.</p></div>`;
     if (item.status === 'pilot') return `<div class="multi-notice notice-pilot"><strong>Пока это стартовая версия</strong><p>${escapeHtml(item.description || 'Локальный банк содержит только демонстрационные материалы.')} Полноценный пробник и статистику по всему экзамену пока не включаем, чтобы не показывать неполную базу как готовую.</p></div>`;
     return `<div class="multi-notice notice-planned"><strong>Раздел оформлен, собственный банк готовится</strong><p>Навигация, карта тем и переходы к официальным материалам доступны. Авторские задания, автоматическая проверка и полноценный пробный вариант для этого предмета ещё не опубликованы.</p></div>`;
@@ -150,7 +150,7 @@
           <div class="subject-level-list">${s.tracks.map(t => `<a class="subject-level-option" href="./subject.html?subject=${encodeURIComponent(t.id)}"><span><strong>${escapeHtml(t.name)}</strong><small>${escapeHtml(t.statusLabel)}${t.id === 'math_basic' ? ' · 441 упражнение · 21 вариант на каждый тип' : t.id === 'math_profile' ? ' · 26 авторских упражнений' : ''}</small></span><span>↗</span></a>`).join('')}</div>
         </article>`;
       }
-      return `<article class="subject-card" data-category="${escapeHtml(s.category)}" data-search="${escapeHtml((s.name+' '+s.description+' '+s.themes.map(t=>t.title).join(' ')).toLowerCase())}"><div class="subject-card-top"><span class="subject-icon">${escapeHtml(s.icon)}</span><span class="subject-group-tag">${s.category === 'mandatory' ? 'Обязательный' : 'По выбору'}</span></div><h2>${escapeHtml(s.name)}</h2><p>${escapeHtml(s.description)}</p><div class="subject-card-footer"><span class="multi-status status-planned"><i></i> ${s.bankCount > 0 ? `Стартовый банк · ${taskCountLabel(s.bankCount)}` : 'Структура готова · банк наполняется'}</span><a class="subject-open-button" href="./subject.html?subject=${encodeURIComponent(s.id)}">Открыть предмет ↗</a></div></article>`;
+      return `<article class="subject-card" data-category="${escapeHtml(s.category)}" data-search="${escapeHtml((s.name+' '+s.description+' '+s.themes.map(t=>t.title).join(' ')).toLowerCase())}"><div class="subject-card-top"><span class="subject-icon">${escapeHtml(s.icon)}</span><span class="subject-group-tag">${s.category === 'mandatory' ? 'Обязательный' : 'По выбору'}</span></div><h2>${escapeHtml(s.name)}</h2><p>${escapeHtml(s.description)}</p><div class="subject-card-footer"><span class="multi-status status-planned"><i></i> ${'Официальный банк: не импортирован'}</span><a class="subject-open-button" href="./subject.html?subject=${encodeURIComponent(s.id)}">Открыть предмет ↗</a></div></article>`;
     }).join('');
     host.innerHTML = cards;
     const search = document.getElementById('subjects-search');
@@ -172,11 +172,11 @@
   function renderSubjectDashboard(item) {
     const host = document.getElementById('subject-dashboard'); if (!host || !item) return;
     const themes = item.themes || [];
-    const isReady = item.status === 'available';
+    const isReady = item.status === 'available' && Number(item.officialBankCount || 0) > 0;
     const source = item.parentSubject?.sources || item.sources || {};
     document.title = `${item.shortName || item.name} — ЕГЭ+`;
     host.innerHTML = `${topContext(item, 'ПАСПОРТ ЭКЗАМЕНА', `${item.shortName || item.name}: подготовка к ЕГЭ`, item.description)}
-      <section class="multi-dashboard-stats"><article><strong>${item.bankCount > 0 ? item.bankCount : '—'}</strong><span>${isReady ? (item.id === 'math_basic' ? 'тренировочных упражнений' : 'авторских упражнений') : item.status === 'pilot' ? 'упражнений в стартовом банке' : 'собственный банк готовится'}</span></article><article><strong>${themes.length || '—'}</strong><span>направлений для подготовки</span></article><article><strong>${item.durationMinutes ? `${item.durationMinutes} мин` : 'ФИПИ'}</strong><span>${item.durationMinutes ? 'время для базового пробника' : 'официальная структура экзамена'}</span></article></section>
+      <section class="multi-dashboard-stats"><article><strong>${Number(item.officialBankCount || 0)}</strong><span>${'официальных заданий в локальном банке'}</span></article><article><strong>${themes.length || '—'}</strong><span>направлений для подготовки</span></article><article><strong>${item.durationMinutes ? `${item.durationMinutes} мин` : 'ФИПИ'}</strong><span>${item.durationMinutes ? 'время для базового пробника' : 'официальная структура экзамена'}</span></article></section>
       ${statusParagraph(item)}
       <section class="multi-section-block"><div class="multi-section-heading"><div><span class="section-kicker">РАБОЧЕЕ ПРОСТРАНСТВО</span><h2>Выбери, как готовиться</h2></div><p>Каждое направление открывается на отдельной странице. Выбранный предмет сохраняется при переходах.</p></div><div class="multi-route-grid">${routeCard('topics','Темы и варианты','Карта экзамена и доступные типы заданий','№',item)}${routeCard('study','Самоподготовка','Разминка и пробные варианты','⏱',item)}${routeCard('theory','Теория','Темы, правила и опорные материалы','∑',item)}${routeCard('official','Материалы ФИПИ','Демоверсии, спецификации, банк задач','↗',item)}</div></section>
       <section class="multi-section-block"><div class="multi-section-heading"><div><span class="section-kicker">КАРТА ПРЕДМЕТА</span><h2>Основные направления</h2></div><a href="${routeHref('topics',item.id)}">Все темы →</a></div>${themeCards(item,'topics')}</section>
