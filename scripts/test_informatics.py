@@ -24,10 +24,10 @@ registry=json.loads((ROOT/'subjects.json').read_text(encoding='utf-8'))
 inf=next(x for x in registry['subjects'] if x['id']=='informatics')
 tasks=json.loads((ROOT/'tasks_data.json').read_text(encoding='utf-8'))
 bank=[x for x in tasks if x.get('subjectId')=='informatics' and x.get('sourceType')=='author_original']
-assert len(bank)==inf.get('bankCount')==6
+assert len(bank)==inf.get('bankCount')==27
 code_tasks=[x for x in bank if x.get('answerMode')=='code']
-assert len(code_tasks)>=4, 'Expected runnable Python practice tasks'
+assert len(code_tasks)>=10, 'Expected runnable Python practice tasks'
 assert all(x.get('codeLanguage')=='python' and x.get('codeInput') is not None and x.get('expectedOutput') is not None for x in code_tasks)
 print('PASS: 27 informatics positions have methods, examples, solutions and common pitfalls.')
 print('PASS: Python code runs in a disposable worker with startup/runtime timeouts and output cap.')
-print('PASS: all guide/runner assets are cached; four runnable Python tasks have test input and expected output.')
+print('PASS: all guide/runner assets are cached; ten runnable Python tasks have test input and expected output.')
