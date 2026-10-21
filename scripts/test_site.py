@@ -54,10 +54,13 @@ assert isinstance(data,list) and data, 'Task JSON should be a non-empty list'
 ids=[x.get('externalId') for x in data]
 assert len(ids)==len(set(ids)), 'Task IDs must be unique'
 basic=[x for x in data if x.get('subjectId')=='math_basic']
-assert len(basic)==441, f'Expected 441 base tasks, got {len(basic)}'
+assert len(basic)==441, f'Expected 441 legacy author tasks to remain archived, got {len(basic)}'
 counts=Counter(int(x['taskNumber']) for x in basic)
 assert set(counts)==set(range(1,22)), f'Expected task numbers 1..21, got {sorted(counts)}'
-assert all(counts[n]==21 for n in range(1,22)), f'Expected 21 variants per task number: {counts}'
+assert all(counts[n]==21 for n in range(1,22)), f'Expected 21 archived author variants per task number: {counts}'
+assert all(task.get('sourceType') in {'author_original','author_generated'} for task in basic), 'Legacy math data must remain classified as author content'
+assert "task.sourceType === 'official_fipi'" in APP and 'task.isVerified === true' in APP, 'Practice engine must only load verified official tasks'
+assert 'Официальный банк ещё не импортирован' in APP, 'Empty official bank must explain why practice is unavailable'
 for task in basic:
     assert task.get('correctAnswer') not in (None,''), f"Missing answer: {task.get('externalId')}"
     assert task.get('explanation'), f"Missing explanation: {task.get('externalId')}"
@@ -71,10 +74,10 @@ assert "caches.match(event.request, { ignoreSearch: true })" in sw, 'Versioned a
 for page in ['index.html','subjects.html','subject.html','topics.html','self-study.html','theory.html','official.html']:
     source=(ROOT/page).read_text(encoding='utf-8')
     assert 'design-refresh.css?v=20261021-ui2' in source, f'{page}: shared design stylesheet is missing or stale'
-    assert 'multi-exam.js?v=20261021-audit5' in source, f'{page}: subject routing script version is stale'
+    assert 'multi-exam.js?v=20261021-audit6' in source, f'{page}: subject routing script version is stale'
     if 'src="./app.js' in source:
-        assert 'app.js?v=20261021-audit5' in source, f'{page}: trainer script version is stale'
+        assert 'app.js?v=20261021-audit6' in source, f'{page}: trainer script version is stale'
     if 'src="./progress-dashboard.js' in source:
         assert 'progress-dashboard.js?v=20261021-audit5' in source, f'{page}: progress dashboard script version is stale'
-print(f'PASS: {len(data)} tasks; {len(basic)} base math tasks (21 types × 21 variants)')
+print(f'PASS: {len(data)} legacy tasks classified; {len(basic)} base-math author tasks are excluded from official practice until verified.')
 print('PASS: five separate pages have unique content, routed navigation and the expected page-specific controls')
