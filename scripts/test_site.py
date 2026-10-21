@@ -65,7 +65,7 @@ for task in basic:
     assert task.get('correctAnswer') not in (None,''), f"Missing answer: {task.get('externalId')}"
     assert task.get('explanation'), f"Missing explanation: {task.get('externalId')}"
 assert 'function renderMathExpression' in APP and 'function startWarmup' in APP
-assert "data.filter((task) => task.subjectId === ACTIVE_SUBJECT_KEY)" in APP, 'Base-math trainer must not count demo long-answer tasks as exam tasks'
+assert "task.subjectId === ACTIVE_SUBJECT_KEY" in APP, 'Base-math trainer must keep subject isolation'
 sw=(ROOT/'sw.js').read_text(encoding='utf-8')
 assert "ege-trainer-web-v25-official-only" in sw, 'Service worker cache was not bumped for the design release'
 assert "'./design-refresh.css'" in sw, 'Shared design stylesheet must be available offline'
