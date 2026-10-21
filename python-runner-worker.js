@@ -32,7 +32,7 @@ self.onmessage=async event=>{
       'except BaseException as __ege_error:',
       '    __ege_result = "Ошибка выполнения: " + str(__ege_error) + "\\n" + traceback.format_exc(limit=2)',
       '__ege_result'
-    ].join('\\n');
+    ].join('\n');
     const result=await py.runPythonAsync(pythonSource);
     self.postMessage({ok:true,output:String(result??'')});
   }catch(error){self.postMessage({ok:false,error:String(error&&error.message||error)});}
