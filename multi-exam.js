@@ -200,8 +200,8 @@
     } else {
       specific = `<section class="multi-section-block"><div class="multi-section-heading"><div><span class="section-kicker">ОФИЦИАЛЬНЫЕ РЕСУРСЫ</span><h2>Документы по предмету</h2></div></div>${officialCards(item)}</section>`;
     }
-    if (page === 'study' && !['math_basic','math_profile'].includes(item.id)) {
-      specific += `<section class="multi-section-block subject-practice-block"><div class="multi-section-heading"><div><span class="section-kicker">ПРАКТИКА</span><h2>Стартовый банк заданий</h2></div><span class="multi-muted" id="subject-bank-count">Загружаем задания…</span></div><p class="subject-bank-note">Это авторские упражнения по темам ЕГЭ, не дословные задания ФИПИ. Проверка коротких ответов выполняется по эталону; развёрнутые ответы требуют проверки по критериям.</p><div id="subject-practice-bank" class="subject-practice-bank" aria-live="polite"></div></section>`;
+    if (page === 'study' && item.id !== 'math_basic') {
+      specific += `<section class="multi-section-block subject-practice-block"><div class="multi-section-heading"><div><span class="section-kicker">ПРАКТИКА</span><h2>${item.id === 'math_profile' ? 'Банк профильной математики' : 'Стартовый банк заданий'}</h2></div><span class="multi-muted" id="subject-bank-count">Загружаем задания…</span></div><p class="subject-bank-note">Это авторские упражнения по темам ЕГЭ, не дословные задания ФИПИ. Проверка коротких ответов выполняется по эталону; развёрнутые ответы требуют проверки по критериям.</p><div id="subject-practice-bank" class="subject-practice-bank" aria-live="polite"></div></section>`;
     }
     document.title = `${headTitle} — ЕГЭ+`;
     host.innerHTML = `${topContext(item,kicker,headTitle,desc)}<div class="multi-page-context">${statusBadge(item)}<a href="./subject.html?subject=${encodeURIComponent(item.id)}">Паспорт предмета ↗</a><a href="./subjects.html">Выбрать другой предмет</a></div>${specific}`;
