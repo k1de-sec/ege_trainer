@@ -64,13 +64,13 @@ for task in basic:
 assert 'function renderMathExpression' in APP and 'function startWarmup' in APP
 assert "data.filter((task) => task.subjectId === ACTIVE_SUBJECT_KEY)" in APP, 'Base-math trainer must not count demo long-answer tasks as exam tasks'
 sw=(ROOT/'sw.js').read_text(encoding='utf-8')
-assert "ege-trainer-web-v21-audit-release" in sw, 'Service worker cache was not bumped for the design release'
+assert "ege-trainer-web-v22-bank-copy" in sw, 'Service worker cache was not bumped for the design release'
 assert "'./design-refresh.css'" in sw, 'Shared design stylesheet must be available offline'
 assert "'./progress-dashboard.js'" in sw, 'Progress dashboard must be available offline'
 for page in ['index.html','subjects.html','subject.html','topics.html','self-study.html','theory.html','official.html']:
     source=(ROOT/page).read_text(encoding='utf-8')
     assert 'design-refresh.css?v=20261021-ui2' in source, f'{page}: shared design stylesheet is missing or stale'
-    assert 'multi-exam.js?v=20261021-audit3' in source, f'{page}: subject routing script version is stale'
+    assert 'multi-exam.js?v=20261021-audit4' in source, f'{page}: subject routing script version is stale'
     if 'src="./app.js' in source:
         assert 'app.js?v=20261021-audit3' in source, f'{page}: trainer script version is stale'
     if 'src="./progress-dashboard.js' in source:
