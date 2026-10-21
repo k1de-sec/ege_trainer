@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ege-trainer-web-v13-cleanup';
+const CACHE_NAME = 'ege-trainer-web-v14-official-variants';
 const APP_SHELL = [
   './', './index.html', './subjects.html', './subject.html', './topics.html', './self-study.html', './theory.html', './official.html',
   './styles.css', './app.js', './multi-exam.js', './subjects.json', './tasks_data.json', './fipi_links.json',
