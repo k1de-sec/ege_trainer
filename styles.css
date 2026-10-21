@@ -628,3 +628,34 @@ body[data-page="home"] .home-route-arrow{
 .subject-practice-card,.resume-panel,.stat-card,.task-sidebar,.practice-panel,.topic-group-card,.theory-card,.mode-card,.exam-mode-card,.official-topic-source{border-radius:var(--ege-card-radius)}
 .subject-practice-card,.resume-panel,.stat-card,.task-sidebar,.practice-panel,.topic-group-card,.theory-card,.mode-card,.exam-mode-card,.official-topic-source{min-width:0}
 @media(prefers-reduced-motion:reduce){html:focus-within{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+
+/* Informatics: searchable 27-position guide */
+.informatics-guide{display:grid;gap:14px}
+.informatics-guide-tools{display:grid;grid-template-columns:minmax(220px,1fr) auto;gap:12px;align-items:end}
+.informatics-guide-search{display:grid;gap:7px;font-weight:650}
+.informatics-guide-search input{width:100%;min-height:44px;padding:10px 13px;border:1px solid var(--border,#cbd5e1);border-radius:12px;background:var(--surface,#fff);color:inherit;font:inherit}
+.informatics-guide-filters{display:flex;gap:7px;flex-wrap:wrap}
+.informatics-guide-filters button{border:1px solid var(--border,#cbd5e1);border-radius:999px;padding:9px 13px;background:var(--surface,#fff);color:inherit;font:inherit;cursor:pointer}
+.informatics-guide-filters button.selected,.informatics-guide-filters button[aria-pressed="true"]{background:var(--surface-secondary,#eef2ff);border-color:var(--accent,#6478e8);font-weight:700}
+.informatics-guide-count{margin:0;color:var(--muted,#64748b);font-size:.9rem}
+.informatics-guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.informatics-guide-card{min-width:0;border:1px solid var(--border,#e2e8f0);border-radius:14px;background:var(--surface,#fff);overflow:hidden}
+.informatics-guide-card summary{display:flex;gap:12px;align-items:center;list-style:none;cursor:pointer;padding:14px;min-height:62px}
+.informatics-guide-card summary::-webkit-details-marker{display:none}
+.informatics-guide-number{display:grid;place-items:center;flex:0 0 38px;height:38px;border-radius:11px;background:var(--surface-secondary,#f1f5f9);font-weight:800}
+.informatics-guide-card-title{display:grid;gap:4px;min-width:0;flex:1}
+.informatics-guide-card-title strong{font-size:.96rem;line-height:1.35}
+.informatics-guide-card-title small{color:var(--muted,#64748b);font-size:.78rem}
+.informatics-guide-chevron{color:var(--muted,#64748b);font-size:1.1rem}
+.informatics-guide-card[open] .informatics-guide-chevron{transform:rotate(45deg)}
+.informatics-guide-body{padding:0 16px 17px;line-height:1.65;overflow-wrap:anywhere}
+.informatics-guide-body h4{margin:15px 0 7px}
+.informatics-guide-body ol,.informatics-guide-body ul{padding-left:1.3rem;margin:7px 0}
+.informatics-guide-body li+li{margin-top:6px}
+.informatics-guide-goal{font-weight:650;margin:0 0 12px}
+.informatics-guide-example{padding:12px 14px;margin-top:13px;border-radius:12px;background:var(--surface-secondary,#f8fafc)}
+.informatics-guide-example p{margin:5px 0 12px}
+.informatics-guide-example p:last-child{margin-bottom:0}
+.informatics-guide-pitfalls li::marker{color:#b45309}
+@media(max-width:760px){.informatics-guide-tools{grid-template-columns:1fr}.informatics-guide-grid{grid-template-columns:1fr}.informatics-guide-card summary{padding:12px}.informatics-guide-body{padding:0 13px 15px}}
