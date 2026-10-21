@@ -20,6 +20,13 @@
     study: 'self-study.html', theory: 'theory.html', official: 'official.html'
   };
   const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  const taskCountLabel = (value) => {
+    const n = Math.abs(Number(value) || 0), mod10 = n % 10, mod100 = n % 100;
+    const word = mod10 === 1 && mod100 !== 11 ? 'упражнение'
+      : mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14) ? 'упражнения'
+      : 'упражнений';
+    return `${n} ${word}`;
+  };
   const routeHref = (page, subjectId = activeId) => {
     const target = URLS[page] || 'index.html';
     if (!subjectId || ['home','subjects'].includes(page)) return `./${target}`;
@@ -143,7 +150,7 @@
           <div class="subject-level-list">${s.tracks.map(t => `<a class="subject-level-option" href="./subject.html?subject=${encodeURIComponent(t.id)}"><span><strong>${escapeHtml(t.name)}</strong><small>${escapeHtml(t.statusLabel)}${t.id === 'math_basic' ? ' · 441 упражнение · 21 вариант на каждый тип' : t.id === 'math_profile' ? ' · 26 авторских упражнений' : ''}</small></span><span>↗</span></a>`).join('')}</div>
         </article>`;
       }
-      return `<article class="subject-card" data-category="${escapeHtml(s.category)}" data-search="${escapeHtml((s.name+' '+s.description+' '+s.themes.map(t=>t.title).join(' ')).toLowerCase())}"><div class="subject-card-top"><span class="subject-icon">${escapeHtml(s.icon)}</span><span class="subject-group-tag">${s.category === 'mandatory' ? 'Обязательный' : 'По выбору'}</span></div><h2>${escapeHtml(s.name)}</h2><p>${escapeHtml(s.description)}</p><div class="subject-card-footer"><span class="multi-status status-planned"><i></i> ${s.bankCount > 0 ? `Стартовый банк · ${s.bankCount} упражнений` : 'Структура готова · банк наполняется'}</span><a class="subject-open-button" href="./subject.html?subject=${encodeURIComponent(s.id)}">Открыть предмет ↗</a></div></article>`;
+      return `<article class="subject-card" data-category="${escapeHtml(s.category)}" data-search="${escapeHtml((s.name+' '+s.description+' '+s.themes.map(t=>t.title).join(' ')).toLowerCase())}"><div class="subject-card-top"><span class="subject-icon">${escapeHtml(s.icon)}</span><span class="subject-group-tag">${s.category === 'mandatory' ? 'Обязательный' : 'По выбору'}</span></div><h2>${escapeHtml(s.name)}</h2><p>${escapeHtml(s.description)}</p><div class="subject-card-footer"><span class="multi-status status-planned"><i></i> ${s.bankCount > 0 ? `Стартовый банк · ${taskCountLabel(s.bankCount)}` : 'Структура готова · банк наполняется'}</span><a class="subject-open-button" href="./subject.html?subject=${encodeURIComponent(s.id)}">Открыть предмет ↗</a></div></article>`;
     }).join('');
     host.innerHTML = cards;
     const search = document.getElementById('subjects-search');
@@ -241,7 +248,7 @@
     try{
       const response=await fetch('./tasks_data.json',{cache:'no-cache'}); if(!response.ok)throw new Error('Не удалось загрузить банк заданий.');
       const all=await response.json(), tasks=all.filter(t=>t.subjectId===item.id&&t.sourceType==='author_original').sort((a,b)=>(a.part||1)-(b.part||1)||a.taskNumber-b.taskNumber);
-      if(count)count.textContent=tasks.length+' заданий · '+tasks.filter(t=>(t.part||1)===1).length+' в части 1 · '+tasks.filter(t=>t.part===2).length+' во второй части';
+      if(count)count.textContent=taskCountLabel(tasks.length)+' · '+taskCountLabel(tasks.filter(t=>(t.part||1)===1).length)+' в части 1 · '+taskCountLabel(tasks.filter(t=>t.part===2).length)+' во второй части';
       if(!tasks.length){host.innerHTML='<div class="multi-notice notice-planned"><strong>Банк ещё не опубликован</strong><p>Пока доступны официальные источники и карта тем.</p></div>';return;}
       const key='ege-plus-practice-'+item.id+'-v2'; let progress={};
       try{progress=JSON.parse(localStorage.getItem(key)||'{}')||{};}catch(_){}
