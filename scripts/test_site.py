@@ -72,8 +72,8 @@ for page in ['index.html','subjects.html','subject.html','topics.html','self-stu
     assert 'design-refresh.css?v=20261021-ui2' in source, f'{page}: shared design stylesheet is missing or stale'
     assert 'multi-exam.js?v=20261021-audit5' in source, f'{page}: subject routing script version is stale'
     if 'src="./app.js' in source:
-        assert 'app.js?v=20261021-audit4' in source, f'{page}: trainer script version is stale'
+        assert 'app.js?v=20261021-audit5' in source, f'{page}: trainer script version is stale'
     if 'src="./progress-dashboard.js' in source:
-        assert 'progress-dashboard.js?v=20261021-audit4' in source, f'{page}: progress dashboard script version is stale'
+        assert 'progress-dashboard.js?v=20261021-audit5' in source, f'{page}: progress dashboard script version is stale'
 print(f'PASS: {len(data)} tasks; {len(basic)} base math tasks (21 types × 21 variants)')
 print('PASS: five separate pages have unique content, routed navigation and the expected page-specific controls')
