@@ -620,3 +620,11 @@ body[data-page="home"] .home-route-arrow{
 .subject-practice-card label{display:block;font-weight:650;margin:12px 0 6px}
 .subject-code-output{white-space:pre-wrap;overflow-wrap:anywhere;min-height:48px;padding:14px;border-radius:10px;background:#111827;color:#e5e7eb;font:14px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-x:auto}
 .subject-practice-statement{line-height:1.75;overflow-wrap:anywhere}
+
+
+/* v1.8 UI consistency: shared card surfaces and safe sticky navigation. */
+:root{--ege-card-radius:18px}
+.topbar{position:sticky;top:0;z-index:1000;background:rgba(246,247,251,.98);isolation:isolate}
+.subject-practice-card,.resume-panel,.stat-card,.task-sidebar,.practice-panel,.topic-group-card,.theory-card,.mode-card,.exam-mode-card,.official-topic-source{border-radius:var(--ege-card-radius)}
+.subject-practice-card,.resume-panel,.stat-card,.task-sidebar,.practice-panel,.topic-group-card,.theory-card,.mode-card,.exam-mode-card,.official-topic-source{min-width:0}
+@media(prefers-reduced-motion:reduce){html:focus-within{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
