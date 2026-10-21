@@ -46,6 +46,8 @@ assert 'id="subject-dashboard"' in (ROOT/'subject.html').read_text(encoding='utf
 js=(ROOT/'multi-exam.js').read_text(encoding='utf-8')
 assert 'window.EGE_ACTIVE_SUBJECT_ID' in js and 'ege-plus-active-subject-v1' in js
 assert 'function renderSubjectsCatalog()' in js and 'function renderGenericSection(item, page)' in js
+assert "item.bankCount > 0 ? item.bankCount : '—'" in js, 'Subject dashboards must show real starter-bank counts'
+assert "item.status === 'pilot' ? '2'" not in js, 'Subject dashboard must not hard-code pilot task counts'
 assert 'project2027' in js and 'approved2026' in js
 assert 'src.openVariant2026' in js and 'Реальный открытый вариант ЕГЭ-2026' in js
 assert "const words = q.split(/\\s+/).filter(Boolean)" in js, 'Global search must support multi-word queries'
