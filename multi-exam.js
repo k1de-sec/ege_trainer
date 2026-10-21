@@ -374,5 +374,9 @@
   }
   setupNavigation();
   setupGlobalQuickSearch();
+  // Register offline support on every page, including the home page and subject catalog.
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  }
   document.addEventListener('DOMContentLoaded', init);
 })();
