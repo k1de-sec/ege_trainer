@@ -24,8 +24,14 @@ assert next(t for t in math['tracks'] if t['id']=='math_basic')['bankCount']==44
 assert next(t for t in math['tracks'] if t['id']=='math_profile')['bankCount']==28
 assert 'subject.html?subject=math_profile' in (ROOT/'topics.html').read_text(encoding='utf-8')
 assert 'subject.html?subject=math_profile' in (ROOT/'self-study.html').read_text(encoding='utf-8')
-# Never claim non-mathematics local banks are ready.
-assert all(s.get('status')=='preparing' for s in subjects if s['id']!='mathematics')
+# Non-mathematics subjects have pilot banks, not full exam-ready trainers.
+pilot_subjects = [s for s in subjects if s['id'] != 'mathematics']
+assert all(s.get('status') == 'pilot' for s in pilot_subjects)
+tasks = json.loads((ROOT/'tasks_data.json').read_text(encoding='utf-8'))
+for subject in pilot_subjects:
+    actual = sum(1 for task in tasks if task.get('subjectId') == subject['id'] and task.get('sourceType') == 'author_original')
+    assert actual == subject.get('bankCount'), f"{subject['id']}: registry says {subject.get('bankCount')} pilot tasks, found {actual}"
+assert all(s.get('status') != 'available' for s in pilot_subjects), 'Pilot banks must not be labelled as complete'
 # Each separate global page loads the new context script and has subject navigation.
 for fname in ['index.html','topics.html','self-study.html','theory.html','official.html','subjects.html','subject.html']:
     html=(ROOT/fname).read_text(encoding='utf-8')
