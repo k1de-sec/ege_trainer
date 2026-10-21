@@ -33,7 +33,7 @@ for page, ids in {
     'self-study.html': ['self-study','start-warmup-button','random-set-button','start-exam-button','exam-timer','topic-workspace','task-list','task-content'],
     'theory.html': ['theory'],
     'official.html': ['sources','random-fipi-task-button','official-task-links'],
-    'index.html': ['practice','why-ege','home-route-grid'],
+    'index.html': ['practice','home-subject-preview-grid','home-route-grid'],
 }.items():
     for item_id in ids:
         if item_id == 'home-route-grid':
