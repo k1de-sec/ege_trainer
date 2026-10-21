@@ -268,7 +268,7 @@
         const isCode=task.answerMode==='code',isLong=task.answerMode==='long'||(task.part===2&&!task.correctAnswer);
         let fields='';
         if(isCode){
-          fields='<label for="subject-practice-answer">Код на '+esc(task.codeLanguage||'Python')+'</label><textarea id="subject-practice-answer" rows="12" spellcheck="false" autocomplete="off" placeholder="Напиши программу…">'+esc(saved.answer||'')+'</textarea><label for="subject-practice-stdin">Входные данные для запуска</label><textarea id="subject-practice-stdin" rows="4" spellcheck="false">'+esc(saved.stdin??task.codeInput??'')+'</textarea><div class="subject-practice-actions"><button class="primary-button" id="subject-run-code" type="button">▶ Запустить код</button><button class="secondary-button" id="subject-check-output" type="button">Сверить вывод с тестом</button></div><pre id="subject-code-output" class="subject-code-output" aria-live="polite">Результат выполнения появится здесь.</pre>';
+          fields='<label for="subject-practice-answer">Код на '+esc(task.codeLanguage||'Python')+'</label><textarea id="subject-practice-answer" rows="12" spellcheck="false" autocomplete="off" placeholder="Напиши программу…">'+esc(saved.answer||'')+'</textarea><label for="subject-practice-stdin">Входные данные для запуска</label><textarea id="subject-practice-stdin" rows="4" spellcheck="false">'+esc(saved.stdin??task.codeInput??'')+'</textarea><div class="subject-practice-actions"><button class="primary-button" id="subject-run-code" type="button">▶ Запустить код</button><button class="secondary-button" id="subject-check-output" type="button">Проверить на тесте задания</button></div><p class="subject-code-hint">«Запустить код» использует введённые данные. Проверка запускает программу на контрольном входе задания, независимо от поля выше.</p><pre id="subject-code-output" class="subject-code-output" aria-live="polite">Результат выполнения появится здесь.</pre>';
         }else{
           fields='<label for="subject-practice-answer">'+(isLong?'Развёрнутый ответ':'Твой ответ')+'</label><textarea id="subject-practice-answer" rows="'+(isLong?10:3)+'" autocomplete="off" placeholder="'+(isLong?'Запиши решение по пунктам, с обоснованием…':'Введи ответ…')+'">'+esc(saved.answer||'')+'</textarea><div class="subject-practice-actions"><button class="primary-button" type="submit">'+(isLong?'Сохранить ответ и открыть критерии':'Проверить')+'</button><button class="secondary-button" id="subject-show-solution" type="button">Показать разбор</button></div>';
         }
@@ -297,10 +297,19 @@
             }catch(error){out.textContent=error.message||String(error);}
             finally{const button=document.getElementById('subject-run-code');if(button){button.disabled=false;button.textContent='▶ Запустить код';}}
           });
-          document.getElementById('subject-check-output')?.addEventListener('click',()=>{
-            const out=document.getElementById('subject-code-output').textContent.trim().replace(/\r/g,''),expected=String(task.expectedOutput??task.correctAnswer??'').trim().replace(/\r/g,''),ok=Boolean(expected)&&out===expected;
-            const feedback=document.getElementById('subject-practice-feedback');feedback.className='subject-practice-feedback '+(ok?'is-correct':'is-incorrect');feedback.textContent=ok?'Вывод совпал с контрольным тестом. Это проверка только на данном тесте — проверь и другие входные данные.':'Вывод отличается от контрольного теста. Проверь алгоритм и входные данные.';
-            progress[task.externalId]={...(progress[task.externalId]||{}),answer:document.getElementById('subject-practice-answer').value,stdin:document.getElementById('subject-practice-stdin').value,correct:ok,updatedAt:Date.now()};try{localStorage.setItem(key,JSON.stringify(progress));}catch(_){}
+          document.getElementById('subject-check-output')?.addEventListener('click',async()=>{
+            const button=document.getElementById('subject-check-output'),out=document.getElementById('subject-code-output'),feedback=document.getElementById('subject-practice-feedback');
+            const code=document.getElementById('subject-practice-answer').value,expected=norm(task.expectedOutput??task.correctAnswer??''),testInput=String(task.codeInput??'');
+            if(!expected){feedback.className='subject-practice-feedback is-incorrect';feedback.textContent='Для этого задания пока не задан контрольный ответ.';return;}
+            button.disabled=true;button.textContent='Проверяем…';out.textContent='Запускаем контрольный тест задания…';
+            try{
+              const result=await runPythonIsolated(code,testInput),ok=norm(result)===expected;
+              out.textContent=result||'(программа ничего не вывела)';
+              feedback.className='subject-practice-feedback '+(ok?'is-correct':'is-incorrect');
+              feedback.textContent=ok?'Контрольный тест пройден. Это один тест из возможных: дополнительно проверь граничные случаи и другие входные данные.':'Контрольный тест не пройден. Сравни вывод с ожидаемым результатом и проверь алгоритм.';
+              progress[task.externalId]={...(progress[task.externalId]||{}),answer:code,stdin:testInput,output:result,correct:ok,updatedAt:Date.now()};try{localStorage.setItem(key,JSON.stringify(progress));}catch(_){}
+            }catch(error){out.textContent=error.message||String(error);feedback.className='subject-practice-feedback is-incorrect';feedback.textContent='Проверка не завершилась. Исправь ошибку или попробуй снова.';}
+            finally{const check=document.getElementById('subject-check-output');if(check){check.disabled=false;check.textContent='Проверить на тесте задания';}}
           });
         }
         document.getElementById('subject-practice-prev')?.addEventListener('click',()=>{current=Math.max(0,current-1);paint();});
