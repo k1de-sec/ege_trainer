@@ -21,7 +21,7 @@ for subject in subjects:
 math=next(s for s in subjects if s['id']=='mathematics')
 assert {t['id'] for t in math['tracks']}=={'math_basic','math_profile'}
 assert next(t for t in math['tracks'] if t['id']=='math_basic')['bankCount']==441
-assert next(t for t in math['tracks'] if t['id']=='math_profile')['bankCount']==2
+assert next(t for t in math['tracks'] if t['id']=='math_profile')['bankCount']==28
 assert 'subject.html?subject=math_profile' in (ROOT/'topics.html').read_text(encoding='utf-8')
 assert 'subject.html?subject=math_profile' in (ROOT/'self-study.html').read_text(encoding='utf-8')
 # Never claim non-mathematics local banks are ready.
@@ -42,6 +42,9 @@ assert 'window.EGE_ACTIVE_SUBJECT_ID' in js and 'ege-plus-active-subject-v1' in 
 assert 'function renderSubjectsCatalog()' in js and 'function renderGenericSection(item, page)' in js
 assert 'project2027' in js and 'approved2026' in js
 assert 'src.openVariant2026' in js and 'Реальный открытый вариант ЕГЭ-2026' in js
+assert "const words = q.split(/\\s+/).filter(Boolean)" in js, 'Global search must support multi-word queries'
+assert "retry-subject-catalog" in js and "home-subject-preview-grid" in js, 'Catalog load errors must offer retry on homepage and subject pages'
+assert "event.key.toLowerCase() === 'k'" in js, 'Global search keyboard shortcut missing'
 # Ensure all subject nav section URLs preserve subject query params at runtime.
 assert "subject=${encodeURIComponent(subjectId)}" in js
 sw=(ROOT/'sw.js').read_text(encoding='utf-8')
