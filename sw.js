@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ege-trainer-web-v26-official-catalog';
+const CACHE_NAME = 'ege-trainer-web-v27-official-catalog';
 const APP_SHELL = [
   './', './index.html', './subjects.html', './subject.html', './topics.html', './self-study.html', './theory.html', './official.html',
   './styles.css', './design-refresh.css', './app.js', './multi-exam.js', './progress-dashboard.js', './subjects.json', './tasks_data.json', './fipi_links.json', './official_exam_sources.json', './informatics_guide.json', './python-runner-worker.js',
