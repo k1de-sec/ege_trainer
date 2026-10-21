@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 from html.parser import HTMLParser
 ROOT=Path(__file__).resolve().parent.parent
