@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-10-14",
+  "updated": "2026-10-21",
   "countOfficialSubjects": 15,
-  "sourcesNotice": "Раздел ФИПИ для ЕГЭ-2027 в текущей публикации содержит проекты демонстрационных вариантов, спецификаций и кодификаторов. Сверяйте актуальный статус документов у первоисточника.",
+  "sourcesNotice": "Открытые варианты КИМ ЕГЭ-2026 ведут на оригинальные архивы ФИПИ. Документы ЕГЭ-2027 на сайте ФИПИ опубликованы как проекты; проверяйте актуальный статус у первоисточника.",
   "officialDocumentsPage": "https://fipi.ru/ege/demoversii-specifikacii-kodifikatory",
   "openBankUrl": "https://ege.fipi.ru/bank/",
   "openVariantsUrl": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
@@ -44,7 +44,8 @@
         "openBank": "https://ege.fipi.ru/bank/",
         "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/ru_11_2027.zip",
-        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/ru_11_2026.zip"
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/ru_11_2026.zip",
+        "openVariant2026": "https://doc.fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege/2026/Rus_1_ege2026.zip"
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
@@ -95,7 +96,8 @@
         "openBank": "https://ege.fipi.ru/bank/",
         "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/ma_11_2027.zip",
-        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/ma_11_2026.zip"
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/ma_11_2026.zip",
+        "openVariant2026": "https://doc.fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege/2026/Mat_1_ege2026.zip"
       },
       "tracks": [
         {
@@ -200,7 +202,8 @@
         "openBank": "https://ege.fipi.ru/bank/",
         "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/fi_11_2027.zip",
-        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/fi_11_2026.zip"
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/fi_11_2026.zip",
+        "openVariant2026": "https://doc.fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege/2026/Fiz_1_ege2026.zip"
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
@@ -243,7 +246,8 @@
         "openBank": "https://ege.fipi.ru/bank/",
         "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/hi_11_2027.zip",
-        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/hi_11_2026.zip"
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/hi_11_2026.zip",
+        "openVariant2026": "https://doc.fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege/2026/Him_1_ege2026.zip"
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
@@ -290,7 +294,8 @@
         "openBank": "https://ege.fipi.ru/bank/",
         "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/inf_11_2027.zip",
-        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/inf_11_2026.zip"
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/inf_11_2026.zip",
+        "openVariant2026": "https://doc.fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege/2026/Inf_1_ege2026.zip"
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
@@ -337,7 +342,8 @@
         "openBank": "https://ege.fipi.ru/bank/",
         "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/bi_11_2027.zip",
-        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/bi_11_2026.zip"
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/bi_11_2026.zip",
+        "openVariant2026": "https://doc.fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege/2026/Bio_1_ege2026.zip"
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
@@ -380,7 +386,8 @@
         "openBank": "https://ege.fipi.ru/bank/",
         "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/is_11_2027.zip",
-        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/is_11_2026.zip"
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/is_11_2026.zip",
+        "openVariant2026": "https://doc.fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege/2026/Ist_1_ege2026.zip"
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
@@ -423,7 +430,8 @@
         "openBank": "https://ege.fipi.ru/bank/",
         "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/ob_11_2027.zip",
-        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/ob_11_2026.zip"
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/ob_11_2026.zip",
+        "openVariant2026": "https://doc.fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege/2026/Ob_1_ege2026.zip"
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
@@ -466,7 +474,8 @@
         "openBank": "https://ege.fipi.ru/bank/",
         "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/gg_11_2027.zip",
-        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/gg_11_2026.zip"
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/gg_11_2026.zip",
+        "openVariant2026": "https://doc.fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege/2026/Geo_1_ege2026.zip"
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
@@ -509,7 +518,8 @@
         "openBank": "https://ege.fipi.ru/bank/",
         "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/li_11_2027.zip",
-        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/li_11_2026.zip"
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/li_11_2026.zip",
+        "openVariant2026": "https://doc.fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege/2026/Lit_1_ege2026.zip"
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
@@ -548,7 +558,8 @@
         "openBank": "https://ege.fipi.ru/bank/",
         "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/aya_11_2027.zip",
-        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/aya_11_2026.zip"
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/aya_11_2026.zip",
+        "openVariant2026": "https://doc.fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege/2026/Angl_1_ege2026.zip"
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
@@ -587,7 +598,8 @@
         "openBank": "https://ege.fipi.ru/bank/",
         "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/nya_11_2027.zip",
-        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/nya_11_2026.zip"
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/nya_11_2026.zip",
+        "openVariant2026": "https://doc.fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege/2026/Nem_1_ege2026.zip"
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
@@ -626,7 +638,8 @@
         "openBank": "https://ege.fipi.ru/bank/",
         "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/fya_11_2027.zip",
-        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/fya_11_2026.zip"
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/fya_11_2026.zip",
+        "openVariant2026": "https://doc.fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege/2026/Fran_1_ege2026.zip"
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
@@ -665,7 +678,8 @@
         "openBank": "https://ege.fipi.ru/bank/",
         "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/iya_11_2027.zip",
-        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/iya_11_2026.zip"
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/iya_11_2026.zip",
+        "openVariant2026": "https://doc.fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege/2026/Isp_1_ege2026.zip"
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
@@ -704,7 +718,8 @@
         "openBank": "https://ege.fipi.ru/bank/",
         "openVariants": "https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege",
         "project2027": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2027/kya_11_2027.zip",
-        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/kya_11_2026.zip"
+        "approved2026": "https://doc.fipi.ru/ege/demoversii-specifikacii-kodifikatory/2026/kya_11_2026.zip",
+        "openVariant2026": "https://doc.fipi.ru/ege/otkrytyy-bank-zadaniy-ege/otkrytyye-varianty-kim-ege/2026/Kit_1_ege2026.zip"
       },
       "status": "pilot",
       "statusLabel": "Стартовый банк упражнений",
