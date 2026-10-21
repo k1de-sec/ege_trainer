@@ -91,7 +91,7 @@
     if (!nav) return;
     const panel = document.createElement('div');
     panel.className = 'ege-quick-search';
-    panel.innerHTML = '<label class="ege-quick-search-field"><span aria-hidden="true">⌕</span><input id="ege-global-search" type="search" autocomplete="off" placeholder="Найти предмет или тему…" aria-label="Поиск по предметам и темам"><kbd>Enter</kbd></label><div class="ege-quick-search-results" id="ege-global-search-results" hidden></div>';
+    panel.innerHTML = '<label class="ege-quick-search-field"><span aria-hidden="true">⌕</span><input id="ege-global-search" type="search" autocomplete="off" placeholder="Найти предмет или тему…" aria-label="Поиск по предметам и темам" aria-controls="ege-global-search-results" aria-expanded="false"><kbd>Ctrl K</kbd></label><div class="ege-quick-search-results" id="ege-global-search-results" hidden></div>';
     nav.insertAdjacentElement('afterend', panel);
     const input = panel.querySelector('input');
     const results = panel.querySelector('.ege-quick-search-results');
@@ -109,15 +109,25 @@
     };
     const draw = () => {
       const q = input.value.trim().toLocaleLowerCase('ru');
-      if (!q) { results.hidden = true; results.innerHTML = ''; return; }
-      const words = q.split(/\\s+/).filter(Boolean);
+      if (!q) { results.hidden = true; input.setAttribute('aria-expanded','false'); results.innerHTML = ''; return; }
+      const words = q.split(/\s+/).filter(Boolean);
       const found = index.filter(item => words.every(word => item.terms.includes(word) || item.title.toLocaleLowerCase('ru').includes(word))).slice(0,8);
       results.innerHTML = found.length ? found.map(item=>'<a class="ege-search-result" href="'+escapeHtml(item.href)+'"><span class="ege-search-result-icon">'+(item.kind==='theme'?'#':'↗')+'</span><span><strong>'+escapeHtml(item.title)+'</strong><small>'+escapeHtml(item.subtitle)+'</small></span><span aria-hidden="true">→</span></a>').join('') : '<p class="ege-search-empty">Ничего не найдено. Попробуй другое слово.</p>';
       results.hidden = false;
+      input.setAttribute('aria-expanded','true');
     };
     input.addEventListener('input', draw);
+    document.addEventListener('keydown', event => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault(); input.focus(); input.select();
+      } else if (event.key === '/' && !event.ctrlKey && !event.metaKey && !event.altKey &&
+        !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName) &&
+        !document.activeElement?.isContentEditable) {
+        event.preventDefault(); input.focus();
+      }
+    });
     input.addEventListener('keydown', event => {
-      if (event.key === 'Escape') { input.value=''; draw(); input.blur(); }
+      if (event.key === 'Escape') { input.value=''; draw(); results.hidden=true; input.setAttribute('aria-expanded','false'); input.blur(); }
       if (event.key === 'Enter') { const first=results.querySelector('a'); if(first) window.location.href=first.href; }
     });
     document.addEventListener('click', event => { if (!panel.contains(event.target)) results.hidden=true; });
@@ -279,8 +289,19 @@
       if (PAGE === 'subject') { renderSubjectDashboard(item); return; }
       if (item.id !== 'math_basic') renderGenericSection(item, PAGE);
     } catch (error) {
-      const host = document.getElementById(PAGE === 'subjects' ? 'subjects-catalog' : PAGE === 'subject' ? 'subject-dashboard' : 'multi-subject-page-content');
-      if (host) host.innerHTML = `<div class="multi-notice notice-error"><strong>Не удалось загрузить предметы</strong><p>${escapeHtml(error.message)} Проверь, что subjects.json загружен в корень репозитория.</p></div>`;
+      const hostId = PAGE === 'subjects' ? 'subjects-catalog'
+        : PAGE === 'subject' ? 'subject-dashboard'
+        : PAGE === 'home' ? 'home-subject-preview-grid'
+        : 'multi-subject-page-content';
+      const host = document.getElementById(hostId);
+      if (host) {
+        host.innerHTML = `<div class="multi-notice notice-error" role="alert"><strong>Не удалось загрузить каталог предметов</strong><p>Проверь подключение к интернету и попробуй ещё раз. Данные предметов не удалены.</p><button class="secondary-button" id="retry-subject-catalog" type="button">Повторить загрузку</button></div>`;
+        document.getElementById('retry-subject-catalog')?.addEventListener('click', () => {
+          const button = document.getElementById('retry-subject-catalog');
+          if (button) { button.disabled = true; button.textContent = 'Загружаем…'; }
+          init();
+        }, { once: true });
+      }
     }
   }
   function setupNavigation() {
