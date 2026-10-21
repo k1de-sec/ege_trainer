@@ -31,6 +31,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validate site and task data
+        run: |
+          node --check app.js
+          node --check multi-exam.js
+          for f in scripts/test_*.py; do python "$f"; done
+          node scripts/test_advanced_answers.js
+          node scripts/test_solution_renderer.js
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
