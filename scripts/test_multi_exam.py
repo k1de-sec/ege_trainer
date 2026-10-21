@@ -21,7 +21,12 @@ for subject in subjects:
 math=next(s for s in subjects if s['id']=='mathematics')
 assert {t['id'] for t in math['tracks']}=={'math_basic','math_profile'}
 assert next(t for t in math['tracks'] if t['id']=='math_basic')['bankCount']==441
-assert next(t for t in math['tracks'] if t['id']=='math_profile')['bankCount']==28
+assert next(t for t in math['tracks'] if t['id']=='math_profile')['bankCount']==26
+profile_tasks = [task for task in json.loads((ROOT/'tasks_data.json').read_text(encoding='utf-8')) if task.get('subjectId') == 'math_profile' and task.get('sourceType') == 'author_original']
+assert len(profile_tasks) == 26, f"Profile math bank count must match usable original exercises, got {len(profile_tasks)}"
+assert all(task.get('correctAnswer') not in (None, '') and task.get('explanation') for task in profile_tasks), 'Profile math exercises need an answer and explanation'
+profile_demo = [task for task in json.loads((ROOT/'tasks_data.json').read_text(encoding='utf-8')) if task.get('subjectId') == 'math_profile' and task.get('sourceType') != 'author_original']
+assert all(task.get('correctAnswer') is None for task in profile_demo), 'Unfinished profile templates must not be auto-scored'
 assert 'subject.html?subject=math_profile' in (ROOT/'topics.html').read_text(encoding='utf-8')
 assert 'subject.html?subject=math_profile' in (ROOT/'self-study.html').read_text(encoding='utf-8')
 # Non-mathematics subjects have pilot banks, not full exam-ready trainers.
