@@ -169,6 +169,44 @@
     filterButtons.forEach((btn) => btn.addEventListener('click', () => { filter = btn.dataset.subjectFilter || 'all'; filterButtons.forEach(b => { b.classList.toggle('selected', b === btn); b.setAttribute('aria-pressed', String(b === btn)); }); apply(); }));
     apply();
   }
+  function renderOfficialSubjectCatalog(data) {
+    const host = document.getElementById('official-subject-grid');
+    if (!host) return;
+    const entries = [];
+    (data.subjects || []).forEach((subject) => {
+      const src = subject.sources || {};
+      if (Array.isArray(subject.tracks)) {
+        subject.tracks.forEach((track) => {
+          const isBasicMath = track.id === 'math_basic';
+          entries.push({
+            id: track.id,
+            name: track.name || subject.name,
+            bank: src.openBank || fipiBank,
+            variant: isBasicMath ? fipiVariants : (track.sources?.openVariant2026 || src.openVariant2026 || src.openVariants || fipiVariants),
+            docs: track.sources?.approved2026 || src.approved2026 || src.fipiPage || fipiPage,
+            year: 'ЕГЭ · математика'
+          });
+        });
+      } else {
+        entries.push({
+          id: subject.id,
+          name: subject.name,
+          bank: src.openBank || fipiBank,
+          variant: src.openVariant2026 || src.openVariants || fipiVariants,
+          docs: src.approved2026 || src.fipiPage || fipiPage,
+          year: 'ЕГЭ · официальный источник'
+        });
+      }
+    });
+    host.innerHTML = entries.map((entry) => `<article class="resource-card official-subject-source-card">
+      <span class="resource-icon">↗</span>
+      <span class="resource-card-title">${escapeHtml(entry.name)}</span>
+      <span class="resource-card-copy">Оригинальные материалы ФИПИ. Локальный проверенный банк: 0 заданий.</span>
+      <span class="resource-link"><a href="${escapeHtml(entry.variant)}" target="_blank" rel="noopener noreferrer">Открытый вариант ↗</a></span>
+      <span class="resource-link"><a href="${escapeHtml(entry.bank)}" target="_blank" rel="noopener noreferrer">Банк заданий ↗</a></span>
+      <span class="resource-link"><a href="${escapeHtml(entry.docs)}" target="_blank" rel="noopener noreferrer">Документы ФИПИ ↗</a></span>
+    </article>`).join('');
+  }
   function renderSubjectDashboard(item) {
     const host = document.getElementById('subject-dashboard'); if (!host || !item) return;
     const themes = item.themes || [];
@@ -330,7 +368,7 @@
     try {
       const response = await fetch('./subjects.json', { cache: 'no-cache' });
       if (!response.ok) throw new Error('Не удалось загрузить каталог предметов.');
-      registry = await response.json(); flat = flattenSubjects(registry);
+      registry = await response.json(); flat = flattenSubjects(registry); renderOfficialSubjectCatalog(registry);
       if (PAGE === 'subjects') { renderSubjectsCatalog(); return; }
       if (PAGE === 'home') { renderHomePreview(registry); return; }
       const item = context(); if (!item) return;
